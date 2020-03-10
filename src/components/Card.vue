@@ -21,29 +21,28 @@
 
             <!-- Buttons -->
               <v-card-actions>
-                <v-spacer></v-spacer>    
+                <v-spacer></v-spacer>
+                
+                  <!-- Google Maps -->
                   <v-btn @click="showLocation" color="grey" text>Standort</v-btn>
-                  <v-btn @click.stop="bookOffer = true" color="green" text>Buchen</v-btn>
+
+                  <!-- Booking Dialog -->
+                  <confirmBooking />
               </v-card-actions>
             </v-col>
           </v-card>
         </v-col>
-        <v-row>
-          <v-dialog v-model="dialog" max-width="290">
-            <v-card>
-              <v-card-title class="headline">Wieviel wotsch?</v-card-title>
-              <v-card-text>Chauf Bruder</v-card-text>
-              <v-card-actions>
-                  <v-btn color="green darken-1" raised @click="dialog = false">ERNTE BUCHEN</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </v-row>
+
+        
     </v-container>
 </template>
 
 <script>
+import confirmBooking from "./confirmBooking"
+
 export default {  
+  components: { confirmBooking },
+
     data: () => 
     ({
       items: [
