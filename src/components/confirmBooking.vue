@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="dialog" max-width="85%">
+    <v-dialog v-model="dialog" max-width="450">
         <template v-slot:activator="{ on }">
             <v-btn v-on="on" color="green" text>Buchen</v-btn>
         </template>
@@ -10,16 +10,16 @@
                 <v-row class="mt-2">
                     <v-col>
                         <v-btn class="ml-6" fab dark color="green darken-1">
-                            <v-icon dark>mdi-plus</v-icon>
+                            <v-icon @click="increase" dark>mdi-plus</v-icon>
                         </v-btn>
                     </v-col>
                     
                     <v-col cols="5">
-                        <v-text-field outlined readonly value="10.00" suffix="KG"></v-text-field>
+                        <v-text-field outlined readonly value="10.00" suffix="KG">10</v-text-field>
                     </v-col>
                     <v-col>
                         <v-btn class="ml-2" fab dark color="green darken-1">
-                            <v-icon dark>mdi-minus</v-icon>
+                            <v-icon @click="subKG" dark>mdi-minus</v-icon>
                         </v-btn>
                     </v-col>
 
@@ -38,6 +38,15 @@ export default {
     return {
       dialog: false
     };
+  },
+    methods: {
+      increase: function(){
+          this.counter++;
+      },
+      decrease: function(){
+
+      }
   }
 };
+
 </script>

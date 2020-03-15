@@ -1,11 +1,11 @@
 <template>
 <v-container class="ma-0 pa-0">
         <v-col class="px-0 py-2" v-for="(item, i) in items" :key="i" cols="12" md="6" lg="3">
-          <v-card class="mx-auto py-0" max-width="444" elevation="3">
+          <v-card class="mx-auto pa-0" max-width="444" elevation="3">
             
             <!-- Image -->
-            <v-col class="ma-0 pa-0" cols="4">
-              <v-avatar size="150" tile>
+            <v-col>
+              <v-avatar class="ma-3" size="150" tile>
                 <v-img :src="item.src"></v-img>
               </v-avatar>
             </v-col>
