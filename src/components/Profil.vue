@@ -11,7 +11,8 @@
                         </v-avatar>
                     </v-col>
                     <v-col class="d-flex align-center pl-0 px-3">
-                        <v-btn outlined color="green" class="d-flex align-center px-3" @click="uploadImg">Bild hochladen</v-btn>
+                        <v-btn outlined color="green" class="d-flex align-center px-3" @click="onPickFile">Bild hochladen</v-btn>
+                        <input type="file" style="display: none" ref="fileInput" accept="image/*" @change="onFilePicked"/>
                     </v-col>
                 </v-row>
                 <!-- Form -->
@@ -37,13 +38,16 @@
                                 <v-btn class="mx-auto" color="green darken-1 white--text" outlined @click="dialog = false" width="95%">BEARBEITEN</v-btn>
                             </v-col>
                             <v-col class="pr-1 pl-0" cols="7">
-                                <v-btn class="mx-auto mb-1" color="green darken-1 white--text" raised @click="submit" width="95%">SPEICHERN</v-btn>
+                                <v-btn class="mx-auto mb-1" color="green darken-1 white--text" raised @click="submit; snackbar = true" width="95%">SPEICHERN</v-btn>
                             </v-col>
                         </v-row>
                     </div>
                 </v-form>
             </v-card>
         </v-row>
+        <v-snackbar>
+            <p>hi</p>
+        </v-snackbar>
     </v-container>
 </template>
 
@@ -51,6 +55,8 @@
 export default {
     data() {
         return {
+            snackbar: false,
+            image: null,
             username: '',
             firstname: '',
             lastname: '',
@@ -60,9 +66,23 @@ export default {
         }
     },
     methods: {
-        submit() {
-            alert("Erfolgreich gespeichert:" + this.username +"//n" + this.firstname + this.lastname + this.street + this.PLZ + this.city)
-        }
+//         submit() {
+//             alert("Erfolgreich gespeichert:" + this.username +"//n" + this.firstname + this.lastname + this.street + this.PLZ + this.city)
+//         },
+//         onPickFile () {
+//         this.$refs.fileInput.click()
+//         },
+//         onFilePicked (event) {
+//         const files = event.target.files
+//         let filename = files[0].name
+//         const fileReader = new FileReader()
+//         fileReader.addEventListener('load', () => {
+//             this.imageUrl = fileReader.result
+//         })
+//         fileReader.readAsDataURL(files[0])
+//         this.image = files[0]
+// }
+    
     }
 }
 </script>

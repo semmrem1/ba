@@ -24,7 +24,7 @@
                         </v-list-item-avatar>
                         <v-list-item-content router>
                             <v-list-item-title class="title">Gabriel Gala</v-list-item-title>
-                            <v-list-item-subtitle>Level 3: Pflücker</v-list-item-subtitle>
+                            <!-- <v-list-item-subtitle>Level 3: Pflücker</v-list-item-subtitle> -->
                         </v-list-item-content>
                     </v-list-item>
                     <v-divider dark></v-divider>
