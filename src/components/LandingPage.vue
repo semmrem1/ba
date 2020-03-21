@@ -1,31 +1,26 @@
 <template>
     <v-content class="pt-0"> 
-    <section id="hero">
-        <v-row no-gutters>
-        <v-img :min-height="'calc(100vh - ' + $vuetify.application.top + 'px)'"
+    <section id="hero" elevation-5>
+        <v-row justify="center">
+        <v-img class="elevation-5" justify="center" :min-height="'calc(100vh - ' + $vuetify.application.top + 'px)'"
         src="https://images.unsplash.com/photo-1539756250244-b39c3a836b85?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1001&q=80">
             <v-theme-provider dark>
             <v-container fill-height>
                 <v-row align="center" class="white--text mx-auto" justify="center">
-
                 <v-col class="white--text text-center" cols="12" tag="h1">
-                    <span class="font-weight-light" :class="[$vuetify.breakpoint.smAndDown ? 'display-0' : 'display-1']">
-                    WILLKOMMEN BEI
-                    </span>
+                      <span class="font-weight-light" :class="[$vuetify.breakpoint.smAndDown ? 'display-0' : 'display-1']">
+                      WILLKOMMEN BEI
+                      </span>
                     <br>
-                    <span  :class="[$vuetify.breakpoint.smAndDown ? 'display-2': 'display-3']" class="font-weight-black">
-                    OBST VOM BAUM
+                      <span  :class="[$vuetify.breakpoint.smAndDown ? 'display-2': 'display-3']" class="font-weight-black">
+                      OBST VOM BAUM
                     </span>
                     <div class="py-4"></div>
                 </v-col>
                 <span ></span>
-                <v-btn class="align-self-end pa-2" color="green">Obst anbieten</v-btn>
-                <div class="pa-2"></div>
-                <v-btn class="align-self-end pa-2" color="green" >Obst ernten</v-btn>
-                <!-- <v-btn class="align-self-end" fab outlined @click="$vuetify.goTo('#about-me')">
-                    <v-icon>mdi-chevron-double-down</v-icon>
-                </v-btn> -->
-
+                  <v-btn class="align-self-end pa-2" color="green">Obst anbieten</v-btn>
+                  <div class="pa-2"></div>
+                  <v-btn class="align-self-end pa-2" color="green" >Obst ernten</v-btn>
                 </v-row>
             </v-container>
             </v-theme-provider>
@@ -33,41 +28,36 @@
         </v-row>
     </section>
 
-    <section id="about-me">
+
+    <section id="what-how-why">
         <div class="py-12"></div>
 
-        <v-container class="text-center">
-        <h2 class="display-2 font-weight-bold mb-3">ABOUT ME</h2>
+        <v-container class="text-center px-0">
+        <h2 class="display-2 font-weight-bold mb-3">WHAT - HOW - WHY</h2>
 
         <v-responsive class="mx-auto mb-8" width="56"><v-divider class="mb-1"></v-divider>
             <v-divider></v-divider>
         </v-responsive>
 
         <v-responsive class="mx-auto title font-weight-light mb-8" max-width="720">
-            Vuetify is the #1 component library for Vue.js and has been in active development since 2016. The goal of the project is to provide users with everything that is needed to build rich and engaging web applications using the Material Design specification. It accomplishes that with a consistent update cycle, Long-term Support (LTS) for previous versions, responsive community engagement, a vast ecosystem of resources and a dedication to quality components.
+          <p><span class="font-weight-bold">WHAT </span>do we do, what we do</p>
+          <p><span class="font-weight-bold">HOW </span>do we do, what we do</p>
+          <p><span class="font-weight-bold">WHY </span>do we do, what we do</p>
+          <v-img  class="elevation-5" justify-center src="src/assets/saisontabelle.PNG"></v-img>
         </v-responsive>
+  
+        <v-parallax height="500" src="https://images.unsplash.com/photo-1572578061791-a609757bf4ff?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80"></v-parallax>
 
-        <v-avatar class="elevation-12 mb-12" size="128">
-            <v-img src="https://cdn.vuetifyjs.com/images/john.png"></v-img>
-        </v-avatar>
-
-        <div></div>
-
-        <v-btn color="green" href="https://vuetifyjs.com" outlined large>
-            <span class="green--text text--darken-1 font-weight-bold">
-            Vuetify Documentation
-            </span>
-        </v-btn>
         </v-container>
 
-        <div class="py-12"></div>
+        <div class="py-8"></div>
     </section>
 
     <section id="features">
         <div class="py-12"></div>
 
         <v-container class="text-center">
-        <h2 class="display-2 font-weight-bold mb-3">VUETIFY FEATURES</h2>
+        <h2 class="display-2 font-weight-bold mb-3">SO FUNKTIONIERTS</h2>
         <v-responsive class="mx-auto mb-12" width="56">
             <v-divider class="mb-1"></v-divider>
 
