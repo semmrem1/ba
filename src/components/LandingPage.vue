@@ -6,23 +6,23 @@
         src="https://images.unsplash.com/photo-1539756250244-b39c3a836b85?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1001&q=80">
             <v-theme-provider dark>
             <v-container fill-height>
-                <v-row align="center" class="white--text mx-auto" justify="center">
-                <v-col class="white--text text-center" cols="12" tag="h1">
-                      <span class="font-weight-light" :class="[$vuetify.breakpoint.smAndDown ? 'display-0' : 'display-1']">
-                      WILLKOMMEN BEI
+                  <v-row align="center" class="white--text mx-auto" justify="center">
+                  <v-col class="white--text text-center" cols="12" tag="h1">
+                        <span class="font-weight-light" :class="[$vuetify.breakpoint.smAndDown ? 'display-0' : 'display-1']">
+                        WILLKOMMEN BEI
+                        </span>
+                      <br>
+                        <span  :class="[$vuetify.breakpoint.smAndDown ? 'display-2': 'display-3']" class="font-weight-black">
+                        OBST VOM BAUM
                       </span>
-                    <br>
-                      <span  :class="[$vuetify.breakpoint.smAndDown ? 'display-2': 'display-3']" class="font-weight-black">
-                      OBST VOM BAUM
-                    </span>
-                    <div class="py-4"></div>
-                </v-col>
-                <span ></span>
-                  <v-btn class="align-self-end pa-2" color="green">Obst anbieten</v-btn>
-                  <div class="pa-2"></div>
-                  <v-btn class="align-self-end pa-2" color="green" >Obst ernten</v-btn>
-                </v-row>
-            </v-container>
+                      <div class="py-4"></div>
+                  </v-col>
+                  <span ></span>
+                    <v-btn class="align-self-end pa-2" color="green">Obst anbieten</v-btn>
+                    <div class="pa-2"></div>
+                    <v-btn class="align-self-end pa-2" color="green" >Obst ernten</v-btn>
+                  </v-row>
+              </v-container>
             </v-theme-provider>
         </v-img>
         </v-row>
@@ -40,7 +40,7 @@
         </v-responsive>
 
         <v-responsive class="mx-auto title font-weight-light mb-8" max-width="720">
-          <p><span class="font-weight-bold">WHAT </span>do we do, what we do</p>
+          <p><span class="font-weight-bold">WHAT </span>do we do</p>
           <p><span class="font-weight-bold">HOW </span>do we do, what we do</p>
           <p><span class="font-weight-bold">WHY </span>do we do, what we do</p>
           <v-img  class="elevation-5" justify-center src="src/assets/saisontabelle.PNG"></v-img>
@@ -83,8 +83,9 @@
                 </v-col>
             </v-row>
         </v-container>
+        <div class="py-12"></div>
     </section>
-    
+    <div class="py-8"></div>
 </v-content>
 
 </template>
@@ -132,12 +133,12 @@ export default {
             text: 'Ernte abschliessen und etwas spenden',
           },
         ],
-        stats: [
-          ['24k', 'Github Stars'],
-          ['330+', 'Releases'],
-          ['1m', 'Downloads/mo'],
-          ['5m', 'Total Downloads'],
-        ],
+        // stats: [
+        //   ['24k', 'Github Stars'],
+        //   ['330+', 'Releases'],
+        //   ['1m', 'Downloads/mo'],
+        //   ['5m', 'Total Downloads'],
+        // ],
       }
     }
 }

@@ -5,7 +5,7 @@ import Profil from '../views/Profil.vue'
 import Offers from '../views/Offers.vue'
 import myCrops from '../views/myCrops.vue'
 import Organisations from '../views/Organisations.vue'
-import Recipes from '../views/Recipes.vue'
+import Register from '../views/Register.vue'
 import Contact from '../views/Contact.vue'
 
 Vue.use(VueRouter)
@@ -37,9 +37,9 @@ const routes = [
     component: Organisations
   },
   {
-    path: '/recipes',
-    name: 'Recipes',
-    component: Recipes
+    path: '/register',
+    name: 'Regsiter',
+    component: Register
   },
   {
     path: '/contact',

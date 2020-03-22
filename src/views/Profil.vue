@@ -9,7 +9,7 @@
 import Profil from '@/components/Profil'
 
 export default {
-Name: 'Home',
+Name: 'Profil',
   components: {
     Profil
   },

@@ -7,7 +7,7 @@
 
             <!-- IMG -->
             <v-col class="py-0" cols="6">
-              <v-avatar class="ma-0 pa-0" size="175" tile>
+              <v-avatar class="ma-0 pa-0" min-width="100%" height="175" tile>
                 <v-img :src="item.src"></v-img>
               </v-avatar>
             </v-col>
