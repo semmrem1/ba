@@ -1,7 +1,8 @@
 <template>
-  <v-container class="justify-center ma-0 pt-2 pa-0" cols="12" sm="6" md="8">
+  <v-container class="justify-center ma-0 pt-2 pa-0">
       <v-col class="px-0" v-for="(item, i) in items" :key="i">
-        <v-card class="ma-0 pa-0" max-width="374" height="175" elevation="3">
+        <v-card class="ma-0 pa-0" max-width="374" height="175" elevation="3" cols="3">
+
             <v-row class="pl-1">
                 <v-col class="pa-0 pl-3 pb-0" cols="10">
                     <v-card-text class="title pb-0">Bestellnummer {{ item.bookingNumber }}</v-card-text>

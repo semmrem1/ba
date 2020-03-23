@@ -19,6 +19,8 @@
                 <v-form class="px-3 pt-6">
                     <div>
                         <v-text-field class="py-0" color="green" label="Benutzername" v-model="username"></v-text-field>
+                        <v-text-field class="py-0" color="green" :rules="emailRules" label="E-Mail" v-model="email"></v-text-field>
+                        <v-text-field class="py-0" color="green" :rules="emailRules" label="Optionale E-Mail" v-model="emailOpt"></v-text-field>
                         <v-text-field class="py-0" color="green" label="Vorname" v-model="firstname"></v-text-field>
                         <v-text-field class="py-0" color="green" label="Nachname" v-model="lastname"></v-text-field>
                     </div>
@@ -45,9 +47,6 @@
                 </v-form>
             </v-card>
         </v-row>
-        <v-snackbar>
-            <p>hi</p>
-        </v-snackbar>
     </v-container>
 </template>
 
@@ -55,9 +54,10 @@
 export default {
     data() {
         return {
-            snackbar: false,
             image: null,
             username: '',
+            email: '',
+            emailOpt: '',
             firstname: '',
             lastname: '',
             street: '',

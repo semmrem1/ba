@@ -3,7 +3,7 @@
             <v-app-bar fixed app class="green" elevation="4">
                 <v-app-bar-nav-icon size="xs" @click="drawer = !drawer"></v-app-bar-nav-icon>
                 <v-spacer></v-spacer>
-                <v-toolbar-title class="text-uppercase white--text" color="white" to="/offers">
+                <v-toolbar-title class="text-uppercase white--text" color="white" to="/">
                     <!-- <span class="font-weight-light">Obst</span>
                     <span>vom</span>
                     <span class="font-weight-light">Baum</span> -->

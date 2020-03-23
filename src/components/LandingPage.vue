@@ -18,9 +18,9 @@
                       <div class="py-4"></div>
                   </v-col>
                   <span ></span>
-                    <v-btn class="align-self-end pa-2" color="green">Obst anbieten</v-btn>
+                    <v-btn class="align-self-end pa-2" color="green" to="/register">Obst anbieten</v-btn>
                     <div class="pa-2"></div>
-                    <v-btn class="align-self-end pa-2" color="green" >Obst ernten</v-btn>
+                    <v-btn class="align-self-end pa-2" color="green" to="/register">Obst ernten</v-btn>
                   </v-row>
               </v-container>
             </v-theme-provider>

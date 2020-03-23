@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <Navbar app></Navbar>
-    <v-content>
-      <v-container>
+    <Navbar></Navbar>
+    <v-content class="justify-center">
+      <v-container class="justify-center px-4">
         <router-view></router-view>
       </v-container>
     </v-content>
