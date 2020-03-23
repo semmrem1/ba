@@ -1,6 +1,6 @@
 <template>
   <div class="pa-0 ma-0">
-    <v-container class="justify-center pa-0">
+    <v-container fluid class="justify-center pa-0">
       <LandingPage/>
       <Footer></Footer>
     </v-container>

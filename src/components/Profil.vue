@@ -2,7 +2,7 @@
     <v-container class="ma-0 px-0">
         <v-row class="justify-center">
             <!-- Card -->
-            <v-card class="ma-0 pa-0" width="90%" elevation="3">
+            <v-card class="ma-0 pa-0" width="90%" max-width="600px" elevation="3">
                 <v-row>
                     <!-- Avatar -->
                     <v-col class="pl-6 pr-0">
@@ -38,7 +38,7 @@
                                 <v-btn class="mx-auto" color="green darken-1 white--text" outlined @click="dialog = false" width="95%">BEARBEITEN</v-btn>
                             </v-col>
                             <v-col class="pr-1 pl-0" cols="7">
-                                <v-btn class="mx-auto mb-1" color="green darken-1 white--text" raised @click="submit; snackbar = true" width="95%">SPEICHERN</v-btn>
+                                <v-btn class="mx-auto mb-1" color="green darken-1 white--text" raised @click="submit" width="95%">SPEICHERN</v-btn>
                             </v-col>
                         </v-row>
                     </div>
@@ -66,22 +66,9 @@ export default {
         }
     },
     methods: {
-//         submit() {
-//             alert("Erfolgreich gespeichert:" + this.username +"//n" + this.firstname + this.lastname + this.street + this.PLZ + this.city)
-//         },
-//         onPickFile () {
-//         this.$refs.fileInput.click()
-//         },
-//         onFilePicked (event) {
-//         const files = event.target.files
-//         let filename = files[0].name
-//         const fileReader = new FileReader()
-//         fileReader.addEventListener('load', () => {
-//             this.imageUrl = fileReader.result
-//         })
-//         fileReader.readAsDataURL(files[0])
-//         this.image = files[0]
-// }
+        submit() {
+            alert("Gespeichert!  " + this.username + this.firstname + this.lastname + this.street + this.PLZ + this.city)
+        },
     
     }
 }

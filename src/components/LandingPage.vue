@@ -5,7 +5,7 @@
         <v-img class="elevation-5" justify="center" :min-height="'calc(100vh - ' + $vuetify.application.top + 'px)'"
         src="https://images.unsplash.com/photo-1539756250244-b39c3a836b85?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1001&q=80">
             <v-theme-provider dark>
-            <v-container fill-height>
+            <v-container fluid fill-height>
                   <v-row align="center" class="white--text mx-auto" justify="center">
                   <v-col class="white--text text-center" cols="12" tag="h1">
                         <span class="font-weight-light" :class="[$vuetify.breakpoint.smAndDown ? 'display-0' : 'display-1']">
@@ -32,7 +32,7 @@
     <section id="what-how-why">
         <div class="py-12"></div>
 
-        <v-container class="text-center px-0">
+        <v-container fluid class="text-center px-0">
         <h2 class="display-2 font-weight-bold mb-3">WHAT - HOW - WHY</h2>
 
         <v-responsive class="mx-auto mb-8" width="56"><v-divider class="mb-1"></v-divider>
@@ -56,7 +56,7 @@
     <section id="features">
         <div class="py-12"></div>
 
-        <v-container class="text-center">
+        <v-container fluid class="text-center">
         <h2 class="display-2 font-weight-bold mb-3">SO FUNKTIONIERTS</h2>
         <v-responsive class="mx-auto mb-12" width="56">
             <v-divider class="mb-1"></v-divider>
