@@ -55,8 +55,7 @@ export default {
                 { icon: "mdi-account", text: "Profil", route: "/profile"},
                 { icon: "mdi-compass", text: "Angebote", route: "/offers"},
                 { icon: "mdi-food-apple", text: "Meine Ernten", route: "/myCrops"},
-                { icon: "mdi-office-building", text: "Organisationen", route: "/organisations"},
-                { icon: "mdi-account-plus", text: "Registrieren", route: "/register"},
+                { icon: "mdi-office-building", text: "Ernte erfassen", route: "/createOffer"},
                 { icon: "mdi-message", text: "Kontakt", route: "/contact"},
             ]
     }

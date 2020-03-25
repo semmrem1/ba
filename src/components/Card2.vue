@@ -1,8 +1,49 @@
 <template>
   <v-container class="justify-center ma-0 pa-0" cols="12" sm="6" md="8">
-    <v-col class="px-0" v-for="(item, i) in items" :key="i">
+    <v-col class="py-0 mr-0 pr-0" cols="12">
+        <v-col class="pa-0" cols="12">
+          <v-combobox
+            v-model="select"
+            :items="items"
+            color="green"
+            label="Obstsorte"
+            clearable
+            required
+            multiple
+            chips
+          ></v-combobox>
+        </v-col>
+        <v-card-text class="pa-0">
+          <v-row>
+            <v-col class="px-2">
+              <v-slider
+                v-model="slider"
+                class="align-center pa-0"
+                color="green"
+                track-color="grey"
+                :max="max"
+                :min="min"
+                hide-details
+              >
+                <template v-slot:append>
+                  <v-text-field
+                    v-model="slider"
+                    class="mt-0 pa-0 mr-3"
+                    suffix="kg"
+                    hide-details
+                    single-line
+                    type="number"
+                    style="width: 60px"
+                  ></v-text-field>
+                </template>
+              </v-slider>
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </v-col>
+    <v-col class="justify-center px-2" v-for="(item, i) in items" :key="i" cols="12" sm="4">
       
-        <v-card class="ma-0 pa-0" max-width="374" max height="175" elevation="3">
+        <v-card class="ma-0 pa-0" max-height="175" elevation="3">
           <v-row >
 
             <!-- IMG -->

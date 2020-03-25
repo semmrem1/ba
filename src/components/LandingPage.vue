@@ -133,12 +133,6 @@ export default {
             text: 'Ernte abschliessen und etwas spenden',
           },
         ],
-        // stats: [
-        //   ['24k', 'Github Stars'],
-        //   ['330+', 'Releases'],
-        //   ['1m', 'Downloads/mo'],
-        //   ['5m', 'Total Downloads'],
-        // ],
       }
     }
 }

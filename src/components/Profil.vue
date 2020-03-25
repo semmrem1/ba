@@ -1,5 +1,5 @@
 <template>
-    <v-container class="ma-0 px-0">
+    <v-container class="pt-4">
         <v-row class="justify-center">
             <!-- Card -->
             <v-card class="ma-0 pa-0" width="90%" max-width="600px" elevation="3">

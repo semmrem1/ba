@@ -4,8 +4,9 @@ import Home from '../views/Home.vue'
 import Profil from '../views/Profil.vue'
 import Offers from '../views/Offers.vue'
 import myCrops from '../views/myCrops.vue'
-import Organisations from '../views/Organisations.vue'
+import createOffer from '../views/createOffer.vue'
 import Register from '../views/Register.vue'
+import Login from '../views/Login.vue'
 import Contact from '../views/Contact.vue'
 
 Vue.use(VueRouter)
@@ -32,14 +33,19 @@ const routes = [
     component: myCrops
   },
   {
-    path: '/organisations',
-    name: 'organisations',
-    component: Organisations
+    path: '/createOffer',
+    name: 'createOffer',
+    component: createOffer
   },
   {
     path: '/register',
     name: 'Regsiter',
     component: Register
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
   },
   {
     path: '/contact',
