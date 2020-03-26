@@ -1,13 +1,14 @@
 <template>
     <v-container fluid class="ma-0 px-0">
         <v-row class="justify-center">
-            <v-card class="ma-0 pa-0" width="90%" max-width="600px" elevation="3">
-                <v-card-title  class="pa-3">Registrieren</v-card-title>
+            <v-card class="ma-0 pa-1" width="90%" max-width="600px" elevation="3">
+                <v-card-title  class="pa-3 display-1 font-weight-bold">Registrieren</v-card-title>
+                <v-text class="body-2 pl-3"><v-icon medium>mdi-information-outline</v-icon> Deine Daten sind öffentlich nicht zugänglich!</v-text>    
                 <v-form ref="form" v-model="valid" lazy-validation class="pa-3">
                     
                     <div>
                         <v-select :items="items" label="Anrede" v-model="title"></v-select>
-                        <v-text-field class="py-0" color="green" :rules="usernameRules" label="Benutzername" v-model="username" required :counter="0"></v-text-field>
+                        <!-- <v-text-field class="py-0" color="green" :rules="usernameRules" label="Benutzername" v-model="username" required :counter="0"></v-text-field> -->
                         <v-text-field class="py-0" color="green" :rules="firstnameRules" label="Vorname" v-model="firstname" required></v-text-field>
                         <v-text-field class="py-0" color="green" :rules="lastnameRules" label="Nachname" v-model="lastname" required></v-text-field>
                     </div>
@@ -28,9 +29,25 @@
                         <v-col class="pt-7" cols="12">
                             <v-text-field class="py-0" color="green" :rules="emailRules" label="E-Mail" v-model="email"></v-text-field>
                             <v-text-field class="py-0" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" @click:append="show1 = !show1" :type="show1 ? 'text' : 'password'" color="green" :rules="[passwordRules.required, passwordRules.min]" hint="Min. 8 Zeichen" label="Passwort" v-model="password"></v-text-field>
-                            <v-text-field class="py-0" :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'" @click:append="show2 = !show2" :type="show2 ? 'text' : 'password'" color="green" :rules="[passwordRules.required, passwordRules.min, passwordRules.match]" hint="Min. 8 Zeichen" label="Passwort wiederholen" v-model="passwordrep"></v-text-field>
+                            <!-- <v-text-field class="py-0" :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'" @click:append="show2 = !show2" :type="show2 ? 'text' : 'password'" color="green" :rules="[passwordRules.required, passwordRules.min, passwordRules.match]" hint="Min. 8 Zeichen" label="Passwort wiederholen" v-model="passwordrep"></v-text-field> -->
                         </v-col>
-                    </v-row>                  
+                    </v-row>
+
+                    <v-checkbox
+                    class="pa-0 ma-0"
+                    v-model="checkbox"
+                    :rules="[v => !!v || 'Du musst 18 Jahre alt sein, um dich registrieren zu können!']"
+                    label="Bist du 18 Jahre alt?"
+
+                    required
+                    ></v-checkbox>
+                    <v-checkbox
+                    class="pa-0 ma-0"
+                    v-model="checkbox"
+                    :rules="[v => !!v || 'Du musst die AGB bestätigen, um dich registrieren zu können!']"
+                    label="Bist du mit den AGB einverstanden?"
+                    required
+                    ></v-checkbox>  
 
                     <v-row class="pt-6">
                         <v-col class="pl-3 pr-1" cols="4">

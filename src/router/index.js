@@ -5,8 +5,10 @@ import Profil from '../views/Profil.vue'
 import Offers from '../views/Offers.vue'
 import myCrops from '../views/myCrops.vue'
 import createOffer from '../views/createOffer.vue'
-import Register from '../views/Register.vue'
+import RegisterPrivate from '../views/RegisterPrivate.vue'
+import RegisterCom from '../views/RegisterCom.vue'
 import Login from '../views/Login.vue'
+import passwordReset from '../views/passwordReset.vue'
 import Contact from '../views/Contact.vue'
 
 Vue.use(VueRouter)
@@ -28,8 +30,8 @@ const routes = [
     component: Offers
   },
   {
-    path: '/myCrops',
-    name: 'myCrops',
+    path: '/myCrop',
+    name: 'myCrop',
     component: myCrops
   },
   {
@@ -38,14 +40,24 @@ const routes = [
     component: createOffer
   },
   {
-    path: '/register',
-    name: 'Regsiter',
-    component: Register
+    path: '/registerPriv',
+    name: 'RegisterPrivate',
+    component: RegisterPrivate
+  },
+  {
+    path: '/registerCom',
+    name: 'RegisterCom',
+    component: RegisterCom
   },
   {
     path: '/login',
     name: 'Login',
     component: Login
+  },
+  {
+    path: '/passwordReset',
+    name: 'passwordReset',
+    component: passwordReset
   },
   {
     path: '/contact',

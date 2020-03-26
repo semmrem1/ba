@@ -16,6 +16,7 @@
                     <v-icon>mdi-account</v-icon>
                 </v-btn>
             </v-app-bar>
+            
             <v-navigation-drawer color="green lighten-5" temporary width="320" v-model="drawer" app class="green">
                 <v-list>
                     <v-list-item to="/profile">
@@ -54,9 +55,9 @@ export default {
             links: [
                 { icon: "mdi-account", text: "Profil", route: "/profile"},
                 { icon: "mdi-compass", text: "Angebote", route: "/offers"},
-                { icon: "mdi-food-apple", text: "Meine Ernten", route: "/myCrops"},
-                { icon: "mdi-office-building", text: "Ernte erfassen", route: "/createOffer"},
-                { icon: "mdi-message", text: "Kontakt", route: "/contact"},
+                { icon: "mdi-food-apple", text: "gebuchte Ernten", route: "/myCrops"},
+                { icon: "mdi-plus-circle", text: "Angebot erfassen", route: "/createOffer"},
+                { icon: "mdi-plus-circle", text: "meine Angebote", route: "/myOffers"},
             ]
     }
 

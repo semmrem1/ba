@@ -1,11 +1,11 @@
 <template>
-  <v-app>
+  <v-app class="pa-0 ma-0">
     <Navbar></Navbar>
-    <v-content>
-      <!-- <v-container class="justify-center px-0 mx-0" width="100%" justify-center> -->
-        <router-view></router-view>
-      <!-- </v-container> -->
-    </v-content>
+      <v-content>
+        <!-- <v-container class="justify-center px-0 mx-0" width="100%" justify-center> -->
+          <router-view></router-view>
+        <!-- </v-container> -->
+      </v-content>
     <Footer></Footer>
   </v-app>
 </template>

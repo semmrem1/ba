@@ -1,7 +1,6 @@
 <template>
   <div class="createOffer">
-    <h1>createOffer</h1>
-    <!-- <axiosTrial/> -->
+      
     <createOffer/>
   </div>
 </template>

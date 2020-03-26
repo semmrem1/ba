@@ -1,16 +1,16 @@
 <template>
   <div class="register">
-    <Register/>
+    <RegisterCom/>
   </div>
 </template>
 
 <script>
-import Register from '@/components/Register'
+import RegisterCom from '@/components/RegisterCom'
 
 export default {
-Name: 'Register',
+Name: 'RegisterCom',
   components: {
-    Register
+    RegisterCom
   },
   data: () => ({
     //

@@ -1,5 +1,6 @@
+
 <template>
-  <div class="myCrops">
+  <div class="myCrop">
     <!-- <h1>meine Ernten</h1> -->
       <v-container class="pa-0">
         <myCrop/>
@@ -9,9 +10,8 @@
 
 <script>
 import myCrop from '@/components/myCrop'
-
 export default {
-  name: 'myCrops',
+  name: 'myCrop',
   components: {
     myCrop
   },

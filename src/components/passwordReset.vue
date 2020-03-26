@@ -2,25 +2,23 @@
     <v-container fluid class="ma-0 px-0">
         <v-row class="justify-center">
             <v-card class="ma-0 pa-1" width="90%" max-width="600px" elevation="3">
-                    <v-card-title class="pa-3 display-1 font-weight-bold">Login</v-card-title>
-                    <v-card-text class="pa-2">
+                    <v-card-title class="pa-3 display-1 font-weight-bold">Passwort anfordern</v-card-title>
+                    <v-card-text class="px-3">
+                    Gib deine E-Mailadresse an um ein neues Passwort anzufordern.
                         <v-form>
-                            <v-text-field label="Benutzername" prepend-icon="mdi-account"/>
-                            <v-text-field type="password" label="Passwort" prepend-icon="mdi-lock"/>
-                            <v-btn to="/passwordReset" text small>Passwort vergessen?</v-btn>
+                            <v-text-field class="pt-8" label="E-Mail"/>
                         </v-form>
                     </v-card-text>
                     <v-card-actions class="pa-0" justify-center>
                         <v-col class="px-2" justify-center cols="12">
                             <v-btn class="btn white--text"
-                            to="/Offers"
                             :loading="loading"
                             :disabled="loading"
                             :elevation="5"
                             color="green"
-                            @click="loader = 'loading'"
+                            @click="submit"
                             width="100%">
-                            Login</v-btn>
+                            Passwort anfordern</v-btn>
                         </v-col>
                     </v-card-actions>
                 </v-card>
@@ -47,6 +45,11 @@ export default {
 
         this.loader = null
       },
-    },  
+    }, 
+    methods: {
+        submit(){
+
+        }
+    } 
 }
 </script>

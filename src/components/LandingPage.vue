@@ -2,7 +2,7 @@
     <v-content class="pt-0"> 
     <section id="hero" elevation-5>
         <v-row justify="center">
-        <v-img class="elevation-5" justify="center" :min-height="'calc(100vh - ' + $vuetify.application.top + 'px)'"
+        <v-img class="elevation-5" justify-center max-height="100%" :min-height="'calc(100vh - ' + $vuetify.application.top + 'px)'"
         src="https://images.unsplash.com/photo-1539756250244-b39c3a836b85?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1001&q=80">
             <v-theme-provider dark>
             <v-container fluid fill-height>
@@ -18,9 +18,9 @@
                       <div class="py-4"></div>
                   </v-col>
                   <span ></span>
-                    <v-btn class="align-self-end pa-2" color="green" to="/register">Obst anbieten</v-btn>
+                    <v-btn class="align-self-end pa-2" color="green" to="/login">Obst anbieten</v-btn>
                     <div class="pa-2"></div>
-                    <v-btn class="align-self-end pa-2" color="green" to="/register">Obst ernten</v-btn>
+                    <v-btn class="align-self-end pa-2" color="green" to="/login">Obst ernten</v-btn>
                   </v-row>
               </v-container>
             </v-theme-provider>
@@ -94,23 +94,6 @@
 export default {  
     data () {
       return {
-        articles: [
-          {
-            src: 'https://images.unsplash.com/photo-1423784346385-c1d4dac9893a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80',
-            title: 'Mobile first & Responsive',
-            text: 'Phasellus lorem enim, luctus ut velit eget, convallis egestas eros. Sed ornare ligula eget tortor tempor, quis porta tellus dictum.',
-          },
-          {
-            src: 'https://images.unsplash.com/photo-1475938476802-32a7e851dad1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80',
-            title: 'Think outside the box',
-            text: 'Nam ut leo ipsum. Maecenas pretium aliquam feugiat. Aenean vel tempor est, vitae tincidunt risus. Sed sodales vestibulum nibh.',
-          },
-          {
-            src: 'https://images.unsplash.com/photo-1416339442236-8ceb164046f8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1892&q=80',
-            title: 'Small changes, big difference',
-            text: 'Vestibulum in dictum velit, in rhoncus nibh. Maecenas neque libero, interdum a dignissim in, aliquet vitae lectus. Phasellus lorem enim, luctus ut velit eget.',
-          },
-        ],
         features: [
           {
             icon: 'mdi-account-group-outline',

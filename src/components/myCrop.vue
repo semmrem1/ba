@@ -34,10 +34,8 @@
 
 <script>
 import confirmDelete from "./confirmDelete"
-
 export default {  
   components: { confirmDelete },
-
     data: () => ({
     items: [
     {

@@ -1,11 +1,19 @@
 <template>
   <div class="contact">
-    <h1>Kontakt</h1>
+    <Contact/>
   </div>
 </template>
 
 <script>
-export default {
+import Contact from '@/components/Contact'
 
-}
+export default {
+Name: 'Contact',
+  components: {
+    Contact
+  },
+  data: () => ({
+    //
+  }),
+};
 </script>

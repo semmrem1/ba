@@ -17,13 +17,6 @@ export default {
   },
   data () {
       return {
-        select: [],
-        items: [
-          'Äpfel',
-          'Birnen',
-          'Erdbeeren',
-          'Himbeeren',
-        ],
         min: 0,
         max: 50,
         slider: 40,
@@ -33,3 +26,7 @@ export default {
 }  
  
 </script>
+
+<style>
+
+</style>
