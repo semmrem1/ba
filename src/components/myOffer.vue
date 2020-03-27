@@ -1,6 +1,6 @@
 <template>
-  <v-container class="justify-center ma-0 pa-2" cols="12" sm="6" md="8">
-    <v-col class="py-0 mr-0 pr-0" cols="12">
+  <v-container class="justify-center ma-0 pa-2" width="95%" cols="12" >
+    <v-col class="pa-0 mr-0" cols="12">
     <v-col class="justify-center px-2" v-for="(item, i) in items" :key="i"  xs="12" sm="6" md="6" lg="4">
       
         <v-card class="ma-0 pa-0" max-height="175" elevation="3">
@@ -12,11 +12,14 @@
                 <v-img :src="item.src"></v-img>
               </v-avatar>
             </v-col>
+            
 
             <!-- Details -->
             <v-col class="pa-1 pl-5" cols="6">
-              <v-row>
+              <v-row class="pr-6">
                 <v-card-title class="pa-0 pt-1" v-text="item.title"></v-card-title>
+                <v-spacer></v-spacer>
+                <deleteOffer/>
               </v-row>
 
               <v-row>
@@ -33,21 +36,25 @@
 
               <v-row>
                 <v-spacer></v-spacer>
-                <span class="justify-end mr-3 mt-7 pt-0 pr-3"><confirmBooking /></span>
+                <span class="justify-end mr-3 mt-7 pt-0 pr-3"><editOffer/></span>
               </v-row>
+
+              
 
             </v-col>
           </v-row> 
         </v-card>
+      </v-col>
     </v-col>
   </v-container>
 </template>
 
 <script>
-import confirmBooking from "./confirmBooking"
+import editOffer from "./editOffer"
+import deleteOffer from "./deleteOffer"
 
 export default {  
-  components: { confirmBooking },
+  components: { editOffer, deleteOffer },
 
     data: () => ({
       select: ['Äpfel'],

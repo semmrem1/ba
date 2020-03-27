@@ -40,7 +40,7 @@
                 </v-list>
                 <template v-slot:append>
                     <div class="pa-4">
-                        <v-btn block class="grey darken-3 white--text">Logout</v-btn>
+                        <v-btn block @click="Logout" class="grey darken-3 white--text">Logout</v-btn>
                     </div>
                 </template>
             </v-navigation-drawer>
@@ -55,13 +55,17 @@ export default {
             links: [
                 { icon: "mdi-account", text: "Profil", route: "/profile"},
                 { icon: "mdi-compass", text: "Angebote", route: "/offers"},
-                { icon: "mdi-food-apple", text: "gebuchte Ernten", route: "/myCrops"},
-                { icon: "mdi-plus-circle", text: "Angebot erfassen", route: "/createOffer"},
-                { icon: "mdi-plus-circle", text: "meine Angebote", route: "/myOffers"},
+                { icon: "mdi-file-check", text: "gebuchte Ernten", route: "/cropHistory"},
+                { icon: "mdi-file-plus", text: "Angebot erfassen", route: "/createOffer"},
+                { icon: "mdi-file-multiple", text: "meine Angebote", route: "/myOffers"},
             ]
-    }
-
-}
+            }
+        },
+            methods:{
+                Logout(){
+                    localStorage.removeItem("key");
+                }
+            }
 }
 </script>
 

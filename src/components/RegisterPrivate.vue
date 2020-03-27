@@ -34,11 +34,10 @@
                     </v-row>
 
                     <v-checkbox
-                    class="pa-0 ma-0"
+                    class="pa-0 pt-4 ma-0"
                     v-model="checkbox"
                     :rules="[v => !!v || 'Du musst 18 Jahre alt sein, um dich registrieren zu können!']"
                     label="Bist du 18 Jahre alt?"
-
                     required
                     ></v-checkbox>
                     <v-checkbox
@@ -112,7 +111,6 @@ export default {
     methods: {
         validate () {
         this.$refs.form.validate()
-        console.log(this.title, this.username, this.firstname, this.lastname)
         },
         reset () {
         this.$refs.form.reset()

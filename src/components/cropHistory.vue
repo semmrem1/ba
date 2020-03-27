@@ -1,13 +1,13 @@
 <template>
-  <v-container class="justify-center ma-0 pt-2 px-2">
-      <v-col class="px-0" v-for="(item, i) in items" :key="i" cols="12" sm="4">
+  <v-container class="justify-center ma-0 pa-2" cols="12" sm="6" md="8">
+      <v-col class="justify-center px-2" v-for="(item, i) in items" :key="i"  xs="12" sm="6" md="6" lg="4">
         <v-card class="justify-center ma-0 pa-0" height="175" elevation="3">
 
             <v-row class="pl-1">
                 <v-col class="pa-0 pl-3 pb-0" cols="10">
                     <v-card-text class="title pb-0">Bestellnummer {{ item.bookingNumber }}</v-card-text>
                 </v-col>
-                <v-col class="pt-2 pl-2 pb-0" cols="2">
+                <v-col class="justify-end pt-2 pl-2 pb-0" cols="2">
                     <confirmDelete/>
                 </v-col>
      

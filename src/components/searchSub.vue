@@ -14,7 +14,7 @@
             <v-card-actions class="pa-4">
                 <v-spacer></v-spacer>
                 <v-btn @click="dialog=false" outlined color="grey">Abbrechen</v-btn>
-                <v-btn class="white--text ml-4" @click="dialog=false" depressed :color="options.color">erstellen</v-btn>
+                <v-btn class="white--text ml-4" @click="dialog=false" depressed :color="options.color">Erstellen</v-btn>
             </v-card-actions>
             </v-card>
     </v-dialog>

@@ -25,8 +25,8 @@ export default {
     dialog: false,
     resolve: null,
     reject: null,
-    message: "Wollen Sie diese Bestellung wirklich storneren? Ihr Anspruch auf die Ernte entfällt damit. Dies kann nicht rückgängig gemacht werden.",
-    title: "Bestellung stornieren",
+    message: "Wollen Sie diese Ernte wirklich löschen? Dies kann nicht rückgängig gemacht werden.",
+    title: "Ernte löschen",
     options: {
       color: "red",
       width: 290,

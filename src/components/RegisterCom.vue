@@ -3,7 +3,7 @@
         <v-row class="justify-center">
             <v-card class="ma-0 pa-1" width="90%" max-width="600px" elevation="3">
                 <v-card-title  class="pa-3 display-1 font-weight-bold">Registrieren</v-card-title>
-                <v-text class="body-2 pl-3"><v-icon medium>mdi-information-outline</v-icon> Deine Daten sind öffentlich nicht zugänglich!</v-text>    
+                <v-text class="body-2 pl-3" color="grey"><v-icon medium>mdi-information-outline</v-icon> Deine Daten sind öffentlich nicht zugänglich!</v-text>    
                 <v-form ref="form" v-model="valid" lazy-validation class="pa-3">
                     <div>
                         <v-select :items="items" label="Anrede" v-model="title"></v-select>
@@ -33,7 +33,7 @@
                         </v-col>
                     </v-row>
                     <v-checkbox
-                    class="pa-0 ma-0"
+                    class="pa-0 pt-4 ma-0"
                     v-model="checkbox"
                     :rules="[v => !!v || 'Du musst 18 Jahre alt sein, um dich registrieren zu können!']"
                     label="Bist du 18 Jahre alt?"
