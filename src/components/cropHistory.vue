@@ -1,7 +1,7 @@
 <template>
   <v-container class="justify-center ma-0 pa-2" cols="12" sm="6" md="8">
       <v-col class="justify-center px-2" v-for="(item, i) in items" :key="i"  xs="12" sm="6" md="6" lg="4">
-        <v-card class="justify-center ma-0 pa-0" height="175" elevation="3">
+        <v-card class="justify-center ma-0 pa-0" max-height="225" elevation="3">
 
             <v-row class="pl-1">
                 <v-col class="pa-0 pl-3 pb-0" cols="10">
@@ -23,9 +23,6 @@
                     <v-card-text class="py-0">{{ item.date }}</v-card-text>
                     <v-card-text class="pb-0 pt-3">{{ item.plz }}</v-card-text>
                     <v-card-text class="py-0">{{ item.location }}</v-card-text>
-                </v-col>
-                <v-col cols="2">
-
                 </v-col>
             </v-row>
         </v-card>

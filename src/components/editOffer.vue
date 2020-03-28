@@ -23,7 +23,7 @@
                         <v-card-text class="subtitle-1 font-weight-bold px-0">Menge:</v-card-text>
                     </v-col>
                     <v-col cols="3">
-                        <v-text-field  color="green" label="Menge" :rules="avQuantityRules" v-model="avQuantity" suffix="kg"></v-text-field>
+                        <v-text-field  color="green" :rules="avQuantityRules" v-model="avQuantity" suffix="kg"></v-text-field>
                     </v-col>
                 </v-row>
 

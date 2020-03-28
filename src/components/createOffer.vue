@@ -56,7 +56,7 @@
                                     </v-menu>
                                 </v-col>
                                 <v-col cols="4">
-                                    <v-text-field  color="green" label="Menge" :rules="avQuantityRules" v-model="avQuantity" suffix="kg"></v-text-field>
+                                    <v-text-field  color="green" :rules="avQuantityRules" v-model="avQuantity" suffix="kg"></v-text-field>
                                 </v-col>
                             </v-row>
                     </div>

@@ -3,30 +3,41 @@
     <v-col class="pa-0 mr-0" cols="12">
     <v-col class="justify-center px-2" v-for="(item, i) in items" :key="i"  xs="12" sm="6" md="6" lg="4">
       
-        <v-card class="ma-0 pa-0" max-height="175" elevation="3">
+        <v-card class="ma-0 pa-0" max-height="225" elevation="3">
 
           <v-row>
             <v-col cols="10">
-                <v-card-title class="py-0 pl-6" v-text="item.title"></v-card-title>
+                <v-card-title class="py-0 pl-4">Angebot:<span class="font-weight-light pl-1"> {{item.title}}</span></v-card-title>
             </v-col>
             <v-col class="justify-end pt-2 pl-2 pb-0" cols="2">
                  <deleteOffer/>
             </v-col>
           </v-row>
-
-            
-            <v-col cols="12">
+            <v-row class="pt-0 pl-1" >
+                <v-col class="pr-0  pb-0" cols="3">
+                    <v-card-text class="py-0 pr-0 font-weight-bold">Menge:</v-card-text>
+                    <v-card-text class="py-0 pr-0 font-weight-bold">Datum:</v-card-text>
+                    <v-card-text class="py-3 pr-0 font-weight-bold">Adresse:</v-card-text>
+                </v-col>
+                <v-col class="pl-0 pb-0" cols="9">
+                    <v-card-text class="py-0">{{ item.quantity }}</v-card-text>
+                    <v-card-text class="py-0" prefix="bis">bis {{ item.date }}</v-card-text>
+                    <v-card-text class="py-3 pr-0">{{ item.plz }} {{ item.location }}</v-card-text>
+                </v-col>
+                <v-col class="pt-0 pr-8" cols="12">
                 <!-- Edit Offer Button -->
-                <v-row>
-                  <v-spacer></v-spacer>
-                  <span class="justify-end mr-3 mt-7 pt-0 pr-0"><editOffer/></span>
-                </v-row> 
-            </v-col>
-
-          
-
+                  <v-row class="align-end">
+                    <v-spacer/>
+                    <span><editOffer/></span>
+                  </v-row> 
+                </v-col>
+            </v-row>
         </v-card>
+
       </v-col>
+              <v-fab-transition class="fab-container">
+            <v-btn color="green" fixed="true" to="/createOffer" large bottom right fab ><v-icon color="white">mdi-plus</v-icon></v-btn>
+        </v-fab-transition>
     </v-col>
   </v-container>
 </template>
