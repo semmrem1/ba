@@ -4,45 +4,27 @@
     <v-col class="justify-center px-2" v-for="(item, i) in items" :key="i"  xs="12" sm="6" md="6" lg="4">
       
         <v-card class="ma-0 pa-0" max-height="175" elevation="3">
-          <v-row >
 
-            <!-- IMG -->
-            <v-col class="py-0" cols="6">
-              <v-avatar class="ma-0 pa-0" min-width="100%" height="175" tile>
-                <v-img :src="item.src"></v-img>
-              </v-avatar>
+          <v-row>
+            <v-col cols="10">
+                <v-card-title class="py-0 pl-6" v-text="item.title"></v-card-title>
             </v-col>
+            <v-col class="justify-end pt-2 pl-2 pb-0" cols="2">
+                 <deleteOffer/>
+            </v-col>
+          </v-row>
+
             
-
-            <!-- Details -->
-            <v-col class="pa-1 pl-5" cols="6">
-              <v-row class="pr-6">
-                <v-card-title class="pa-0 pt-1" v-text="item.title"></v-card-title>
-                <v-spacer></v-spacer>
-                <deleteOffer/>
-              </v-row>
-
-              <v-row>
-                <v-card-subtitle class="pa-0">{{ item.plz }} {{ item.location }}</v-card-subtitle>
-              </v-row>
-
-              <v-row>
-                <v-card-subtitle class="pa-0">Max. {{ item.quantity }}</v-card-subtitle>
-              </v-row>
-
-              <v-row>
-                <v-card-subtitle class="pa-0">bis {{ item.date }}</v-card-subtitle>
-              </v-row>
-
-              <v-row>
-                <v-spacer></v-spacer>
-                <span class="justify-end mr-3 mt-7 pt-0 pr-3"><editOffer/></span>
-              </v-row>
-
-              
-
+            <v-col cols="12">
+                <!-- Edit Offer Button -->
+                <v-row>
+                  <v-spacer></v-spacer>
+                  <span class="justify-end mr-3 mt-7 pt-0 pr-0"><editOffer/></span>
+                </v-row> 
             </v-col>
-          </v-row> 
+
+          
+
         </v-card>
       </v-col>
     </v-col>

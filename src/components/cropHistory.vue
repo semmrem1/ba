@@ -18,10 +18,11 @@
                     <v-card-text class="py-0 pr-0 font-weight-bold">Datum:</v-card-text>
                     <v-card-text class="py-3 pr-0 font-weight-bold">Adresse:</v-card-text>
                 </v-col>
-                <v-col class="pl-0" cols="6">
+                <v-col class="pl-0" cols="8">
                     <v-card-text class="py-0">{{ item.quantity }}</v-card-text>
                     <v-card-text class="py-0">{{ item.date }}</v-card-text>
-                    <v-card-text class="py-3">{{ item.address }}</v-card-text>
+                    <v-card-text class="pb-0 pt-3">{{ item.plz }}</v-card-text>
+                    <v-card-text class="py-0">{{ item.location }}</v-card-text>
                 </v-col>
                 <v-col cols="2">
 
@@ -42,25 +43,29 @@ export default {
         bookingNumber: '#8400001',
         quantity: '18kg',
         date: '11.10.2020',
-        address: 'Apfeltaschenstrasse 22 8400 Winterthur'
+        plz: '8400 Winterthur',
+        location: 'Apfeltaschenstrasse 22 '
     },
     {
         bookingNumber: '#8400011',
         quantity: '10kg',
         date: '11.10.2020',
-        address: 'Im Apfelkompott 12 8400 Winterthur'
+        plz: '8400 Winterthur',
+        location: 'Apfeltaschenstrasse 22 '
     },
     {
         bookingNumber: '#9500001',
         quantity: '28kg',
         date: '11.10.2020',
-        address: 'Im Obstbaumland 92 9500 Wil SG'
+        plz: '8400 Winterthur',
+        location: 'Apfeltaschenstrasse 22 '
     },
     {
         bookingNumber: '#8000001',
         quantity: '18kg',
         date: '11.10.2020',
-        address: 'Zum Booskopbaum 101 8000 Zürich'
+        plz: '8400 Winterthur',
+        location: 'Apfeltaschenstrasse 22 '
     },
     ],
     }),

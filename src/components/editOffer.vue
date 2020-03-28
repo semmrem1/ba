@@ -12,12 +12,12 @@
                         <v-card-text class="subtitle-1 font-weight-bold px-0">Ort:</v-card-text>
                     </v-col>
                     <v-col  cols="3">
-                        <v-text-field class="py-0" color="green" :rules="plzRules" label="PLZ" v-model="plz"></v-text-field>
+                        <v-text-field class="py-0" color="green" label="PLZ" v-model="plz"></v-text-field>
                     </v-col>
                     <v-col cols="5">
-                        <v-text-field class="py-0" color="green" :rules="locationRules" label="Ort" v-model="location"></v-text-field>
-
+                        <v-text-field class="py-0" color="green" label="Ort" v-model="location"></v-text-field>
                     </v-col>
+                    
                     <!-- Menge -->
                     <v-col class="px-5" cols="8">
                         <v-card-text class="subtitle-1 font-weight-bold px-0">Menge:</v-card-text>
@@ -37,14 +37,28 @@
 
 <script>
 export default {
-    data() {
-    return {
+    data: () => ({
         snackbar: false,
         dialog: false,
-        counter: 10
-    };
+        counter: 10,
+        crops: [
+        {
+            bookingNumber: '#123456',
+            plz: '8400',
+            location: 'Winterthur',
+            quantity: '25kg',
+            date: '22.02.2020',
+        },
+        {
+            bookingNumber: '#123456',
+            plz: '8400',
+            location: 'Winterthur',
+            quantity: '25kg',
+            date: '22.02.2020',
+        },
 
-  },
+        ],
+    }),
     methods: {
       increase: function(){
           this.counter++;
