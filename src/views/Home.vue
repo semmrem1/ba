@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import LandingPage from '@/components/LandingPage';
+import LandingPage from '@/components/LandingPage/LandingPage';
 // import Footer from '@/components/Footer'
 
 export default {

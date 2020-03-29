@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import passwordReset from '@/components/passwordReset'
+import passwordReset from '@/components/LoginRegister/passwordReset'
 
 export default {
 Name: 'passwordReset',

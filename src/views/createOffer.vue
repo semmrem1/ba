@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import createOffer from '@/components/createOffer'
+import createOffer from '@/components/myOffer/createOffer'
 
 export default {
 Name: 'createOffer',

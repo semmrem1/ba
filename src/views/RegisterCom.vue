@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import RegisterCom from '@/components/RegisterCom'
+import RegisterCom from '@/components/LoginRegister/RegisterCom'
 
 export default {
 Name: 'RegisterCom',

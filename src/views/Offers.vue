@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import Card2 from '@/components/Card2'
+import Card2 from '@/components/Offers/Card2'
 
 export default {
   name: 'Offers',

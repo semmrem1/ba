@@ -1,7 +1,8 @@
 <template>
-  <v-container class="justify-center ma-0 pa-2" cols="12" sm="6" md="8">
-    <v-col class="py-0 mr-0 pr-0" cols="12">
-        <v-col class="pa-0 pr-2" cols="12">
+  <v-container class="justify-center ma-0 py-2 px-4" cols="12" sm="6" md="8">
+    
+    <v-col class="pa-0 mr-0" cols="12">
+        <v-col class="pa-0 pl-1" cols="12">
           <v-combobox
             v-model="select"
             :fruits="fruits"
@@ -13,9 +14,9 @@
             chips
           ></v-combobox>
         </v-col>
-        <v-card-text class="pa-0 pr-2">
+        <v-card-text class="pa-0">
           <v-row>
-            <v-col class="px-2">
+            <v-col class="pl-2 pr-2">
               <v-slider
                 v-model="slider"
                 class="align-center pa-0"
@@ -28,7 +29,7 @@
                 <template v-slot:append>
                   <v-text-field
                     v-model="slider"
-                    class="mt-0 pa-0 mr-3"
+                    class="mt-0 pa-0 mr-2"
                     suffix="kg"
                     hide-details
                     single-line
@@ -41,14 +42,14 @@
           </v-row>
           <p>Sortieren</p>
         </v-card-text>
-
-        <searchSub/>        
+                
       </v-col>
-    <v-col class="justify-center px-2" v-for="(item, i) in items" :key="i"  xs="12" sm="6" md="6" lg="4">
-      
+
+      <v-row>
+        <v-col class="justify-center py-2" v-for="(item, i) in items" :key="i" cols="12"  sm="6" md="6" lg="4">
+          <!-- Card -->
         <v-card class="ma-0 pa-0" max-height="175" elevation="3">
           <v-row >
-
             <!-- IMG -->
             <v-col class="py-0" cols="6">
               <v-avatar class="ma-0 pa-0" min-width="100%" height="175" tile>
@@ -80,13 +81,17 @@
               </v-row>
             </v-col>
           </v-row> 
+          
         </v-card>
-    </v-col>
+      </v-col>
+      <searchSub/>
+    </v-row>
+
   </v-container>
 </template>
 
 <script>
-import confirmBooking from "./confirmBooking"
+import confirmBooking from "../confirmBooking"
 import searchSub from "./searchSub"
 
 export default {  

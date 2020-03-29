@@ -7,10 +7,10 @@
                         <v-form>
                             <v-text-field label="Benutzername" prepend-icon="mdi-account"/>
                             <v-text-field type="password" label="Passwort" prepend-icon="mdi-lock"/>
-                            <v-btn to="/passwordReset" text small>Passwort vergessen?</v-btn>
+                            <v-btn class="pl-8" to="/passwordReset" text small>Passwort vergessen?</v-btn>
                         </v-form>
                     </v-card-text>
-                    <v-card-actions class="pa-0" justify-center>
+                    <v-card-actions class="pa-0 pt-4" justify-center>
                         <v-col class="px-2" justify-center cols="12">
                             <v-btn class="btn white--text"
                             to="/Offers"

@@ -1,6 +1,8 @@
 <template>
   <div class="cropHistory">
-    <cropHistory/>
+    <v-container class="pa-0">
+      <cropHistory/>
+    </v-container>
   </div>
 </template>
 

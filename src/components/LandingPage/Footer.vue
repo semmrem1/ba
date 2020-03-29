@@ -20,8 +20,7 @@
     data: () => ({
       links: [
         { name: 'Login', route: "/login" },
-        { name: 'Registrieren Privat', route: "/registerPriv"},
-        { name: 'Registrieren Kommerziell', route: "/registerCom"},
+        { name: 'Registrieren', route: "/registerPriv"},
         { name: 'Kontakt', route: "/contact"},
       ],
     }),

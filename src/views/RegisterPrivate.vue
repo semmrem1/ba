@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import RegisterPrivate from '@/components/RegisterPrivate'
+import RegisterPrivate from '@/components/LoginRegister/RegisterPrivate'
 
 export default {
 Name: 'RegisterPrivate',

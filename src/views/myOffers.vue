@@ -1,11 +1,13 @@
 <template>
   <div class="myOffer">
-    <myOffer/>
+    <v-container class="pa-0">
+      <myOffer/>
+    </v-container>
   </div>
 </template>
 
 <script>
-import myOffer from '@/components/myOffer'
+import myOffer from '@/components/myOffer/myOffer'
 
 export default {
 Name: 'myOffer',

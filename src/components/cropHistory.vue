@@ -1,6 +1,8 @@
 <template>
-  <v-container class="justify-center ma-0 pa-2" cols="12" sm="6" md="8">
-      <v-col class="justify-center px-2" v-for="(item, i) in items" :key="i"  xs="12" sm="6" md="6" lg="4">
+  <v-container class="justify-center ma-0 py-2 px-4" justify-center cols="12" sm="6" md="8">
+
+      <v-row>
+        <v-col class="justify-center py-2" v-for="(item, i) in items" :key="i" cols="12"  sm="6" md="6" lg="4">
         <v-card class="justify-center ma-0 pa-0" max-height="225" elevation="3">
 
             <v-row class="pl-1">
@@ -26,7 +28,8 @@
                 </v-col>
             </v-row>
         </v-card>
-    </v-col>
+        </v-col>
+    </v-row>
   </v-container>
 </template>
 

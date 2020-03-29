@@ -40,7 +40,7 @@
                                 <v-btn class="mx-auto" color="green darken-1 white--text" outlined @click="dialog = false" width="95%">BEARBEITEN</v-btn>
                             </v-col>
                             <v-col class="pr-1 pl-0" cols="7">
-                                <v-btn class="mx-auto mb-1" color="green darken-1 white--text" raised @click="submit" width="95%">SPEICHERN</v-btn>
+                                <v-btn class="mx-auto mb-1" color="green darken-1 white--text" raised @click="getUser" width="95%">SPEICHERN</v-btn>
                             </v-col>
                         </v-row>
                     </div>
@@ -69,7 +69,19 @@ export default {
         submit() {
             alert("Gespeichert!  " + this.username + this.firstname + this.lastname + this.street + this.PLZ + this.city)
         },
+        getUser(){
+            // const proxyurl = "https://cors-anywhere.herokuapp.com/";
+            const url = "https://cors-anywhere.herokuapp.com/http://env-9201482.jcloud.ik-server.com/person/5cb8d10725839944c26ff1f5";
+            var config = {headers: {"userid": "5cb8d10725839944c26ff1f5"}};
+            this.$http.get(url, config)
+            .then(response => response.text())
+            .then(contents => console.log(contents))
+            .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))
+            // .then((response) => {
+            // console.log(response)
+            // this.obst = response.data;
+         }
+    },
     
-    }
 }
 </script>

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Contact from '@/components/Contact'
+import Contact from '@/components/LandingPage/Contact'
 
 export default {
 Name: 'Contact',
