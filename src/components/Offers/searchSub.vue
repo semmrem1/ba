@@ -2,7 +2,7 @@
     <v-dialog v-model="dialog" max-width="450">
         <template v-slot:activator="{ on }">
             <v-fab-transition class="fab-container">
-                <v-btn v-on="on" color="green" fixed="true" bottom large right fab><v-icon color="white">mdi-bell-plus</v-icon></v-btn>
+                <v-btn v-on="on" color="green" bottom large right fab><v-icon color="white">mdi-bell-plus</v-icon></v-btn>
             </v-fab-transition>
         </template>
             

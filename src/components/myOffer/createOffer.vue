@@ -5,7 +5,7 @@
             <v-card class="ma-0 pa-2" width="90%" max-width="600px" elevation="3">
                 <v-row>
                     <v-col class="pl-6 pr-0">
-                        <v-avatar size="150">
+                        <v-avatar size="150" tile>
                             <v-img src="https://images.unsplash.com/photo-1576673442511-7e39b6545c87?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=954&q=80"></v-img>
                         </v-avatar>
                     </v-col>

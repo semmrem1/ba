@@ -100,15 +100,14 @@ export default {
                 v => !!v || 'E-Mail ist erforderlich',
             ],
             password: '',
-            passwordrep: '',
-            show1: false,
-            show2: false,
-
             passwordRules: {
-                required: '',
+                required: v => !!v || 'Passwort ist erforderlich',
                 min: '',
                 match: '',
             },
+
+            show1: false,
+            show2: false,
             
             checkbox: false,
 
