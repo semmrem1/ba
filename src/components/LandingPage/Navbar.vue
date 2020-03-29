@@ -3,14 +3,14 @@
             <v-app-bar fixed app class="green" elevation="4">
                 <v-app-bar-nav-icon size="xs" @click="drawer = !drawer"></v-app-bar-nav-icon>
                 <v-spacer></v-spacer>
-                <v-appbar-title class="text-uppercase white--text" color="white" to="/">
+                <v-toolbar-title class="text-uppercase white--text" color="white" to="/">
                     <!-- <span class="font-weight-light">Obst</span>
                     <span>vom</span>
                     <span class="font-weight-light">Baum</span> -->
                     <span color="white--text">Obst</span>
                     <span class="font-weight-light" >vom</span>
                     <span>Baum</span>
-                </v-appbar-title>
+                </v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-btn icon color="black" to="/profile">
                     <v-icon>mdi-account</v-icon>

@@ -11,16 +11,16 @@
                         </v-avatar>
                     </v-col>
                     <v-col class="d-flex align-center pl-0 px-3">
-                        <v-btn outlined small color="green" class="d-flex align-center" @click="onPickFile">Bild hochladen</v-btn>
-                        <input type="file" style="display: none" ref="fileInput" accept="image/*" @change="onFilePicked"/>
+                        <v-btn outlined small color="green" class="d-flex align-center">Bild hochladen</v-btn>
+                        <input type="file" style="display: none" ref="fileInput" accept="image/*"/>
                     </v-col>
                 </v-row>
                 <!-- Form -->
                 <v-form class="px-3 pt-6">
                     <div>
                         <v-text-field class="py-0" color="green" label="Benutzername" v-model="username"></v-text-field>
-                        <v-text-field class="py-0" color="green" :rules="emailRules" label="E-Mail" v-model="email"></v-text-field>
-                        <v-text-field class="py-0" color="green" :rules="emailRules" label="Optionale E-Mail" v-model="emailOpt"></v-text-field>
+                        <v-text-field class="py-0" color="green" label="E-Mail" v-model="email"></v-text-field>
+                        <v-text-field class="py-0" color="green" label="Optionale E-Mail" v-model="emailOpt"></v-text-field>
                         <v-text-field class="py-0" color="green" label="Vorname" v-model="firstname"></v-text-field>
                         <v-text-field class="py-0" color="green" label="Nachname" v-model="lastname"></v-text-field>
                     </div>
@@ -70,18 +70,30 @@ export default {
             alert("Gespeichert!  " + this.username + this.firstname + this.lastname + this.street + this.PLZ + this.city)
         },
         getUser(){
-            // const proxyurl = "https://cors-anywhere.herokuapp.com/";
             const url = "https://cors-anywhere.herokuapp.com/http://env-9201482.jcloud.ik-server.com/person/5cb8d10725839944c26ff1f5";
             var config = {headers: {"userid": "5cb8d10725839944c26ff1f5"}};
             this.$http.get(url, config)
-            .then(response => response.text())
-            .then(contents => console.log(contents))
-            .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))
+            .then((response) => {
+                console.log(response)
+                      })
+            .catch((error) => {
+                console.log(error.response)
+            })
+    },
+  },
+
+
+            // .then(response => response.text())
+            // .then(contents => console.log(contents))
+            // .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))
             // .then((response) => {
             // console.log(response)
-            // this.obst = response.data;
-         }
-    },
+            // this.obst = response.data;}
+
+
+
+         
+
     
 }
 </script>

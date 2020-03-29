@@ -10,7 +10,7 @@
                         </v-avatar>
                     </v-col>
                     <v-col justify-center>
-                        <v-btn outlined small color="green" @click="onPickFile">Bild hochladen</v-btn>
+                        <v-btn outlined small color="green">Bild hochladen</v-btn>
                         <input type="file" style="display: none" ref="fileInput" accept="image/*" @change="onFilePicked"/>
                     </v-col>
                 </v-row>

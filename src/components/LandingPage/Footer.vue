@@ -1,7 +1,7 @@
 <template>
   <v-footer color="green lighten-1" padless elevation="4">
     <v-row justify="center" no-gutters>
-      <v-btn v-for="link in links" :key="link" color="white" text  class="mt-2 mb-6" router :to="link.route">{{ link.name }}</v-btn>
+      <v-btn v-for="(link, idx) in links" :key="idx" color="white" text  class="mt-2 mb-6" router :to="link.route">{{ link.name }}</v-btn>
 
         <v-card-text class="white--text pt-0 text-center">
         Text über Obst vom Baum
