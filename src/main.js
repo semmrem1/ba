@@ -6,6 +6,8 @@ import vuetify from './plugins/vuetify';
 import axios from 'axios'
 import VueAxios from './plugins/axios'
 
+axios.defaults.baseURL = "https://cors-anywhere.herokuapp.com/http://env-9201482.jcloud.ik-server.com"
+
 Vue.use(VueAxios)
 
 Vue.config.productionTip = false;

@@ -1,8 +1,8 @@
 <template>
     <v-content class="pt-0"> 
-    <section id="hero" elevation-5>
+    <section id="hero" elevation-3>
         <v-row justify="center">
-        <v-img class="elevation-5" justify-center max-height="100%" :min-height="'calc(100vh - ' + $vuetify.application.top + 'px)'"
+        <v-img class="elevation-3" justify-center max-height="100%" :min-height="'calc(100vh - ' + $vuetify.application.top + 'px)'"
         src="https://images.unsplash.com/photo-1539756250244-b39c3a836b85?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1001&q=80">
             <v-theme-provider dark>
             <v-container fluid fill-height>
@@ -43,10 +43,11 @@
           <p><span class="font-weight-bold">WHAT </span>do we do</p>
           <p><span class="font-weight-bold">HOW </span>do we do, what we do</p>
           <p><span class="font-weight-bold">WHY </span>do we do, what we do</p>
-          <v-img  class="elevation-5" justify-center src="src/assets/saisontabelle.PNG"></v-img>
+          <v-img  class="elevation-3" justify-center src="src/assets/saisontabelle.PNG"></v-img>
         </v-responsive>
+        <div class="py-8"></div>
   
-        <v-parallax height="500" src="https://images.unsplash.com/photo-1572578061791-a609757bf4ff?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80"></v-parallax>
+        <v-parallax height="900" class="elevation3" src="https://images.unsplash.com/photo-1572578061791-a609757bf4ff?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80"></v-parallax>
 
         </v-container>
 
@@ -96,12 +97,12 @@ export default {
       return {
         features: [
           {
-            icon: 'mdi-account-group-outline',
+            icon: 'mdi-account-plus',
             title: '1. Schritt',
             text: 'Profil erstellen',
           },
           {
-            icon: 'mdi-update',
+            icon: 'mdi-tree',
             title: '2. Schritt',
             text: 'Baum registrieren oder Baum auswählen',
           },

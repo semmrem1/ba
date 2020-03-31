@@ -54,8 +54,9 @@
 
                 </v-row>
 
-                <v-card-actions class="pt-2 mt-2">
-                   <v-btn class="centered-input mx-auto mb-2" color="green darken-1 white--text" raised @click="dialog = false" width="95%">SPEICHERN</v-btn>
+                <v-card-actions class="pa-4">
+                    <v-btn @click="cancel" outlined width="40%" color="grey">Abbrechen</v-btn>
+                   <v-btn color="green darken-1 white--text" raised width="60%" @click="dialog = false">SPEICHERN</v-btn>
                 </v-card-actions>
             </v-card>
     </v-dialog>

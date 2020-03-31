@@ -1,6 +1,7 @@
 <template>
   <v-app class="pa-0 ma-0">
-    <Navbar></Navbar>
+    <Navbar/>
+    <NavbarLP/>
       <v-content>
         <!-- <v-container class="justify-center px-0 mx-0" width="100%" justify-center> -->
           <router-view></router-view>
@@ -12,12 +13,14 @@
 
 <script>
 import Navbar from '@/components/LandingPage/Navbar'
+import NavbarLP from '@/components/LandingPage/NavbarLP'
 import Footer from '@/components/LandingPage/Footer'
 
 export default {
   name: 'App',
   components: {
     Navbar,
+    NavbarLP,
     Footer
   },
   data: () => ({

@@ -4,7 +4,7 @@
     <v-col class="pa-0 mr-0" cols="12">
         <v-col class="pa-0 pl-1" cols="12">
           <v-combobox
-            v-model="select"
+            v-model="fruit"
             :fruits="fruits"
             color="green"
             label="Obstsorte"
@@ -84,9 +84,9 @@
           
         </v-card>
       </v-col>
-      <searchSub/>
+      
     </v-row>
-
+    <searchSub/>
   </v-container>
 </template>
 
@@ -103,6 +103,7 @@ export default {
         slider: 10,
         range: [-20, 70],
         select: ['Äpfel'],
+        fruit: null, 
         fruits: [
           'Äpfel',
           'Birnen',

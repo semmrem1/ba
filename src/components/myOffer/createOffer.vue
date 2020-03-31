@@ -1,6 +1,17 @@
 <template>
+
     <v-container class="pt-4">
         <v-row class="justify-center">
+                    <v-sheet
+            :color="`grey ${theme.isDark ? 'darken-2' : 'lighten-4'}`"
+            class="px-3 pt-3 pb-3"
+        >
+            <v-skeleton-loader
+            class="mx-auto"
+            max-width="300"
+            type="card"
+            ></v-skeleton-loader>
+        </v-sheet>
             <!-- Card -->
             <v-card class="ma-0 pa-2" width="90%" max-width="600px" elevation="3">
                 <v-row>
@@ -26,33 +37,27 @@
                             <v-col class="py-0" cols="9">
                                 <v-text-field class="py-0" color="green" :rules="locationRules" label="Ort" v-model="location"></v-text-field>
                             </v-col>
-                        <v-card-title class="pt-6 pb-2">Verfügbare Ernte:</v-card-title>
+                        <v-card-title class="pt-6 pl-3 pb-2">Verfügbare Ernte:</v-card-title>
                        </v-row>
                             <v-row>
                                 <v-col cols="8">
                                     <v-menu
-                                        ref="menu"
-                                        v-model="menu"
+                                        v-model="menu2"
                                         :close-on-content-click="false"
-                                        :return-value.sync="date"
+                                        :nudge-right="40"
                                         transition="scale-transition"
                                         offset-y
                                         min-width="290px"
-                                        >
+                                    >
                                         <template v-slot:activator="{ on }">
                                         <v-text-field
-                                            :rules="dateRules"
                                             v-model="date"
                                             label="Datum der Ernte"
                                             readonly
                                             v-on="on"
                                         ></v-text-field>
                                         </template>
-                                        <v-date-picker v-model="date" no-title scrollable>
-                                            <v-spacer></v-spacer>
-                                            <v-btn text color="green" @click="menu = false">Abbrechen</v-btn>
-                                            <v-btn text color="green" @click="$refs.menu.save(date)">OK</v-btn>
-                                        </v-date-picker>
+                                        <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
                                     </v-menu>
                                 </v-col>
                                 <v-col cols="4">
@@ -79,6 +84,7 @@
 <script>
   export default {
     data: () => ({
+        inject: ['theme'],
         valid: true,
         date: new Date().toISOString().substr(0, 10),
         menu: false,

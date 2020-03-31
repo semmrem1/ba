@@ -1,6 +1,6 @@
 <template>
         <nav>
-            <v-app-bar  app class="red" elevation="4">
+            <v-app-bar  app class="green" elevation="4">
                 <v-app-bar-nav-icon size="xs" @click="drawer = !drawer"></v-app-bar-nav-icon>
                 <v-spacer></v-spacer>
                 <v-toolbar-title class="text-uppercase white--text" color="white" to="/">
@@ -12,9 +12,12 @@
                     <span>Baum</span>
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn icon color="black" to="/profile">
+                <v-btn outlined depressed to="/login">
+                    <!-- <v-icon class="pr-1" medium>mdi-login-variant</v-icon> -->
+                    Login</v-btn>
+                <!-- <v-btn icon color="black" to="/profile">
                     <v-icon>mdi-account</v-icon>
-                </v-btn>
+                </v-btn> -->
             </v-app-bar>
             
             <v-navigation-drawer color="green lighten-5" temporary width="320" v-model="drawer" app class="green" fluid>

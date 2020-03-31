@@ -5,8 +5,8 @@
                     <v-card-title class="pa-3 display-1 font-weight-bold">Login</v-card-title>
                     <v-card-text class="pa-2">
                         <v-form>
-                            <v-text-field label="Benutzername" prepend-icon="mdi-account"/>
-                            <v-text-field type="password" label="Passwort" prepend-icon="mdi-lock"/>
+                            <v-text-field label="E-Mail" v-model="person.email" prepend-icon="mdi-account"/>
+                            <v-text-field type="password" label="Passwort" v-model="person.password" prepend-icon="mdi-lock"/>
                             <v-btn class="pl-8" to="/passwordReset" text small>Passwort vergessen?</v-btn>
                         </v-form>
                     </v-card-text>
@@ -15,7 +15,7 @@
                             <v-btn class="btn white--text"
                             to="/Offers"
                             :loading="loading"
-                            :disabled="loading"
+                            :disabled="!isComplete"
                             :elevation="5"
                             color="green"
                             @click="loader = 'loading'"
@@ -34,9 +34,18 @@
 export default {
     data () {
       return {
+        person: {
+            email: '',
+            password: ''
+        },
         loader: null,
         loading: false,
       }    
+    },
+    computed: {
+        isComplete(){
+            return this.person.email && this.person.password
+        }
     },
     watch: {
       loader () {

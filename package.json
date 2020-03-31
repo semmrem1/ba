@@ -13,9 +13,10 @@
     "core-js": "^3.6.4",
     "material-components-web": "^5.1.0",
     "register-service-worker": "^1.6.2",
+    "vee-validate": "^3.2.5",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
-    "vue-router": "^3.1.5",
+    "vue-router": "^3.1.6",
     "vuetify": "^2.2.11",
     "webpack-dev-server": "^3.10.3"
   },
