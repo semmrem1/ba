@@ -19,7 +19,7 @@
                             <v-card-text class="subtitle-1 font-weight-bold px-0">Menge:</v-card-text>
                         </v-col>
                         <v-col class="py-0" cols="4">
-                            <v-text-field  color="green" :rules="avQuantityRules" v-model="avQuantity" suffix="kg"></v-text-field>
+                            <v-text-field  color="green" suffix="kg"></v-text-field>
                         </v-col>
                     </v-row>
 
@@ -73,34 +73,36 @@ export default {
             color: "green",
             width: 290,
         },
-        crops: [
-        {
-            bookingNumber: '#123456',
-            plz: '8400',
-            location: 'Winterthur',
-            quantity: '25kg',
-            date: '22.02.2020',
-        },
-        {
-            bookingNumber: '#123456',
-            plz: '8400',
-            location: 'Winterthur',
-            quantity: '25kg',
-            date: '22.02.2020',
-        },
-
-        ],
+        // crops: [
+        // {
+        //     bookingNumber: '#123456',
+        //     plz: '8400',
+        //     location: 'Winterthur',
+        //     quantity: '25kg',
+        //     date: '22.02.2020',
+        // },
+        // {
+        //     bookingNumber: '#123456',
+        //     plz: '8400',
+        //     location: 'Winterthur',
+        //     quantity: '25kg',
+        //     date: '22.02.2020',
+        // },
+        // ],
     }),
     methods: {
-      increase: function(){
+        increase: function(){
           this.counter++;
       },
-      decrease: function(){
+        decrease: function(){
           if(this.counter > 0){
             this.counter--;              
           }
 
-      }
+      },
+        cancel() {
+            this.dialog = false
+    }
   }
 };
 

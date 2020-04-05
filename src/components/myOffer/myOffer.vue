@@ -23,7 +23,7 @@
                 <v-col class="pl-0 pb-0" cols="8">
                     <v-card-text class="py-0">{{ item.quantity }}</v-card-text>
                     <v-card-text class="py-0" prefix="bis">bis {{ item.date }}</v-card-text>
-                    <v-card-text class="py-3 pr-0">{{ item.plz }} {{ item.location }}</v-card-text>
+                    <v-card-text class="py-3 pr-0">{{ item.postcode }} {{ item.location }}</v-card-text>
                 </v-col>
                 <v-col class="pt-0 pb-2 pr-7" cols="12">
                 <!-- Edit Offer Button -->
@@ -37,8 +37,8 @@
 
         </v-col>
       </v-row>
-              <v-fab-transition class="fab-container">
-            <v-btn color="green px-" fixed="true" to="/createOffer" large bottom right fab ><v-icon color="white">mdi-plus</v-icon></v-btn>
+        <v-fab-transition class="fab-container">
+            <v-btn color="green" fixed to="/createOffer" large bottom right fab><v-icon color="white">mdi-plus</v-icon></v-btn>
         </v-fab-transition>
     </v-col>
   </v-container>
@@ -63,7 +63,7 @@ export default {
         {
           src: 'https://images.unsplash.com/photo-1538104308589-50ef22ba5d26?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80',
           title: 'Bio Gala',
-          plz: '8405',
+          postcode: '8405',
           location: 'Seen',
           quantity: '25kg',
           date: '11.09.2020',
@@ -71,7 +71,7 @@ export default {
         {
           src: 'https://images.unsplash.com/photo-1541600321016-ac52d598f563?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80',
           title: 'Boskoop',
-          plz: '8450',
+          postcode: '8450',
           location: 'Hettingen',
           quantity: '15kg',
           date: '23.09.2020',
@@ -79,7 +79,7 @@ export default {
         {
           src: 'https://images.unsplash.com/photo-1576179635662-9d1983e97e1e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80',
           title: 'Boskoop',
-          plz: '8450',
+          postcode: '8450',
           location: 'Hettingen',
           quantity: '20kg',
           date: '12.0.02020',
@@ -87,7 +87,23 @@ export default {
         {
           src: 'https://images.unsplash.com/photo-1545160995-4c0f38b9b3e0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1567&q=80',
           title: 'Boskoop',
-          plz: '8450',
+          postcode: '8450',
+          location: 'Hettingen',
+          quantity: '20kg',
+          date: '12.0.02020',
+        },
+        {
+          src: 'https://images.unsplash.com/photo-1545160995-4c0f38b9b3e0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1567&q=80',
+          title: 'Boskoop',
+          postcode: '8450',
+          location: 'Hettingen',
+          quantity: '20kg',
+          date: '12.0.02020',
+        },
+        {
+          src: 'https://images.unsplash.com/photo-1545160995-4c0f38b9b3e0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1567&q=80',
+          title: 'Boskoop',
+          postcode: '8450',
           location: 'Hettingen',
           quantity: '20kg',
           date: '12.0.02020',

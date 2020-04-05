@@ -3,10 +3,7 @@
             <v-app-bar  app class="red" elevation="4">
                 <v-app-bar-nav-icon size="xs" @click="drawer = !drawer"></v-app-bar-nav-icon>
                 <v-spacer></v-spacer>
-                <v-toolbar-title class="text-uppercase white--text" color="white" to="/">
-                    <!-- <span class="font-weight-light">Obst</span>
-                    <span>vom</span>
-                    <span class="font-weight-light">Baum</span> -->
+                <v-toolbar-title class="justify-center text-uppercase white--text" color="white" to="/">
                     <span color="white--text">Obst</span>
                     <span class="font-weight-light" >vom</span>
                     <span>Baum</span>
@@ -40,7 +37,7 @@
                 </v-list>
                 <template v-slot:append>
                     <div class="pa-4">
-                        <v-btn block @click="Logout" class="grey darken-3 white--text">Logout</v-btn>
+                        <v-btn block @click.prevent="logOut" class="grey darken-3 white--text">Logout</v-btn>
                     </div>
                 </template>
             </v-navigation-drawer>
@@ -61,24 +58,11 @@ export default {
             ]
             }
         },
-            methods:{
-                Logout(){
-                    localStorage.removeItem("key");
-                }
+        methods: {
+        logOut() {
+            this.$store.dispatch('auth/logout');
+            this.$router.push('/login');
             }
+  }
 }
 </script>
-
-<style scoped>
-/* .bg{
-    background-image: url('../assets/Login.jpeg');
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: cover;
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	top: 0px;
-	left: 0px;
-} */
-</style>

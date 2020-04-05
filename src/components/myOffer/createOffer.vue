@@ -2,16 +2,14 @@
 
     <v-container class="pt-4">
         <v-row class="justify-center">
-                    <v-sheet
-            :color="`grey ${theme.isDark ? 'darken-2' : 'lighten-4'}`"
-            class="px-3 pt-3 pb-3"
-        >
-            <v-skeleton-loader
+
+            <!-- <v-skeleton-loader
             class="mx-auto"
-            max-width="300"
+            width="300"
             type="card"
-            ></v-skeleton-loader>
-        </v-sheet>
+            ></v-skeleton-loader> -->
+
+
             <!-- Card -->
             <v-card class="ma-0 pa-2" width="90%" max-width="600px" elevation="3">
                 <v-row>
@@ -22,14 +20,14 @@
                     </v-col>
                     <v-col justify-center>
                         <v-btn outlined small color="green">Bild hochladen</v-btn>
-                        <input type="file" style="display: none" ref="fileInput" accept="image/*" @change="onFilePicked"/>
+                        <input type="file" style="display: none" ref="fileInput" accept="image/*"/>
                     </v-col>
                 </v-row>
                 <!-- Form -->
                 <v-form class="px-3 pt-6">
                     <v-card-title class="pl-0 pb-2">Obstaum:</v-card-title>
                     <div>
-                        <v-text-field class="py-0" color="green" :rules="treenameRules" label="Baumname" v-model="treeame"></v-text-field>
+                        <v-text-field class="py-0" color="green" :rules="treenameRules" label="Baumname" v-model="treename"></v-text-field>
                         <v-row>
                             <v-col class="py-0" cols="3">
                                 <v-text-field class="py-0" color="green" :rules="plzRules" label="PLZ" v-model="plz"></v-text-field>
@@ -43,7 +41,6 @@
                                 <v-col cols="8">
                                     <v-menu
                                         v-model="menu2"
-                                        :close-on-content-click="false"
                                         :nudge-right="40"
                                         transition="scale-transition"
                                         offset-y
@@ -84,7 +81,7 @@
 <script>
   export default {
     data: () => ({
-        inject: ['theme'],
+        // inject: ['theme'],
         valid: true,
         date: new Date().toISOString().substr(0, 10),
         menu: false,

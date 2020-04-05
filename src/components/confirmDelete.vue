@@ -1,7 +1,7 @@
 <template>
     <v-dialog v-model="dialog" max-width="450">
         <template v-slot:activator="{ on }">
-            <v-btn v-on="on" icon @click="deleteOffer">
+            <v-btn v-on="on" icon>
                 <v-icon>mdi-close</v-icon>
             </v-btn>
         </template>

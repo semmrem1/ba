@@ -1,6 +1,6 @@
 <template>
   <v-app class="pa-0 ma-0">
-    <Navbar/>
+    <!-- <Navbar/> -->
     <NavbarLP/>
       <v-content>
         <!-- <v-container class="justify-center px-0 mx-0" width="100%" justify-center> -->
@@ -12,19 +12,35 @@
 </template>
 
 <script>
-import Navbar from '@/components/LandingPage/Navbar'
+// import Navbar from '@/components/LandingPage/Navbar'
 import NavbarLP from '@/components/LandingPage/NavbarLP'
 import Footer from '@/components/LandingPage/Footer'
 
 export default {
   name: 'App',
   components: {
-    Navbar,
+    // Navbar,
     NavbarLP,
     Footer
   },
   data: () => ({
-    //
+      
   }),
+  mounted() {
+      this.$http.interceptors.request.use(
+      config => {
+          console.log(
+          `${config.method.toUpperCase()} request sent to ${
+              config.url
+          } at ${new Date().toLocaleString()}`
+          );
+
+          return config;
+      },
+      error => {
+          return Promise.reject(error);
+      }
+      );
+    },
 };
 </script>

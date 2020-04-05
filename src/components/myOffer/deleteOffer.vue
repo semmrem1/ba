@@ -1,7 +1,7 @@
 <template>
     <v-dialog v-model="dialog" max-width="450">
         <template v-slot:activator="{ on }">
-            <v-btn v-on="on" icon @click="deleteOffer">
+            <v-btn v-on="on" icon>
                 <v-icon>mdi-close</v-icon>
             </v-btn>
         </template>
@@ -26,7 +26,7 @@ export default {
     resolve: null,
     reject: null,
     message: "Wollen Sie diese Ernte wirklich löschen? Dies kann nicht rückgängig gemacht werden.",
-    title: "Ernte löschen",
+    title: "Angebot löschen",
     options: {
       color: "red",
       width: 290,

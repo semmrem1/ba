@@ -19,28 +19,28 @@
                 <v-form class="px-3 pt-6">
                     <p>{{this.info}}</p>
                     <div>
-                        <v-text-field class="py-0" color="green" label="Vorname" :disabled="isReadonly" v-model="this.user.first"></v-text-field>
-                        <v-text-field class="py-0" color="green" label="Nachname" :disabled="isReadonly" v-model="this.user.last"></v-text-field>
-                        <v-text-field class="py-0" color="green" label="E-Mail" :disabled="isReadonly" v-model="this.user.email"></v-text-field>
-                        <v-text-field class="py-0" color="green" label="Optionale E-Mail" :disabled="isReadonly" v-model="this.user.email"></v-text-field>
+                        <v-text-field class="py-0" color="green" label="Vorname" :disabled="isReadonly" v-model="this.person.first"></v-text-field>
+                        <v-text-field class="py-0" color="green" label="Nachname" :disabled="isReadonly" v-model="this.person.last"></v-text-field>
+                        <v-text-field class="py-0" color="green" label="E-Mail" :disabled="isReadonly" v-model="this.person.email"></v-text-field>
+                        <v-text-field class="py-0" color="green" label="Optionale E-Mail" :disabled="isReadonly" v-model="this.person.email"></v-text-field>
 
                     </div>
                     <div class="pt-7">
                         <v-row>
                             <v-col cols="9">
-                                <v-text-field class="py-0" color="green" label="Strasse" :disabled="isReadonly" v-model="this.user.location.street"></v-text-field>
+                                <v-text-field class="py-0" color="green" label="Strasse" :disabled="isReadonly" v-model="this.person.location.street"></v-text-field>
                             </v-col>
                             <v-col cols="3">
-                                <v-text-field class="py-0" color="green" label="Nummer" :disabled="isReadonly" v-model="this.user.location.streetnumber"></v-text-field>
+                                <v-text-field class="py-0" color="green" label="Nummer" :disabled="isReadonly" v-model="this.person.location.streetnumber"></v-text-field>
                             </v-col>
                         </v-row>
 
                         <v-row>
                             <v-col class="py-0" cols="3">
-                                <v-text-field class="py-0" color="green" label="PLZ" :disabled="isReadonly" v-model="this.user.location.postcode"></v-text-field>
+                                <v-text-field class="py-0" color="green" label="PLZ" :disabled="isReadonly" v-model="this.person.location.postcode"></v-text-field>
                             </v-col>
                             <v-col class="py-0" cols="9">
-                                <v-text-field class="py-0" color="green" label="Ort" :disabled="isReadonly" v-model="this.user.location.city"></v-text-field>
+                                <v-text-field class="py-0" color="green" label="Ort" :disabled="isReadonly" v-model="this.person.location.city"></v-text-field>
                             </v-col>
                         </v-row>
                         <v-row class="pt-9">
@@ -64,29 +64,27 @@ export default {
         return {
             isReadonly: true,
             info: null,
-            user: [
+            person: [
                 
             ],
             image: null,
-            username: '',
+            personname: '',
             email: '',
             emailOpt: '',
             firstname: '',
             lastname: '',
             street: '',
             streetnumber: '',
-            PLZ: '',
+            postcode: '',
             city: '',
         }
     },
     mounted(){
-        // this.$validator.validate();
-
         const url = "/person/5cb8d10725839944c26ff1f5";
         var config = {headers: {"userid": "5cb8d10725839944c26ff1f5"}};
         this.$http.get(url, config)
         .then((response) => {
-            this.user = response.data;
+            this.person = response.data;
                 })
         .catch((error) => {
             console.log(error.response)

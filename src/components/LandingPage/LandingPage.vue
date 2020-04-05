@@ -107,12 +107,12 @@ export default {
             text: 'Baum registrieren oder Baum auswählen',
           },
           {
-            icon: 'mdi-shield-outline',
+            icon: 'mdi-food-apple',
             title: '3. Schritt',
             text: 'Früchte ernten und geniessen!',
           },
         {
-            icon: 'mdi-shield-outline',
+            icon: 'mdi-cash',
             title: '4. Schritt',
             text: 'Ernte abschliessen und etwas spenden',
           },
