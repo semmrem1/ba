@@ -9,7 +9,8 @@
                     <v-card-text class="pa-2">
                         
                             <!-- E-MAIL -->
-                            <v-text-field label="E-Mail" v-model="person.email" v-validate="'required'" prepend-icon="mdi-account"/>
+                            <!-- v-validate="'required'" -->
+                            <v-text-field label="E-Mail" v-model="person.email"  prepend-icon="mdi-account"/>
    
                             <!-- PASSWORD -->
                             <v-text-field type="password" label="Passwort" v-model="person.password" prepend-icon="mdi-lock"/>
@@ -23,8 +24,7 @@
                             :disabled="loading"
                             :elevation="5"
                             color="green"
-                            width="100%"
-                            @click="handleLogin">
+                            width="100%">
                             <span v-show="loading" class="spinner-border spinner-border-sm"></span>
                             Login</v-btn>
                         </v-col>
@@ -64,30 +64,30 @@ export default {
         // }
     },
     methods: {
-    handleLogin() {
-      this.loading = true;
-      this.$validator.validateAll().then(isValid => {
-        if (!isValid) {
-          this.loading = false;
-          return;
-        }
+    // handleLogin() {
+    //   this.loading = true;
+    //   this.$validator.validateAll().then(isValid => {
+    //     if (!isValid) {
+    //       this.loading = false;
+    //       return;
+    //     }
 
-        if (this.person.email && this.person.password) {
-          this.$store.dispatch('/login', this.person).then(
-            () => {
-              this.$router.push('/profile');
-            },
-            error => {
-              this.loading = false;
-              this.message =
-                (error.response && error.response.data) ||
-                error.message ||
-                error.toString();
-            }
-          );
-        }
-      });
-    }
+    //     if (this.person.email && this.person.password) {
+    //       this.$store.dispatch('/login', this.person).then(
+    //         () => {
+    //           this.$router.push('/profile');
+    //         },
+    //         error => {
+    //           this.loading = false;
+    //           this.message =
+    //             (error.response && error.response.data) ||
+    //             error.message ||
+    //             error.toString();
+    //         }
+    //       );
+    //     }
+    //   });
+    // }
     }
    
 }

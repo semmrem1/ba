@@ -21,8 +21,8 @@
                     <div>
                         <v-text-field class="py-0" color="green" label="Vorname" :disabled="isReadonly" v-model="this.person.first"></v-text-field>
                         <v-text-field class="py-0" color="green" label="Nachname" :disabled="isReadonly" v-model="this.person.last"></v-text-field>
-                        <v-text-field class="py-0" color="green" label="E-Mail" :disabled="isReadonly" v-model="this.person.email"></v-text-field>
-                        <v-text-field class="py-0" color="green" label="Optionale E-Mail" :disabled="isReadonly" v-model="this.person.email"></v-text-field>
+                        <v-text-field class="py-0" color="green" label="E-Mail" :disabled="isReadonly" v-model="this.person.email.email"></v-text-field>
+                        <v-text-field class="py-0" color="green" label="Optionale E-Mail" :disabled="isReadonly" v-model="this.person.email.email"></v-text-field>
 
                     </div>
                     <div class="pt-7">
@@ -48,7 +48,7 @@
                                 <v-btn class="mx-auto" color="green darken-1 white--text" outlined  @click="makeReadable" width="95%"><v-icon left>mdi-pencil</v-icon>BEARBEITEN</v-btn>
                             </v-col>
                             <v-col class="pr-1 pl-0" cols="7">
-                                <v-btn class="mx-auto mb-1" color="green darken-1 white--text" :disabled="makeSaveable" raised @click="updatePerson" width="95%">SPEICHERN</v-btn>
+                                <v-btn class="mx-auto mb-1" color="green darken-1 white--text" :disabled="makeSaveable" @click="updatePerson" raised  width="95%">SPEICHERN</v-btn>
                             </v-col>
                         </v-row>
                     </div>
@@ -64,23 +64,29 @@ export default {
         return {
             isReadonly: true,
             info: null,
-            person: [
+            person: {
+                title: "",
+                first: "",
+                last: "",
+                cell: "",
+                email: {
+                    email: ""
+                },
+                location: {
+                    street: "",
+                    streetnumber: "",
+                    city: "",
+                    postcode: "",
+                },
                 
-            ],
+                password: ""
+                },
             image: null,
-            personname: '',
-            email: '',
-            emailOpt: '',
-            firstname: '',
-            lastname: '',
-            street: '',
-            streetnumber: '',
-            postcode: '',
-            city: '',
+
         }
     },
     mounted(){
-        const url = "/person/5cb8d10725839944c26ff1f5";
+        const url = "/person/5e8b8cf50a975a541edfda68";
         var config = {headers: {"userid": "5cb8d10725839944c26ff1f5"}};
         this.$http.get(url, config)
         .then((response) => {

@@ -1,7 +1,7 @@
 export default class Person {
-    constructor(title, companyname, first, last, street, streetnumber, postcode, city, cell, email, password) {
+    constructor(title, companyName, first, last, street, streetnumber, postcode, city, cell, email, password) {
       this.title = title;
-      this.companyname = companyname;
+      this.companyName = companyName;
       this.first = first;
       this.last = last;
       this.street = street;

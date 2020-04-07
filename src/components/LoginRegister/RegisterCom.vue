@@ -4,7 +4,7 @@
             <v-card class="ma-0 pa-0" width="90%" max-width="600px" elevation="3">
 
                 <!-- switch between register forms -->
-                <v-btn color="grey lighten-4 grey--text" to="/RegisterPriv" width="50%" large tile depressed>Privat</v-btn>
+                <v-btn color="grey lighten-4 grey--text" to="/registerPriv" width="50%" large tile depressed>Privat</v-btn>
                 <v-btn color="white black--text" width="50%" large tile depressed>Kommerziell</v-btn>
 
                 <v-card-title  class="pa-3 display-1 font-weight-bold">Registrieren</v-card-title>
@@ -18,7 +18,7 @@
                     <div>
                         <v-select :items="items" label="Anrede*" v-model="person.title"></v-select>
                         <!-- <v-text-field class="py-0" color="green" :rules="usernameRules" label="Benutzername" v-model="username" required :counter="0"></v-text-field> -->
-                        <v-text-field class="py-0" color="green" label="Firma/Hofname*" v-model="person.companyname" required></v-text-field>
+                        <v-text-field class="py-0" color="green" label="Firma/Hofname*" v-model="person.companyName" required></v-text-field>
                         <v-text-field class="py-0" color="green" :rules="firstnameRules" label="Vorname*" v-model="person.first" required></v-text-field>
                         <v-text-field class="py-0" color="green" :rules="lastnameRules" label="Nachname*" v-model="person.last" required></v-text-field>
                     </div>
@@ -54,7 +54,7 @@
                             <p class="caption red--text" v-show="email2Alert">E-Mail Adresse bereits vorhanden</p> -->
                             <!-- <v-alert type="warning" dense>{{this.emailAlert}}</v-alert> -->
                             <v-text-field class="py-0" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" @click:append="show = !show" :type="show ? 'text' : 'password'" color="green" :rules="[passwordRules.required, passwordRules.min]" label="Passwort*" v-model="person.password"></v-text-field>
-                            <v-alert v-show="successAlert" class="mt-4" type="success" elevation="2" outlined transition="fade-transition">Registrierung erfolgreich!</v-alert>
+                            <v-alert v-show="successAlert" class="mt-4" type="success" elevation="2" outlined transition="fade-transition"><p class="pa-0 ma-0 font-weight-bold">Registrierung erfolgreich!</p> Ihre Registrierung wird geprüft. Sie erhalten in den nächsten Tagen Bescheid.</v-alert>
                             <v-alert v-show="errorAlert" class="mt-4" type="error" elevation="2" outlined transition="fade-transition">Registrierung fehlgeschlagen!</v-alert>
                         </v-col>
                     </v-row>
@@ -120,7 +120,7 @@ export default {
             valid: true,
             person: {
                 title: "",
-                companyname: "",
+                companyName: "",
                 first: "",
                 last: "",
                 cell: "",
@@ -161,20 +161,11 @@ export default {
             agb: false,
 
     }),
-    mounted: {
-        // alertTimeout: function(){
-        //     this.alert = true;
-        //     setTimeout(() => {
-        //         this.alert = false;
-        //     }, 2000);
-        // }
-
-    },
     
     computed: {
         isComplete(){//button only visible if these fields are filled
             return this.person.age && this.person.agb
-            // this.person.companyname &&
+            // this.person.companyName &&
             // this.person.first &&
             // this.person.last &&
             // this.person.street &&
@@ -191,12 +182,12 @@ export default {
     },
     methods: {
         registerPerson(){
-            const url = "/registerperson";
+            const url = "/registercommercial";
             var config = {headers: {"userid": "5cb8d10725839944c26ff1f5"}};
             var data = 
             {
                 title: this.person.title,
-                companyname: this.person.companyname,
+                companyName: this.person.companyName,
                 first: this.person.first,
                 last: this.person.last,
                 cell: this.person.cell,
@@ -216,7 +207,7 @@ export default {
                 .then((response) => {
                     console.log(response)
                     if (response.data.code == "001") {
-                        this.snackbar2 = true
+                        // this.snackbar2 = true
                         this.successAlert = true
                         this.text = "Registrierung erfolgreich!"
                     } else if(response.data.code == "002"){

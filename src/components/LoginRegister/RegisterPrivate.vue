@@ -5,7 +5,7 @@
                 
                 <!-- switch between register forms -->
                 <v-btn color="white black--text" width="50%" large tile depressed>Privat</v-btn>
-                <v-btn color="grey lighten-4 grey--text" to="/RegisterCom" width="50%" large tile depressed>Kommerziell</v-btn>
+                <v-btn color="grey lighten-4 grey--text" to="/registerCom" width="50%" large tile depressed>Kommerziell</v-btn>
 
                 <v-card-title  class="pa-3 display-1 font-weight-bold">Registrieren</v-card-title>
                 <!-- <v-alert v-show="successAlert" class="mx-2 mt-4 py-1" type="success" transition="fade-transition">Registrierung erfolgreich!</v-alert>
@@ -53,7 +53,7 @@
                             <!-- <v-alert class="caption warning--text mb-8" border="left" colored-border type="warning" dense elevation="2" v-show="emailAlert" v-if="hideAlert" transition="fade-transition">E-Mail Adresse ist ungültig</v-alert>
                             <v-alert class="caption warning--text mb-8" border="left" colored-border type="warning" dense elevation="2" v-show="email2Alert" v-if="hideAlert" transition="fade-transition">E-Mail Adresse bereits vorhanden</v-alert> -->
                             <v-text-field class="py-0" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" @click:append="show = !show" :type="show ? 'text' : 'password'" color="green" :rules="[passwordRules.required, passwordRules.min]" label="Passwort*" v-model="person.password"></v-text-field>
-                            <v-alert v-show="successAlert" class="mt-4" type="success" elevation="2" outlined transition="fade-transition">Registrierung erfolgreich!</v-alert>
+                            <v-alert v-show="successAlert" class="mt-4" type="success" elevation="2" outlined transition="fade-transition"><p class="pa-0 ma-0 font-weight-bold">Registrierung erfolgreich!</p> Bitte bestätige deine E-Mailadresse.</v-alert>
                             <v-alert v-show="errorAlert" class="mt-4" type="error" elevation="2" outlined transition="fade-transition">Registrierung fehlgeschlagen!</v-alert>
                         </v-col>
                     </v-row>
@@ -186,7 +186,7 @@ export default {
     computed: {
         isComplete(){//button only visible if these fields are filled
             return this.person.age && this.person.agb
-            // this.person.companyname &&
+            // this.person.companyName &&
             // this.person.first &&
             // this.person.last &&
             // this.person.street &&
@@ -209,7 +209,7 @@ export default {
             var data = 
             {
                 title: this.person.title,
-                companyname: this.person.companyname,
+                companyName: this.person.companyName,
                 first: this.person.first,
                 last: this.person.last,
                 cell: this.person.cell,
