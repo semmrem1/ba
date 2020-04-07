@@ -1,10 +1,9 @@
 const loginURL = 'http://localhost:3000/';
-const registerURL =  'https://cors-anywhere.herokuapp.com/http://env-9201482.jcloud.ik-server.com/';
+const registerURL =  'https://cors-anywhere.herokuapp.com/http://env-9201482.jcloud.ik-server.com/regiserperson';
 
 class AuthService {
   login(person) {
-    return this.$http
-      .post(loginURL + 'login', {
+    return this.$http.post(loginURL, {
         email: person.email,
         password: person.password
       })
@@ -22,7 +21,7 @@ class AuthService {
   }
 
   register(person) {
-    return this.$http.post(registerURL + 'registerperson', {
+    return this.$http.post(registerURL, {
       email: person.email,
       password: person.password
     });

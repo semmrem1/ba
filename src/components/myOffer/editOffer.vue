@@ -36,7 +36,7 @@
                     <!-- Ort -->
                     <v-row class="justify-center px-4 pt-12 py-0" justify="center">
                         <v-col class="pl-5 py-0" cols="4" xs="5">
-                            <v-card-text class="subtitle-1 font-weight-bold px-0">Adresse:</v-card-text>
+                            <v-card-text class="subtitle-1 font-weight-bold px-0">addresse:</v-card-text>
                         </v-col>
                         <v-col class="py-0" cols="8" xs="7">
                             <v-text-field class="py-0" color="green" label="Strasse" v-model="street"></v-text-field>
@@ -65,7 +65,8 @@
 
 <script>
 export default {
-    data: () => ({
+    data () {
+    return {
         snackbar: false,
         dialog: false,
         counter: 10,
@@ -89,7 +90,8 @@ export default {
         //     date: '22.02.2020',
         // },
         // ],
-    }),
+        }
+    },
     methods: {
         increase: function(){
           this.counter++;

@@ -28,7 +28,8 @@
                 </v-row>
 
                 <v-card-actions class="pt-2 mt-2">
-                   <v-btn class="centered-input mx-auto mb-2" color="green darken-1 white--text" raised @click="dialog = false; snackbar= true" width="95%">ERNTE BUCHEN</v-btn>
+                   <!-- <v-btn class="centered-input mx-auto mb-2" color="green darken-1 white--text" raised @click="dialog = false; snackbar= true" width="95%">ERNTE BUCHEN</v-btn> -->
+                   <bookingOverview/>
                 </v-card-actions>
             </v-card>
             
@@ -37,7 +38,9 @@
 </template>
 
 <script>
+import bookingOverview from "../Offers/bookingOverview"
 export default {
+    components: { bookingOverview },
     data() {
     return {
         snackbar: false,

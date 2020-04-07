@@ -28,7 +28,7 @@
                                 <v-text-field class="py-0" color="green" label="Strasse*" v-model="person.location.street"></v-text-field>
                             </v-col>
                             <v-col cols="3">
-                                <v-text-field class="py-0" color="green" label="Nummer*" v-model="person.location.streetnumber"></v-text-field>
+                                <v-text-field class="py-0" color="green" label="Nr.*" v-model="person.location.streetnumber"></v-text-field>
                             </v-col>
                         </v-row>
                     </div>
@@ -41,7 +41,7 @@
                             <v-text-field class="py-0" color="green" label="Ort*" v-model="person.location.city"></v-text-field>
                         </v-col>
                         <v-col>
-                        <!-- <p class="caption red--text" v-show="addressAlert">Adresse ist ungültig oder unvollständig</p> -->
+                        <!-- <p class="caption red--text" v-show="addressAlert">addresse ist ungültig oder unvollständig</p> -->
                         </v-col>
                     </v-row>
 
@@ -50,8 +50,8 @@
                             <v-text-field class="py-0" color="green" label="Telefon" v-model="person.cell"></v-text-field>
                             <!-- <p class="caption red--text" v-show="phoneAlert">Telefonnummer ist ungültig oder unvollständig</p> -->
                             <v-text-field class="py-0" color="green" :rules="emailRules" label="E-Mail*" v-model="person.email.email"></v-text-field>
-                            <!-- <p class="caption red--text" v-show="emailAlert">E-Mail Adresse ist ungültig</p>
-                            <p class="caption red--text" v-show="email2Alert">E-Mail Adresse bereits vorhanden</p> -->
+                            <!-- <p class="caption red--text" v-show="emailAlert">E-Mail addresse ist ungültig</p>
+                            <p class="caption red--text" v-show="email2Alert">E-Mail addresse bereits vorhanden</p> -->
                             <!-- <v-alert type="warning" dense>{{this.emailAlert}}</v-alert> -->
                             <v-text-field class="py-0" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" @click:append="show = !show" :type="show ? 'text' : 'password'" color="green" :rules="[passwordRules.required, passwordRules.min]" label="Passwort*" v-model="person.password"></v-text-field>
                             <v-alert v-show="successAlert" class="mt-4" type="success" elevation="2" outlined transition="fade-transition"><p class="pa-0 ma-0 font-weight-bold">Registrierung erfolgreich!</p> Ihre Registrierung wird geprüft. Sie erhalten in den nächsten Tagen Bescheid.</v-alert>
@@ -82,7 +82,7 @@
                         </v-col>
                         
                         <v-col class="pr-0 pl-0" cols="8">
-                            <v-btn class="mx-auto mb-1" color="green darken-1 white--text" :disabled="!isComplete" @click="registerPerson()" raised  width="95%">REGISTRIEREN</v-btn>
+                            <v-btn class="mx-auto mb-1" color="green darken-1 white--text" :disabled="!isComplete" @click="registerPerson()" :loading="loading" raised  width="95%">REGISTRIEREN</v-btn>
                         </v-col>
                     </v-row>
                     
@@ -102,7 +102,10 @@
 
 export default {
     name: 'Register',
-    data: () => ({
+    data() {
+        return {
+            loader: null,
+            loading: false,
             snackbar2: false,
             snackbar: false,
             text: '',
@@ -159,8 +162,8 @@ export default {
             show: false,
             age: false,
             agb: false,
-
-    }),
+        }
+    },
     
     computed: {
         isComplete(){//button only visible if these fields are filled
@@ -202,14 +205,15 @@ export default {
                     city: this.person.location.city,
                     postcode: this.person.location.postcode
                 }
-            }    
+            }
+            this.loading = true    
             this.$http.post(url, data, config)
                 .then((response) => {
                     console.log(response)
+                    this.loading = false
                     if (response.data.code == "001") {
                         // this.snackbar2 = true
                         this.successAlert = true
-                        this.text = "Registrierung erfolgreich!"
                     } else if(response.data.code == "002"){
                         this.snackbar = true
                         this.text = "Anrede ungültig oder unvollständig."
@@ -221,13 +225,13 @@ export default {
                         this.text = "Telefonnummer ist ungültig oder unvollständig."
                     } else if(response.data.code == "005"){
                         this.snackbar = true
-                        this.text = "Adresse ungültig (nicht auf local.ch gefunden)."
+                        this.text = "addresse ungültig (nicht auf local.ch gefunden)."
                     } else if(response.data.code == "006"){
                         this.snackbar = true
-                        this.text = "E-Mail Adresse ist ungültig oder unvollständig."
+                        this.text = "E-Mail addresse ist ungültig oder unvollständig."
                     } else if (response.data.code == "007") {
                         this.snackbar = true
-                        this.text = "E-Mail Adresse bereits vorhanden."
+                        this.text = "E-Mail addresse bereits vorhanden."
                     } else if (response.data.code == "099") {
                         this.snackbar = true
                         this.errorAlert = true
@@ -237,6 +241,7 @@ export default {
                 .catch((error) => {
                     console.log(error);
                     this.correct = false
+                    this.loading = false
                 })
         },
         // handleRegister() {

@@ -21,11 +21,10 @@
                     <v-card-actions class="pa-0 pt-4" justify-center>
                         <v-col class="px-2" justify-center cols="12">
                             <v-btn class="btn white--text"
-                            :disabled="loading"
+                            :loading="loading"
                             :elevation="5"
                             color="green"
                             width="100%">
-                            <span v-show="loading" class="spinner-border spinner-border-sm"></span>
                             Login</v-btn>
                         </v-col>
                     </v-card-actions>
@@ -56,14 +55,18 @@ export default {
         },
         loggedIn() {
             return this.$store.state.auth.status.loggedIn;
-        },
-        // created() {
-        //     if (this.loggedIn) {
-        //     this.$router.push('/profile');
-        //     }
-        // }
+        }
+    },
+        created() {
+            if (this.loggedIn) {
+                this.$router.push('/profile')
+            }
     },
     methods: {
+        login(){
+            this.loadig = true;
+
+        }
     // handleLogin() {
     //   this.loading = true;
     //   this.$validator.validateAll().then(isValid => {

@@ -58,10 +58,10 @@
             
         </v-responsive>
 
-            <v-row>
+            <v-row class="justify-center">
                 <v-col v-for="({ icon, title, text }, i) in features" :key="i" cols="12" md="3">
 
-                <v-card class="pt-8 px-4" min-height="225" elevation="3">
+                <v-card class="pt-8 px-4" min-height="250" elevation="3">
                         <v-theme-provider dark>
                             <div>
                                 <v-avatar color="green" size="68">

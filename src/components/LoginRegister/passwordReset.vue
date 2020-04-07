@@ -4,7 +4,7 @@
             <v-card class="ma-0 pa-1" width="90%" max-width="600px" elevation="3">
                     <v-card-title class="pa-3 display-1 font-weight-bold">Passwort anfordern</v-card-title>
                     <v-card-text class="px-3">
-                    Gib deine E-Mailadresse an um ein neues Passwort anzufordern.
+                    Gib deine E-Mailaddresse an um ein neues Passwort anzufordern.
                         <v-form>
                             <v-text-field class="pt-8" label="E-Mail"/>
                         </v-form>

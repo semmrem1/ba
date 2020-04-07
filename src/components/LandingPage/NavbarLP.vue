@@ -1,20 +1,30 @@
 <template>
         <nav>
             <v-app-bar  app class="green" elevation="4">
-                <v-app-bar-nav-icon size="xs" @click="drawer = !drawer"></v-app-bar-nav-icon>
+                <!-- <div v-if="currentUser"> -->
+                    <v-app-bar-nav-icon size="xs" @click="drawer = !drawer"></v-app-bar-nav-icon>
+                <!-- </div> -->
+
                 <v-spacer></v-spacer>
+
                 <v-toolbar-title class="justify-center text-uppercase white--text" color="white" to="/">
                     <span color="white--text">Obst</span>
                     <span class="font-weight-light" >vom</span>
                     <span>Baum</span>
                 </v-toolbar-title>
+
                 <v-spacer></v-spacer>
-                <v-btn text depressed to="/login">
-                    <!-- <v-icon class="pr-1" medium>mdi-login-variant</v-icon> -->
-                    Login</v-btn>
-                <!-- <v-btn icon color="black" to="/profile">
-                    <v-icon>mdi-account</v-icon>
-                </v-btn> -->
+
+                <!-- if already logged in -->
+                <!-- <div v-if="currentUser">
+                    <v-btn icon color="black" to="/profile"><v-icon>mdi-account</v-icon></v-btn>
+                </div> -->
+
+                <!-- if not logged in -->
+                <!-- <div v-if="!currentUser"> -->
+                    <v-btn text depressed to="/login">Login</v-btn>
+                <!-- </div> -->
+
             </v-app-bar>
             
             <v-navigation-drawer color="green lighten-5" temporary width="320" v-model="drawer" app class="green" fluid>
@@ -58,8 +68,52 @@ export default {
                 { icon: "mdi-file-check", text: "gebuchte Ernten", route: "/cropHistory"},
                 { icon: "mdi-file-plus", text: "Angebot erfassen", route: "/createOffer"},
                 { icon: "mdi-file-multiple", text: "meine Angebote", route: "/myOffers"},
-            ]
-            }
-        },
-}
+            ],
+            person: {
+                title: "",
+                first: "",
+                last: "",
+                cell: "",
+                email: {
+                    email: ""
+                },
+                location: {
+                    street: "",
+                    streetnumber: "",
+                    city: "",
+                    postcode: "",
+                },
+                
+                password: ""
+                },
+            image: null,
+
+        }
+
+},
+    // watch: {
+    //     mounted(){
+    //         const url = "/person/5e8b8cf50a975a541edfda68";
+    //         var config = {headers: {"userid": "5cb8d10725839944c26ff1f5"}};
+    //         this.$http.get(url, config)
+    //         .then((response) => {
+    //             this.person = response.data;
+    //                 })
+    //         .catch((error) => {
+    //             console.log(error.response)
+    //         })
+    // },
+    // },
+    // computed: {
+    //     currentUser() {
+    //         return this.$store.state.auth.user;
+    //     }
+    // },
+    methods: {
+        logOut() {
+            this.$store.dispatch('auth/logout');
+            this.$router.push('/login');
+    }
+  }
+};
 </script>

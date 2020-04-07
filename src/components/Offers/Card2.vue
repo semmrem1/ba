@@ -76,7 +76,7 @@
 
                 <v-row>
                   <v-spacer></v-spacer>
-                  <span class="justify-end mr-3 mt-7 pt-0 pr-3"><confirmBooking /></span>
+                  <span class="justify-end mr-3 mt-7 pt-0 pr-3"><confirmBooking/></span>
                 </v-row>
               </v-col>
             </v-row> 

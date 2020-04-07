@@ -28,7 +28,7 @@
                                 <v-text-field class="py-0" color="green" label="Strasse*" v-model="person.location.street"></v-text-field>
                             </v-col>
                             <v-col cols="3">
-                                <v-text-field class="py-0" color="green" label="Nummer*" v-model="person.location.streetnumber"></v-text-field>
+                                <v-text-field class="py-0" color="green" label="Nr.*" v-model="person.location.streetnumber"></v-text-field>
                             </v-col>
                         </v-row>
                     </div>
@@ -41,7 +41,7 @@
                             <v-text-field class="py-0" color="green" label="Ort*" v-model="person.location.city"></v-text-field>
                         </v-col>
                         <v-col>
-                        <!-- <v-alert class="caption red--text" v-show="addressAlert">Adresse ist ungültig oder unvollständig</v-alert> -->
+                        <!-- <v-alert class="caption red--text" v-show="addressAlert">addresse ist ungültig oder unvollständig</v-alert> -->
                         </v-col>
                     </v-row>
 
@@ -50,10 +50,10 @@
                             <v-text-field class="py-0" color="green" label="Telefon" v-model="person.cell"></v-text-field>
                             <!-- <v-alert class="caption warning--text mb-8" border="left" colored-border type="warning" dense elevation="2" v-show="phoneAlert">Telefonnummer ist ungültig oder unvollständig</v-alert> -->
                             <v-text-field class="py-0" color="green" :rules="emailRules" label="E-Mail*" v-model="person.email.email"></v-text-field>
-                            <!-- <v-alert class="caption warning--text mb-8" border="left" colored-border type="warning" dense elevation="2" v-show="emailAlert" v-if="hideAlert" transition="fade-transition">E-Mail Adresse ist ungültig</v-alert>
-                            <v-alert class="caption warning--text mb-8" border="left" colored-border type="warning" dense elevation="2" v-show="email2Alert" v-if="hideAlert" transition="fade-transition">E-Mail Adresse bereits vorhanden</v-alert> -->
+                            <!-- <v-alert class="caption warning--text mb-8" border="left" colored-border type="warning" dense elevation="2" v-show="emailAlert" v-if="hideAlert" transition="fade-transition">E-Mail addresse ist ungültig</v-alert>
+                            <v-alert class="caption warning--text mb-8" border="left" colored-border type="warning" dense elevation="2" v-show="email2Alert" v-if="hideAlert" transition="fade-transition">E-Mail addresse bereits vorhanden</v-alert> -->
                             <v-text-field class="py-0" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" @click:append="show = !show" :type="show ? 'text' : 'password'" color="green" :rules="[passwordRules.required, passwordRules.min]" label="Passwort*" v-model="person.password"></v-text-field>
-                            <v-alert v-show="successAlert" class="mt-4" type="success" elevation="2" outlined transition="fade-transition"><p class="pa-0 ma-0 font-weight-bold">Registrierung erfolgreich!</p> Bitte bestätige deine E-Mailadresse.</v-alert>
+                            <v-alert v-show="successAlert" class="mt-4" type="success" elevation="2" outlined transition="fade-transition"><p class="pa-0 ma-0 font-weight-bold">Registrierung erfolgreich!</p> Bitte bestätige deine E-Mailaddresse.</v-alert>
                             <v-alert v-show="errorAlert" class="mt-4" type="error" elevation="2" outlined transition="fade-transition">Registrierung fehlgeschlagen!</v-alert>
                         </v-col>
                     </v-row>
@@ -81,7 +81,9 @@
                             </v-btn>
                         </v-col>
                         <v-col class="pr-0 pl-0" cols="8">
-                            <v-btn class="mx-auto mb-1" color="green darken-1 white--text" :disabled="!isComplete" raised @click="registerPerson()" width="95%">REGISTRIEREN</v-btn>
+                            <v-btn class="mx-auto mb-1" color="green darken-1 white--text" :disabled="!isComplete" :loading="loading" raised @click="registerPerson()" width="95%">
+                                <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+                                REGISTRIEREN</v-btn>
                         </v-col>
                     </v-row>
                     
@@ -101,7 +103,10 @@
 
 export default {
     name: 'Register',
-    data: () => ({
+    data(){
+        return {
+            loader: null,
+            loading: false,
             snackbar2: false,
             snackbar: false,
             text: '',
@@ -142,7 +147,7 @@ export default {
             'Frau',
             ],
             addressRules: [
-                v => !!v || 'Adresse ist nicht vollständig',
+                v => !!v || 'addresse ist nicht vollständig',
             ],
             firstnameRules: [
                 v => !!v || 'Vorname ist erforderlich',
@@ -160,8 +165,8 @@ export default {
             show: false,
             age: false,
             agb: false,
-
-    }),
+        };
+    },
     mounted() {
         // this.$http.interceptors.request.use(
         // config => {
@@ -209,7 +214,6 @@ export default {
             var data = 
             {
                 title: this.person.title,
-                companyName: this.person.companyName,
                 first: this.person.first,
                 last: this.person.last,
                 cell: this.person.cell,
@@ -225,11 +229,14 @@ export default {
                     postcode: this.person.location.postcode
                 }
             }    
+            this.loading = true
             this.$http.post(url, data, config)
+            
                 .then((response) => {
                     console.log(response)
+                    this.loading = false
                     if (response.data.code == "001") {
-                        this.snackbar2 = true
+                        // this.snackbar2 = true
                         this.successAlert = true
                         this.text = "Registrierung erfolgreich!"
                     } else if(response.data.code == "002"){
@@ -243,13 +250,13 @@ export default {
                         this.text = "Telefonnummer ist ungültig oder unvollständig."
                     } else if(response.data.code == "005"){
                         this.snackbar = true
-                        this.text = "Adresse ungültig (nicht auf local.ch gefunden)."
+                        this.text = "addresse ungültig (nicht auf local.ch gefunden)."
                     } else if(response.data.code == "006"){
                         this.snackbar = true
-                        this.text = "E-Mail Adresse ist ungültig oder unvollständig."
+                        this.text = "E-Mail addresse ist ungültig oder unvollständig."
                     } else if (response.data.code == "007") {
                         this.snackbar = true
-                        this.text = "E-Mail Adresse bereits vorhanden."
+                        this.text = "E-Mail addresse bereits vorhanden."
                     } else if (response.data.code == "099") {
                         this.snackbar = true
                         this.errorAlert = true
@@ -260,6 +267,7 @@ export default {
                 .catch((error) => {
                     console.log(error);
                     console.log("run into error")
+                    this.loading = false
                 })
         },
         // handleRegister() {

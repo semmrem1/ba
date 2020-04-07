@@ -27,6 +27,7 @@ export default {
       
   }),
   mounted() {
+      // AXIOS REQUEST LOGGER
       this.$http.interceptors.request.use(
       config => {
           console.log(
