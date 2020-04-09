@@ -28,8 +28,8 @@
                 </v-row>
 
                 <v-card-actions class="pt-2 mt-2">
-                   <!-- <v-btn class="centered-input mx-auto mb-2" color="green darken-1 white--text" raised @click="dialog = false; snackbar= true" width="95%">ERNTE BUCHEN</v-btn> -->
-                   <bookingOverview/>
+                   <!-- <v-btn class="centered-input mx-auto mb-2" color="green darken-1 white--text" raised @click="showBooking()" width="95%">ERNTE BUCHEN</v-btn> -->
+                   <bookingOverview @click="dialog=false"></bookingOverview>
                 </v-card-actions>
             </v-card>
             
@@ -49,7 +49,8 @@ export default {
             color: "green",
             width: 290,
         },  
-        counter: 10
+        counter: 10,
+        currentDialog: null,
     };
 
   },
@@ -62,7 +63,10 @@ export default {
             this.counter--;              
           }
 
-      }
+      },
+      showBooking(){
+        //   this.currentDialog = components
+      },
   }
 };
 

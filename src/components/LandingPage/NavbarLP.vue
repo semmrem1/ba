@@ -109,6 +109,11 @@ export default {
     //         return this.$store.state.auth.user;
     //     }
     // },
+    computed: {
+        currentUser() {
+            return this.$store.state.auth.user;
+        }
+    },
     methods: {
         logOut() {
             this.$store.dispatch('auth/logout');

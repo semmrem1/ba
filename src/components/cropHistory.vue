@@ -18,7 +18,7 @@
                 <v-col class="pr-0" cols="3">
                     <v-card-text class="py-0 pr-0 font-weight-bold">Menge:</v-card-text>
                     <v-card-text class="py-0 pr-0 font-weight-bold">Datum:</v-card-text>
-                    <v-card-text class="py-3 pr-0 font-weight-bold">addresse:</v-card-text>
+                    <v-card-text class="py-3 pr-0 font-weight-bold">Addresse:</v-card-text>
                 </v-col>
                 <v-col class="pl-0" cols="8">
                     <v-card-text class="py-0">{{ item.quantity }}</v-card-text>

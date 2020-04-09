@@ -16,33 +16,42 @@
                         <input type="file" style="display: none" ref="fileInput" accept="image/*"/>
                     </v-col>
                 </v-row>
-                <v-dialog v-show="successAlert" class="mt-4 mx-4" type="success" elevation="3" outlined dense transition="fade-transition">Änderungen erfolgreich gespeichert!</v-dialog>
+                <v-alert v-show="successAlert" class="mt-4 mx-4" type="success" elevation="2" outlined transition="fade-transition">Änderungen erfolgreich gespeichert!</v-alert>
+                <v-alert v-show="errorAlert" class="mt-4 mx-4" type="error" elevation="2" outlined transition="fade-transition">Änderungen fehlgeschlagen!</v-alert>
                 <!-- Form -->
                 <v-form class="px-3 pt-6">
                     <div>
-                        <v-text-field class="py-0" color="green" label="Vorname" :readonly="isReadonly" v-model="this.person.first"></v-text-field>
-                        <v-text-field class="py-0" color="green" label="Nachname" :readonly="isReadonly" v-model="this.person.last"></v-text-field>
-                        <v-text-field class="py-0" color="green" label="E-Mail" :readonly="isReadonly" v-model="this.person.email.email"></v-text-field>
-                        <v-text-field class="py-0" color="green" label="Optionale E-Mail" :readonly="isReadonly" v-model="this.person.email.email"></v-text-field>
-                        <v-text-field class="py-0" color="green" label="Telefon" :readonly="isReadonly" v-model="this.person.cell"></v-text-field>
+                        <!-- <v-text-field class="py-0" color="green" label="uuid" disabled v-model="this.person.uuid"></v-text-field> -->
+                        <v-text-field class="py-0" color="green" label="Vorname" :readonly="isReadonly" v-model="person.first"></v-text-field>
+                        <v-text-field class="py-0" color="green" label="Nachname" :readonly="isReadonly" v-model="person.last"></v-text-field>
+                        <!-- <v-text-field class="py-0" color="green" label="E-Mail uuid" disabled v-model="this.person.email.uuid"></v-text-field> -->
+                        <v-text-field class="py-0" color="green" label="E-Mail" :readonly="isReadonly" v-model="person.email.email"></v-text-field>
+                        <v-text-field class="py-0" color="green" label="Optionale E-Mail" :readonly="isReadonly" v-model="person.email.sndEmail"></v-text-field>
+                        <v-text-field class="py-0" color="green" label="Telefon" :readonly="isReadonly" v-model="person.cell"></v-text-field>
+                        
 
                     </div>
                     <div class="pt-7">
+                        <!-- <v-row>
+                            <v-col>
+                                <v-text-field class="py-0" color="green" label="location uuid" disabled="" v-model="this.person.location.uuid"></v-text-field>
+                            </v-col>
+                        </v-row> -->
                         <v-row>
                             <v-col cols="9">
-                                <v-text-field class="py-0" color="green" label="Strasse" :readonly="isReadonly" v-model="this.person.location.street"></v-text-field>
+                                <v-text-field class="py-0" color="green" label="Strasse" :readonly="isReadonly" v-model="person.location.street"></v-text-field>
                             </v-col>
                             <v-col cols="3">
-                                <v-text-field class="py-0" color="green" label="Nr." :readonly="isReadonly" v-model="this.person.location.streetnumber"></v-text-field>
+                                <v-text-field class="py-0" color="green" label="Nr." :readonly="isReadonly" v-model="person.location.streetnumber"></v-text-field>
                             </v-col>
                         </v-row>
 
                         <v-row>
                             <v-col class="py-0" cols="3">
-                                <v-text-field class="py-0" color="green" label="PLZ" :readonly="isReadonly" v-model="this.person.location.postcode"></v-text-field>
+                                <v-text-field class="py-0" color="green" label="PLZ" :readonly="isReadonly" v-model="person.location.postcode"></v-text-field>
                             </v-col>
                             <v-col class="py-0" cols="9">
-                                <v-text-field class="py-0" color="green" label="Ort" :readonly="isReadonly" v-model="this.person.location.city"></v-text-field>
+                                <v-text-field class="py-0" color="green" label="Ort" :readonly="isReadonly" v-model="person.location.city"></v-text-field>
                             </v-col>
                         </v-row>
                         <v-row class="pt-9">
@@ -51,6 +60,7 @@
                             </v-col>
                             <v-col class="pr-1 pl-0" cols="7">
                                 <v-btn class="mx-auto mb-1" color="green darken-1 white--text" :disabled="makeSaveable" @click="updatePerson" :loading="loading" raised  width="95%">SPEICHERN</v-btn>
+                                <v-btn @click="getPerson" color="grey" text small>get /person</v-btn>
                             </v-col>
                         </v-row>
                     </div>
@@ -69,16 +79,21 @@ export default {
             isReadonly: true,
             snackbar: false,
             successAlert: false,
+            errorAlert: false,
             info: null,
+
             person: {
+                uuid: "",
                 title: "",
                 first: "",
                 last: "",
                 cell: "",
                 email: {
+                    uuid: "",
                     email: ""
                 },
                 location: {
+                    uuid: "",
                     street: "",
                     streetnumber: "",
                     city: "",
@@ -96,7 +111,11 @@ export default {
         const l = this.loader
         this[l] = !this[l]
 
-        setTimeout(() => (this[l] = false), 3000)
+        // setTimeout(this.successAlert = false, 1000)
+        // setTimeout(function() {this.successAlert = true }.bind(this), 1000)
+        setTimeout(() => {
+            this.successAlert()
+        }, 1000);
 
         this.loader = null
       },
@@ -108,40 +127,14 @@ export default {
     //     if (!this.currentUser) {
     //         this.$router.push('/login');
     //     }
-        this.loading = true
         const url = "/person/5e8b8cf50a975a541edfda68";
         var config = {headers: {"userid": "5cb8d10725839944c26ff1f5"}};
         this.$http.get(url, config)
         .then((response) => {
+            console.log(response)
             this.loading = false
             this.person = response.data;
-            if (response.data.code == "001") {
-                        // this.snackbar2 = true
-                        this.successAlert = true
-                    } else if(response.data.code == "002"){
-                        this.snackbar = true
-                        this.text = "Anrede ungültig oder unvollständig."
-                    } else if(response.data.code == "003"){
-                        this.snackbar = true
-                        this.text = "Name ungültig oder unvollständig."
-                    } else if (response.data.code == "004") {
-                        this.snackbar = true
-                        this.text = "Telefonnummer ist ungültig oder unvollständig."
-                    } else if(response.data.code == "005"){
-                        this.snackbar = true
-                        this.text = "addresse ungültig (nicht auf local.ch gefunden)."
-                    } else if(response.data.code == "006"){
-                        this.snackbar = true
-                        this.text = "E-Mail addresse ist ungültig oder unvollständig."
-                    } else if (response.data.code == "007") {
-                        this.snackbar = true
-                        this.text = "E-Mail addresse bereits vorhanden."
-                    } else if (response.data.code == "099") {
-                        this.snackbar = true
-                        this.errorAlert = true
-                        this.text = "Nicht berechtigt."
-                    }
-                })
+        })
         .catch((error) => {
             this.loading = false
             console.log(error.response)
@@ -158,6 +151,20 @@ export default {
     },
 
     methods: {
+        getPerson(){
+            const url = "/person/5e8b8cf50a975a541edfda68";
+            var config = {headers: {"userid": "5cb8d10725839944c26ff1f5"}};
+            this.$http.get(url, config)
+            .then((response) => {
+                console.log(response)
+                this.loading = false
+                this.person = response.data;
+            })
+            .catch((error) => {
+                this.loading = false
+                console.log(error.response)
+        })
+        },
         makeReadable(){
             this.isReadonly = false
         },
@@ -166,16 +173,20 @@ export default {
             var config = {headers: {"userid": "5cb8d10725839944c26ff1f5"}};
             var data = 
             {
+                uuid: this.person.uuid,
                 title: this.person.title,
                 first: this.person.first,
                 last: this.person.last,
                 cell: this.person.cell,
                 email: 
                 {
-                    email: this.person.email.email
+                    uuid: this.person.email.uuid,
+                    email: this.person.email.email,
+                    sndEmail: this.person.email.sndEmail
                 },
                 location:
                 {
+                    uuid: this.person.location.uuid,
                     street: this.person.location.street,
                     streetnumber: this.person.location.streetnumber,
                     city: this.person.location.city,
@@ -186,19 +197,16 @@ export default {
             this.$http.post(url, data, config)
             .then((response) => {
                 console.log(response)
-                this.successAlert = true
                 this.loading = false
-                // this.snackbar = true
+                this.successAlert = true
                 this.isReadonly = true
             })
-            .catch(err => console.error(err));
+            .catch((error) => {
                 this.loading = false
-        },
-
-        // editPerson: function(person) {
-        //     this._originalPerson = Object.assign({}, person);
-        //     person.edit = true;
-        // },
+                this.errorAlert = true
+                console.log(error.response)
+        })
+        }
         // getUser(){
         //     const url = "/person/5cb8d10725839944c26ff1f5";
         //     var config = {headers: {"userid": "5cb8d10725839944c26ff1f5"}};

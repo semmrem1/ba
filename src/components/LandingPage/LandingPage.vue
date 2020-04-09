@@ -95,7 +95,7 @@
                   ></div>
 
                   <div
-                    class="title font-weight-regular text-uppercase"
+                    class="title font-weight-bold text-uppercase"
                     v-text="title"
                   ></div>
                 </div>

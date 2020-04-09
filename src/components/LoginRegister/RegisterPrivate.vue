@@ -250,7 +250,7 @@ export default {
                         this.text = "Telefonnummer ist ungültig oder unvollständig."
                     } else if(response.data.code == "005"){
                         this.snackbar = true
-                        this.text = "addresse ungültig (nicht auf local.ch gefunden)."
+                        this.text = "Addresse ungültig (nicht auf local.ch gefunden)."
                     } else if(response.data.code == "006"){
                         this.snackbar = true
                         this.text = "E-Mail addresse ist ungültig oder unvollständig."

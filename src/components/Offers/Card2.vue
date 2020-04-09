@@ -5,7 +5,7 @@
         <v-col class="pa-0 pl-1" cols="12">
           <v-combobox
             v-model="fruit"
-            :fruits="fruits"
+            :items="fruits"
             color="green"
             label="Obstsorte"
             clearable
