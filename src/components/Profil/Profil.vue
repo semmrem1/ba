@@ -21,7 +21,7 @@
                 <!-- Form -->
                 <v-form class="px-3 pt-6">
                     <div>
-                        <!-- <v-text-field class="py-0" color="green" label="uuid" disabled v-model="this.person.uuid"></v-text-field> -->
+                        <v-text-field class="py-0" color="green" label="uuid" disabled v-model="person.uuid"></v-text-field>
                         <v-text-field class="py-0" color="green" label="Vorname" :readonly="isReadonly" v-model="person.first"></v-text-field>
                         <v-text-field class="py-0" color="green" label="Nachname" :readonly="isReadonly" v-model="person.last"></v-text-field>
                         <!-- <v-text-field class="py-0" color="green" label="E-Mail uuid" disabled v-model="this.person.email.uuid"></v-text-field> -->
