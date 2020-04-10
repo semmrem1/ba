@@ -8,7 +8,7 @@
                     <!-- Avatar -->
                     <v-col class="pl-6 pr-0">
                         <v-avatar size="150">
-                            <v-img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80"></v-img>
+                            <v-img src="https://www.la-nt.de/img/dummy.jpg"></v-img>
                         </v-avatar>
                     </v-col>
                     <v-col class="d-flex align-center pl-0 px-3">
@@ -60,7 +60,7 @@
                             </v-col>
                             <v-col class="pr-1 pl-0" cols="7">
                                 <v-btn class="mx-auto mb-1" color="green darken-1 white--text" :disabled="makeSaveable" @click="updatePerson" :loading="loading" raised  width="95%">SPEICHERN</v-btn>
-                                <v-btn @click="getPerson" color="grey" text small>get /person</v-btn>
+                                <!-- <v-btn @click="getPerson" color="grey" text small>get /person</v-btn> -->
                             </v-col>
                         </v-row>
                     </div>
@@ -127,8 +127,8 @@ export default {
     //     if (!this.currentUser) {
     //         this.$router.push('/login');
     //     }
-        const url = "/person/5e8b8cf50a975a541edfda68";
-        var config = {headers: {"userid": "5cb8d10725839944c26ff1f5"}};
+        const url = "/person/5e8c0e8e0a975a541edfda6b";
+        var config = {headers: {"userid": "5e8c0e8e0a975a541edfda6b"}};
         this.$http.get(url, config)
         .then((response) => {
             console.log(response)
@@ -152,8 +152,8 @@ export default {
 
     methods: {
         getPerson(){
-            const url = "/person/5e8b8cf50a975a541edfda68";
-            var config = {headers: {"userid": "5cb8d10725839944c26ff1f5"}};
+            const url = "/person/5e8c0e8e0a975a541edfda6b";
+            var config = {headers: {"userid": "5e8c0e8e0a975a541edfda6b"}};
             this.$http.get(url, config)
             .then((response) => {
                 console.log(response)

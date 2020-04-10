@@ -24,12 +24,29 @@
                     </v-row>
                 <!-- Form -->
                 <!-- v-model="valid" -->
-                <v-form ref="form" lazy-validation class="px-3 pt-0">
-
+                <v-form ref="form" lazy-validation class="px-3 pt-0">                    
+                    <v-alert v-show="alertResponse" class="mt-4" type="error" elevation="2" outlined transition="fade-transition">{{alert}}</v-alert>
                     <v-card-title class="pl-0 pb-2">Obstaum:</v-card-title>
 
-                        <v-text-field class="py-0" color="green" :rules="treenameRules" label="Name" v-model="treename"></v-text-field>
-                        <v-combobox color="green" label="Typ/Sorte" :items="types"></v-combobox>
+                        <!-- <v-text-field class="py-0" color="green" :rules="treenameRules" label="Name" v-model="treename"></v-text-field> -->
+                        <v-select
+                        :items="types"
+                        name="type"
+                        label="Kategorie*"
+                        :rules="categoryRules"
+                        v-model="product.category"
+                        item-text="name"
+                        item-value="uuid"
+                        color="green"
+                        >    
+                        </v-select>
+                        <p>{{category}}</p>
+                        <!-- <p>{{category.name}}</p> -->
+                        <!-- {{categoy}} -->
+                        {{this.category}}
+                        <!-- {{this.types.item-text}}
+                        {{this.types.item-value}} -->
+                        <!-- <p>{{category.uuid}}</p> -->
 
                     <!-- ### ERNTE ### -->
                     <v-card-title class="pl-0 pt-0 pb-2">Ernte:</v-card-title>
@@ -42,7 +59,7 @@
                             <v-row class="py-0">
                                 <v-col class="py-0" cols="6" sm="3">
                                     <v-menu
-                                        v-model="menu"
+                                        v-model="menuFrom"
                                         :nudge-right="40"
                                         transition="scale-transition"
                                         offset-y
@@ -51,18 +68,17 @@
                                     >
                                         <template v-slot:activator="{ on }">
                                             <v-text-field
-                                            v-model="dateFormatted"
+                                            v-model="product.dateFrom"
                                             label="Von"
-                                            @blur="date = parseDate(dateFormatted)"
                                             color="green"
                                             v-on="on"
                                             ></v-text-field>
                                         </template>
-                                        <v-date-picker v-model="dateFrom" :rules="dateRules" color="green" @input="menuFrom = true"></v-date-picker>
+                                        <v-date-picker v-model="product.dateFrom" :rules="dateRules" color="green" @input="menuFrom = true"></v-date-picker>
                                     </v-menu>
                                 </v-col>
                                 <v-col class="py-0" cols="6" sm="2">
-                                    <v-text-field suffix="Uhr" color="green" v-model="time" :rules="timeRules" placeholder="12:00"></v-text-field>
+                                    <v-text-field suffix="Uhr" color="green" v-model="product.timeFrom" placeholder="12:00"></v-text-field>
                                 </v-col>
                                 <v-col class="py-0" cols="0" sm="2">
 
@@ -70,7 +86,7 @@
                                 <!-- Datum bis -->
                                 <v-col class="py-0" cols="6" sm="3">
                                         <v-menu
-                                            v-model="menu"
+                                            v-model="menuUntil"
                                             :nudge-right="40"
                                             transition="scale-transition"
                                             offset-y
@@ -79,28 +95,28 @@
                                         >
                                             <template v-slot:activator="{ on }">
                                                 <v-text-field
-                                                v-model="dateFormatted"
-                                                label="Bis"
-                                                @blur="date = parseDate(dateFormatted)"
+                                                v-model="product.dateUntil"
+                                                label="Bis*"
+                                                :rules="dateRules"
                                                 color="green"
                                                 v-on="on"
                                                 ></v-text-field>
                                             </template>
-                                            <v-date-picker v-model="dateUntil" :rules="dateRules" color="green" @input="menuUntil = true"></v-date-picker>
+                                            <v-date-picker v-model="product.dateUntil" :rules="dateRules" color="green" @input="menuUntil = true"></v-date-picker>
                                         </v-menu>
                                     </v-col>
                                     <v-col class="py-0" cols="6" sm="2">
-                                        <v-text-field suffix="Uhr" color="green" v-model="time" :rules="timeRules" placeholder="12:00"></v-text-field>
+                                        <v-text-field suffix="Uhr" color="green" v-model="product.timeUntil" placeholder="12:00"></v-text-field>
                                     </v-col>
                             </v-row>
 
                             <!-- Menge -->
                             <v-row>
                                 <v-col class="pt-0" cols="6" sm="3">
-                                    <v-text-field  color="green" :rules="avQuantityRules" v-model="avQuantity" placeholder="10" label="Menge" suffix="kg"></v-text-field>
+                                    <v-text-field  color="green" :rules="avQuantityRules" v-model="product.amount" placeholder="10" label="Menge*" suffix="kg"></v-text-field>
                                 </v-col>
                                 <v-col class="pt-0" cols="6" sm="4">
-                                    <v-combobox v-model="line.repeat" :items="items" color="green" label="Wiederkehrend"></v-combobox>
+                                    <v-combobox v-model="line.repeat" :items="repeat" color="green" label="Wiederkehrend"></v-combobox>
                                 </v-col>
                                 <!-- <v-col class="pt-0" cols="0">
                                 </v-col> -->
@@ -111,23 +127,26 @@
                                         </v-radio-group>
                                     </v-col>
                             </v-row>
+                            <!-- <p>{{this.line.amount}}</p> -->
+                            
 
 
                               <v-text class="font-weight-bold">Addresse:</v-text>
                                 <v-row>
                                     <v-col cols="9">
-                                        <v-text-field class="py-0" color="green" label="Strasse" :rules="streetRules" v-model="line.street"></v-text-field>
+                                        <v-text-field class="py-0" color="green" label="Strasse*" :rules="streetRules" v-model="product.street"></v-text-field>
+
                                     </v-col>
                                     <v-col cols="3">
-                                        <v-text-field class="py-0" color="green" label="Nr." :rules="streetnumberRules" v-model="line.streetnumber"></v-text-field>
+                                        <v-text-field class="py-0" color="green" label="Nr." v-model="product.streetnumber"></v-text-field>
                                     </v-col>
                                 </v-row>
                                 <v-row>
                                     <v-col class="py-0" cols="3">
-                                        <v-text-field class="py-0" color="green" label="PLZ" :rules="postcodeRules" v-model="line.postcode"></v-text-field>
+                                        <v-text-field class="py-0" color="green" label="PLZ*" :rules="postcodeRules" v-model="product.postcode"></v-text-field>
                                     </v-col>
                                     <v-col class="py-0" cols="9">
-                                        <v-text-field class="py-0" color="green" label="Ort" :rules="cityRules" v-model="line.city"></v-text-field>
+                                        <v-text-field class="py-0" color="green" label="Ort*" :rules="cityRules" v-model="product.city"></v-text-field>
                                     </v-col>
                                 </v-row>
                         </v-card>
@@ -155,7 +174,7 @@
                             </v-btn>
                         </v-col>
                         <v-col class="pr-0 pl-0" cols="8">
-                            <v-btn class="mx-auto mb-1" color="green darken-1 white--text" raised @click="validate" width="95%">SPEICHERN</v-btn>
+                            <v-btn class="mx-auto mb-1" color="green darken-1 white--text" raised @click="postProduct()" :loading="loading" width="95%">SPEICHERN</v-btn>
                         </v-col>
                     </v-row>
                 </v-form>
@@ -168,22 +187,25 @@
   export default {
     data() {
         return {   
+            loader: null,
+            loading: false,
             index: 0,
-            items: [
+            alert: '',
+            alertResponse: false,
+            repeat: [
             'täglich',
             'wöchentlich',
             'monatlich',
             'jährlich',
             ],
             types: [
-            'Äpfel',
-            'Birnen',
-            'Beeren',
+
             ],
             radios: '',
+            category: '',
             treename: '',
-            treenameRules: [
-                v => !!v || 'Baumname ist erforderlich',
+            categoryRules: [
+                v => !!v || 'Kategorie ist erforderlich',
             ],
             dateFrom: new Date().toISOString().substr(0, 10),
             dateUntil: new Date().toISOString().substr(0, 10),
@@ -193,7 +215,8 @@
             dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
             menuFrom: false,
             menuUntil: false,
-            time: '',
+            timeFrom: '',
+            timeUntil: '',
             timeRules: [
                 v => !!v || 'Zeit ist erforderlich',
             ],
@@ -218,6 +241,19 @@
                 v => !!v || 'Ort ist erforderlich',
             ],
             lines: [],
+            product: {
+                category: "",
+                dateFrom: "",
+                timeFrom: "",
+                dateUntil: "",
+                timeUntil: "",
+                amount: "",
+                street: "",
+                streetnumber: "",
+                postcode: "",
+                city: ""
+
+            },
             cropCheckbox: false,
             takeCheckbox: false,
             place: "",
@@ -227,6 +263,20 @@
             
             
         }
+    },
+    mounted(){
+        this.addLine()
+        const url = "/category";
+        var config = {headers: {"userid": "5e8c0e8e0a975a541edfda6b"}};
+        this.$http.get(url, config)
+        .then((response) => {
+            console.log(response)
+            this.types = response.data
+        })
+        .catch((error) => {
+            this.loading = false
+            console.log(error.response)
+        })
     },
 
     computed: {
@@ -239,14 +289,30 @@
         lines () {
          this.blockRemoval = this.lines.length <= 1
         },
+        
   },
 
     methods: {
-        validate () {
-        this.$refs.form.validate()
+        getCategory(){
+            const url = "/category";
+        var config = {headers: {"userid": "5e8c0e8e0a975a541edfda6b"}};
+        this.$http.get(url, config)
+        .then((response) => {
+            console.log(response)
+            console.log(response.data)
+            this.types = response.data
+        })
+        .catch((error) => {
+            this.loading = false
+            console.log(error.response)
+        })
         },
+        
         reset () {
         this.$refs.form.reset()
+        },
+        validate () {
+         this.$refs.form.validate()
         },
         formatDate (date) {
             if (!date) return null
@@ -278,13 +344,52 @@
             if (!this.blockRemoval){
                 this.lines.splice(lineId, 1)
             }
+        },
+        postProduct(){
+            if (this.$refs.form.validate()) {
+            const url = "/product";
+            var config = {headers: {"userid":"5e8c0e8e0a975a541edfda6b"}};
+            var data=
+            {
+                owner: {
+                    uuid: "5e8c0e8e0a975a541edfda6b"
+                },
+                category: {
+                    uuid: this.product.category
+                },
+                offers: [{
+                    location: {
+                        uuid: "5e8c0e8e0a975a541edfda6a"
+                    },
+                    toBeCropped: true,
+                    amountInKg: this.product.amount,
+                    from: this.product.dateFrom,
+                    until: this.product.dateUntil
+
+                },
+                ]
+
+            }
+            this.loading = true
+            this.$http.post(url, data, config)
+            .then((response) => {
+                console.log(response)
+                this.alertResponse = true
+                this.alert = response.data.description
+                this.loading = false
+                console.log("run into success")
+            })
+            .catch((error) => {
+                console.log(error)
+                console.log("run into error")
+                this.loading = false
+            })
+        }
         }
 
 
     },
-    mounted(){
-        this.addLine()
-    }
+    
     
     
 } 

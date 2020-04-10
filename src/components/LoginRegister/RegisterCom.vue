@@ -16,29 +16,29 @@
                 <!-- <p class="title green--text">{{this.successAlert}}</p>     -->
                 <v-form ref="form" v-model="valid" lazy-validation class="pa-3">
                     <div>
-                        <v-select :items="items" label="Anrede*" v-model="person.title"></v-select>
+                        <v-select :items="items" label="Anrede" v-model="person.title"></v-select>
                         <!-- <v-text-field class="py-0" color="green" :rules="usernameRules" label="Benutzername" v-model="username" required :counter="0"></v-text-field> -->
-                        <v-text-field class="py-0" color="green" label="Firma/Hofname*" v-model="person.companyName" required></v-text-field>
+                        <v-text-field class="py-0" color="green" :rules="nameRules" label="Firma/Hofname*" v-model="person.companyName" required></v-text-field>
                         <v-text-field class="py-0" color="green" :rules="firstnameRules" label="Vorname*" v-model="person.first" required></v-text-field>
                         <v-text-field class="py-0" color="green" :rules="lastnameRules" label="Nachname*" v-model="person.last" required></v-text-field>
                     </div>
                     <div class="pt-7">  
                         <v-row>
                             <v-col cols="9">
-                                <v-text-field class="py-0" color="green" label="Strasse*" v-model="person.location.street"></v-text-field>
+                                <v-text-field class="py-0" color="green" label="Strasse*" :rules="streetRules" v-model="person.location.street"></v-text-field>
                             </v-col>
                             <v-col cols="3">
-                                <v-text-field class="py-0" color="green" label="Nr.*" v-model="person.location.streetnumber"></v-text-field>
+                                <v-text-field class="py-0" color="green" label="Nr." v-model="person.location.streetnumber"></v-text-field>
                             </v-col>
                         </v-row>
                     </div>
 
                     <v-row>
                         <v-col class="py-0" cols="3">
-                            <v-text-field class="py-0" color="green" label="PLZ*" v-model="person.location.postcode"></v-text-field>
+                            <v-text-field class="py-0" color="green" label="PLZ*" :rules="postcodeRules" v-model="person.location.postcode"></v-text-field>
                         </v-col>
                         <v-col class="py-0" cols="9">
-                            <v-text-field class="py-0" color="green" label="Ort*" v-model="person.location.city"></v-text-field>
+                            <v-text-field class="py-0" color="green" label="Ort*" :rules="cityRules" v-model="person.location.city"></v-text-field>
                         </v-col>
                         <v-col>
                         <!-- <p class="caption red--text" v-show="addressAlert">addresse ist ungültig oder unvollständig</p> -->
@@ -47,15 +47,18 @@
 
                     <v-row>
                         <v-col class="pt-7" cols="12">
-                            <v-text-field class="py-0" color="green" label="Telefon" v-model="person.cell"></v-text-field>
+                            <v-text-field class="py-0" color="green" :rules="cellRules" label="Telefon*" v-model="person.cell"></v-text-field>
                             <!-- <p class="caption red--text" v-show="phoneAlert">Telefonnummer ist ungültig oder unvollständig</p> -->
                             <v-text-field class="py-0" color="green" :rules="emailRules" label="E-Mail*" v-model="person.email.email"></v-text-field>
                             <!-- <p class="caption red--text" v-show="emailAlert">E-Mail addresse ist ungültig</p>
                             <p class="caption red--text" v-show="email2Alert">E-Mail addresse bereits vorhanden</p> -->
                             <!-- <v-alert type="warning" dense>{{this.emailAlert}}</v-alert> -->
                             <v-text-field class="py-0" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" @click:append="show = !show" :type="show ? 'text' : 'password'" color="green" :rules="[passwordRules.required, passwordRules.min]" label="Passwort*" v-model="person.password"></v-text-field>
-                            <v-alert v-show="successAlert" class="mt-4" type="success" elevation="2" outlined transition="fade-transition"><p class="pa-0 ma-0 font-weight-bold">Registrierung erfolgreich!</p> Ihre Registrierung wird geprüft. Sie erhalten in den nächsten Tagen Bescheid.</v-alert>
-                            <v-alert v-show="errorAlert" class="mt-4" type="error" elevation="2" outlined transition="fade-transition">Registrierung fehlgeschlagen!</v-alert>
+                            <v-alert v-show="successAlert" class="mt-4" type="success" elevation="2" outlined transition="fade-transition">
+                                <p class="pa-0 ma-0 font-weight-bold">Registrierung erfolgreich!</p>
+                                Ihre Anmeldung wird geprüft. Sie erhalten in den nächsten Tagen Bescheid.</v-alert>
+                            <v-alert v-show="errorAlert" class="mt-4" type="error" elevation="2" outlined transition="fade-transition">
+                                Registrierung fehlgeschlagen! Bite versuchen Sie es nocheinmal oder wenden Sie sich an den Administrator</v-alert>
                         </v-col>
                     </v-row>
                     <v-checkbox
@@ -70,9 +73,12 @@
                     class="pa-0 ma-0"
                     v-model="person.agb"
                     :rules="[v => !!v || 'Du musst die AGB bestätigen, um dich registrieren zu können!']"
-                    label="Ich erkläre mich mit den AGB von Obst vom Baum einverstanden."
                     required
-                    ></v-checkbox>
+                    >
+                        <template v-slot:label>
+                            <div>Ich erkläre mich mit den <a target="_blank" href="http://google.com">AGB</a> von Obst vom Baum einverstanden.</div>
+                        </template>
+                    </v-checkbox>
 
                     <v-row class="pt-2">
                         <v-col class="pl-3 pr-1" cols="4">
@@ -146,6 +152,21 @@ export default {
             'Herr',
             'Frau',
             ],
+            nameRules: [
+                v => !!v || 'Firma/Hofname ist erforderlich',
+            ],
+            streetRules: [
+                v => !!v || 'Strasse ist erforderlich',
+            ],
+            cellRules: [
+                v => !!v || 'Telefon ist erforderlich',
+            ],
+            postcodeRules: [
+                v => !!v || 'PLZ ist erforderlich',
+            ],
+            cityRules: [
+                v => !!v || 'Ort ist erforderlich',
+            ],
             firstnameRules: [
                 v => !!v || 'Vorname ist erforderlich',
             ],
@@ -154,6 +175,7 @@ export default {
             ],
             emailRules: [
                 v => !!v || 'E-Mail ist erforderlich',
+                v => /.+@.+\..+/.test(v) || 'E-Mail muss gültig sein',
             ],
             passwordRules: {
                 required: v => !!v || 'Passwort ist erforderlich',

@@ -6,18 +6,18 @@
             <!-- CARD -->
             <v-card class="ma-0 mt-4 pa-1" width="90%" max-width="600px" elevation="3">
 
-                <v-form name="form">
+                <v-form name="form" type="submit">
                     <v-card-title class="pa-3 display-1 font-weight-bold">Login</v-card-title>
                     <v-alert v-show="errorAlert" class="mt-4 mx-2" type="error" elevation="2" outlined transition="fade-transition" dense>Email oder Password falsch!</v-alert>
                     <v-card-text class="pa-2">
                         
                             <!-- E-MAIL -->
                             <!-- v-validate="'required'" -->
-                            <v-text-field label="E-Mail" v-model="person.email"  prepend-icon="mdi-account"/>
+                            <v-text-field label="E-Mail" color="green" v-model="person.email"  prepend-icon="mdi-account"/>
    
                             <!-- PASSWORD -->
-                            <v-text-field type="password" label="Passwort" v-model="person.password" prepend-icon="mdi-lock"/>
-                            <v-btn class="pl-8" to="/passwordReset" text small>Passwort vergessen?</v-btn>
+                            <v-text-field type="password" color="green" label="Passwort" v-model="person.password" prepend-icon="mdi-lock"/>
+                            <v-btn class="ml-6" to="/passwordReset" text small>Passwort vergessen?</v-btn>
                         <!-- <p>{{person.email}}</p>
                         <p>{{person.password}}</p> -->
                     </v-card-text>
@@ -25,6 +25,7 @@
                     <v-card-actions class="pa-0 pt-4" justify-center>
                         <v-col class="px-2" justify-center cols="12">
                             <v-btn class="btn white--text"
+                            
                             @click="login"
                             :loading="loading"
                             :elevation="5"
@@ -83,6 +84,7 @@ export default {
                 localStorage.setItem("token", response.data.token)
                 this.$router.push('/profile');
                 this.loading = false
+                
             })
             .catch((error) => {
                 this.errorAlert = true
@@ -115,10 +117,3 @@ export default {
    
 }
 </script>
-
-<style scoped>
-.bg{
-    background-size: 100%;
-    background-size: cover
-}
-</style>

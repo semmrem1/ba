@@ -25,20 +25,20 @@
                     <div class="pt-7">  
                         <v-row>
                             <v-col cols="9">
-                                <v-text-field class="py-0" color="green" label="Strasse*" v-model="person.location.street"></v-text-field>
+                                <v-text-field class="py-0" color="green" label="Strasse*" :rules="streetRules" v-model="person.location.street"></v-text-field>
                             </v-col>
                             <v-col cols="3">
-                                <v-text-field class="py-0" color="green" label="Nr.*" v-model="person.location.streetnumber"></v-text-field>
+                                <v-text-field class="py-0" color="green" label="Nr." v-model="person.location.streetnumber"></v-text-field>
                             </v-col>
                         </v-row>
                     </div>
 
                     <v-row>
                         <v-col class="py-0" cols="3">
-                            <v-text-field class="py-0" color="green" label="PLZ*" v-model="person.location.postcode"></v-text-field>
+                            <v-text-field class="py-0" color="green" label="PLZ*" :rules="postcodeRules" v-model="person.location.postcode"></v-text-field>
                         </v-col>
                         <v-col class="py-0" cols="9">
-                            <v-text-field class="py-0" color="green" label="Ort*" v-model="person.location.city"></v-text-field>
+                            <v-text-field class="py-0" color="green" label="Ort*" :rules="cityRules" v-model="person.location.city"></v-text-field>
                         </v-col>
                         <v-col>
                         <!-- <v-alert class="caption red--text" v-show="addressAlert">addresse ist ungültig oder unvollständig</v-alert> -->
@@ -47,7 +47,7 @@
 
                     <v-row>
                         <v-col class="pt-7" cols="12">
-                            <v-text-field class="py-0" color="green" label="Telefon" v-model="person.cell"></v-text-field>
+                            <v-text-field class="py-0" color="green" :rules="cellRules"  label="Telefon*" v-model="person.cell"></v-text-field>
                             <!-- <v-alert class="caption warning--text mb-8" border="left" colored-border type="warning" dense elevation="2" v-show="phoneAlert">Telefonnummer ist ungültig oder unvollständig</v-alert> -->
                             <v-text-field class="py-0" color="green" :rules="emailRules" label="E-Mail*" v-model="person.email.email"></v-text-field>
                             <!-- <v-alert class="caption warning--text mb-8" border="left" colored-border type="warning" dense elevation="2" v-show="emailAlert" v-if="hideAlert" transition="fade-transition">E-Mail addresse ist ungültig</v-alert>
@@ -70,9 +70,12 @@
                     class="pa-0 ma-0"
                     v-model="person.agb"
                     :rules="[v => !!v || 'Du musst die AGB bestätigen, um dich registrieren zu können!']"
-                    label="Ich erkläre mich mit den AGB von Obst vom Baum einverstanden."
                     required
-                    ></v-checkbox>   
+                    >
+                        <template v-slot:label>
+                            <div>Ich erkläre mich mit den <a target="_blank" href="http://google.com" @click.stop v-on="on">AGB</a> von Obst vom Baum einverstanden.</div>
+                        </template>
+                    </v-checkbox>   
 
                     <v-row class="pt-2">
                         <v-col class="pl-3 pr-1" cols="4">
@@ -146,8 +149,14 @@ export default {
             'Herr',
             'Frau',
             ],
-            addressRules: [
-                v => !!v || 'addresse ist nicht vollständig',
+            streetRules: [
+                v => !!v || 'Strasse ist erforderlich',
+            ],
+            postcodeRules: [
+                v => !!v || 'PLZ ist erforderlich',
+            ],
+            cityRules: [
+                v => !!v || 'Ort ist erforderlich',
             ],
             firstnameRules: [
                 v => !!v || 'Vorname ist erforderlich',
@@ -157,6 +166,9 @@ export default {
             ],
             emailRules: [
                 v => !!v || 'E-Mail ist erforderlich',
+            ],
+            cellRules: [
+                v => !!v || 'Telefon ist erforderlich',
             ],
             passwordRules: {
                 required: v => !!v || 'Passwort ist erforderlich',
