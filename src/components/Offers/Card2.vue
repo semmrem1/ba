@@ -5,12 +5,13 @@
         <v-col class="pa-0 pl-1" cols="12">
           <v-combobox
             v-model="fruit"
-            :items="fruits"
+            :items="types"
             color="green"
             label="Obstsorte"
-            clearable
-            required
+            item-text="name"
+            item-value="uuid"
             multiple
+            clearable
             chips
           ></v-combobox>
         </v-col>
@@ -41,6 +42,8 @@
             </v-col>
           </v-row>
           <p>Sortieren</p>
+          {{types}}
+          {{offers}}
         </v-card-text>
       </v-col>
 
@@ -102,12 +105,8 @@ export default {
         range: [-20, 70],
         select: ['Äpfel'],
         fruit: null, 
-        fruits: [
-          'Äpfel',
-          'Birnen',
-          'Erdbeeren',
-          'Himbeeren',
-        ],
+        types: [],
+        offers: [],
       items: [
         {
           src: 'https://images.unsplash.com/photo-1538104308589-50ef22ba5d26?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80',
@@ -125,48 +124,31 @@ export default {
           quantity: '15kg',
           date: '23.09.2020',
         },
-        {
-          src: 'https://images.unsplash.com/photo-1576179635662-9d1983e97e1e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80',
-          title: 'Boskoop',
-          postcode: '8450',
-          location: 'Hettingen',
-          quantity: '20kg',
-          date: '12.0.02020',
-        },
-        {
-          rc: 'https://images.unsplash.com/photo-1538104308589-50ef22ba5d26?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80',
-          title: 'Boskoop',
-          postcode: '8450',
-          location: 'Hettingen',
-          quantity: '20kg',
-          date: '12.0.02020',
-        },
-        {
-          src: 'https://images.unsplash.com/photo-1545160995-4c0f38b9b3e0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1567&q=80',
-          title: 'Boskoop',
-          postcode: '8450',
-          location: 'Hettingen',
-          quantity: '20kg',
-          date: '12.0.02020',
-        },
-        {
-          src: 'https://images.unsplash.com/photo-1576179635662-9d1983e97e1e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80',
-          title: 'Boskoop',
-          postcode: '8450',
-          location: 'Hettingen',
-          quantity: '20kg',
-          date: '12.0.02020',
-        },
-        {
-          src: 'https://images.unsplash.com/photo-1541600321016-ac52d598f563?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80',
-          title: 'Boskoop',
-          postcode: '8450',
-          location: 'Hettingen',
-          quantity: '20kg',
-          date: '12.0.02020',
-        },
       ],
     }),
+    mounted(){
+        this.getCategory()
+        this.getOffers()
+    },
+    methods: {
+        getCategory(){
+            var uuid = this.uuid
+            const url = "/category";
+            var config = {headers: {"userid": uuid}};
+            this.$http.get(url, config)
+        .then((response) => {
+            console.log(response)
+            this.types = response.data
+        })
+        .catch((error) => {
+            this.loading = false
+            console.log(error.response)
+        })
+      },
+      getOffers(){
+
+      }
+    }
 }
 </script>
 

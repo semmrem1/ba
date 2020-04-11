@@ -16,8 +16,8 @@
                         <input type="file" style="display: none" ref="fileInput" accept="image/*"/>
                     </v-col>
                 </v-row>
-                <v-alert v-show="successAlert" class="mt-4 mx-4" type="success" elevation="2" outlined transition="fade-transition">Änderungen erfolgreich gespeichert!</v-alert>
-                <v-alert v-show="errorAlert" class="mt-4 mx-4" type="error" elevation="2" outlined transition="fade-transition">Änderungen fehlgeschlagen!</v-alert>
+                <v-alert v-show="successAlert" class="mt-4 mx-4" type="success" elevation="2" outlined :timeout="timeout" transition="fade-transition">Änderungen erfolgreich gespeichert!</v-alert>
+                <v-alert v-show="errorAlert" class="mt-4 mx-4" type="error" elevation="2" outlined :timeout="timeout" transition="fade-transition">Änderungen fehlgeschlagen!</v-alert>
                 <!-- Form -->
                 <v-form class="px-3 pt-6">
                     <div>
@@ -26,7 +26,7 @@
                         <v-text-field class="py-0" color="green" label="Nachname" :readonly="isReadonly" v-model="person.last"></v-text-field>
                         <!-- <v-text-field class="py-0" color="green" label="E-Mail uuid" disabled v-model="this.person.email.uuid"></v-text-field> -->
                         <v-text-field class="py-0" color="green" label="E-Mail" :readonly="isReadonly" v-model="person.email.email"></v-text-field>
-                        <v-text-field class="py-0" color="green" label="Optionale E-Mail" :readonly="isReadonly" v-model="person.email.sndEmail"></v-text-field>
+                        <v-text-field class="py-0" color="green" label="Optionale E-Mail" :readonly="isReadonly" v-model="person.sndEmail"></v-text-field>
                         <v-text-field class="py-0" color="green" label="Telefon" :readonly="isReadonly" v-model="person.cell"></v-text-field>
                         
 
@@ -66,6 +66,9 @@
                     </div>
                 </v-form>
             </v-card>
+            <v-snackbar v-model="snackbar" color="red lighten-1" top :timeout="timeout">{{ text }}
+                <v-btn color="white" text @click="snackbar = false">OK</v-btn>
+            </v-snackbar>
         </v-row>
     </v-container>
 </template>
@@ -74,12 +77,14 @@
 export default {
     data() {
         return {
+            uuid: "5e8c0e8e0a975a541edfda6b",
             loader: null,
             loading: false,
             isReadonly: true,
             snackbar: false,
             successAlert: false,
             errorAlert: false,
+            timeout: 5000,
             info: null,
 
             person: {
@@ -88,6 +93,7 @@ export default {
                 first: "",
                 last: "",
                 cell: "",
+                sndEmail: "",
                 email: {
                     uuid: "",
                     email: ""
@@ -110,35 +116,13 @@ export default {
       loader () {
         const l = this.loader
         this[l] = !this[l]
-
-        // setTimeout(this.successAlert = false, 1000)
-        // setTimeout(function() {this.successAlert = true }.bind(this), 1000)
-        setTimeout(() => {
-            this.successAlert()
-        }, 1000);
-
         this.loader = null
       },
     },
 
 
     mounted(){
-    // ### COMMENTED OUT TO NOT REROUT PROFILE DURING DEVELOPMENT ###
-    //     if (!this.currentUser) {
-    //         this.$router.push('/login');
-    //     }
-        const url = "/person/5e8c0e8e0a975a541edfda6b";
-        var config = {headers: {"userid": "5e8c0e8e0a975a541edfda6b"}};
-        this.$http.get(url, config)
-        .then((response) => {
-            console.log(response)
-            this.loading = false
-            this.person = response.data;
-        })
-        .catch((error) => {
-            this.loading = false
-            console.log(error.response)
-        })
+        this.getPerson()
     },
 
     computed: {
@@ -152,8 +136,8 @@ export default {
 
     methods: {
         getPerson(){
-            const url = "/person/5e8c0e8e0a975a541edfda6b";
-            var config = {headers: {"userid": "5e8c0e8e0a975a541edfda6b"}};
+            const url = "/person/"+this.uuid;
+            var config = {headers: {"userid": this.uuid}};
             this.$http.get(url, config)
             .then((response) => {
                 console.log(response)
@@ -169,7 +153,7 @@ export default {
             this.isReadonly = false
         },
         updatePerson(){
-            const url = "/registerperson";
+            const url = "/updateperson";
             var config = {headers: {"userid": "5cb8d10725839944c26ff1f5"}};
             var data = 
             {
@@ -178,11 +162,11 @@ export default {
                 first: this.person.first,
                 last: this.person.last,
                 cell: this.person.cell,
+                sndEmail: this.person.email.sndEmail,
                 email: 
                 {
                     uuid: this.person.email.uuid,
                     email: this.person.email.email,
-                    sndEmail: this.person.email.sndEmail
                 },
                 location:
                 {
@@ -198,28 +182,47 @@ export default {
             .then((response) => {
                 console.log(response)
                 this.loading = false
-                this.successAlert = true
+                    if (response.data.code == "001") {
+                        this.successAlert = true
+                    } else if(response.data.code == "002"){
+                        this.snackbar = true
+                        this.text = "Anrede ungültig oder unvollständig."
+                    } else if(response.data.code == "003"){
+                        this.snackbar = true
+                        this.text = "Name ungültig oder unvollständig."
+                    } else if (response.data.code == "004") {
+                        this.snackbar = true
+                        this.text = "Telefonnummer ist ungültig oder unvollständig."
+                    } else if(response.data.code == "005"){
+                        this.snackbar = true
+                        this.text = "Addresse ungültig (nicht auf local.ch gefunden)."
+                    } else if(response.data.code == "006"){
+                        this.snackbar = true
+                        this.text = "E-Mail addresse ist ungültig oder unvollständig."
+                    } else if (response.data.code == "007") {
+                        this.snackbar = true
+                        this.text = "E-Mail addresse bereits vorhanden."
+                    } else if (response.data.code == "099") {
+                        this.snackbar = true
+                        this.errorAlert = true
+                        this.text = "Nicht berechtigt."
+                    }
+                    this.hideAlert()
                 this.isReadonly = true
             })
             .catch((error) => {
                 this.loading = false
                 this.errorAlert = true
                 console.log(error.response)
+                this.hideAlert()
         })
+        },
+        hideAlert(){
+            setTimeout(() => {                
+                this.successAlert = false
+                this.errorAlert = false
+            }, 2000);
         }
-        // getUser(){
-        //     const url = "/person/5cb8d10725839944c26ff1f5";
-        //     var config = {headers: {"userid": "5cb8d10725839944c26ff1f5"}};
-        //     this.$http.get(url, config)
-        //     .then((response) => {
-        //         console.log(response)
-        //         console.log(response.data)
-        //         this.user = response.data;
-        //               })
-        //     .catch((error) => {
-        //         console.log(error.response)
-        //     })
-        // }, 
 
   },
     

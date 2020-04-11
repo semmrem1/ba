@@ -8,7 +8,7 @@
 
                 <v-form name="form" type="submit">
                     <v-card-title class="pa-3 display-1 font-weight-bold">Login</v-card-title>
-                    <v-alert v-show="errorAlert" class="mt-4 mx-2" type="error" elevation="2" outlined transition="fade-transition" dense>Email oder Password falsch!</v-alert>
+                    <v-alert v-show="errorAlert" class="mt-4 mx-2" type="error" elevation="2" outlined transition="fade-transition" dense>Email oder Password ist nicht korrekt!</v-alert>
                     <v-card-text class="pa-2">
                         
                             <!-- E-MAIL -->
@@ -84,15 +84,21 @@ export default {
                 localStorage.setItem("token", response.data.token)
                 this.$router.push('/profile');
                 this.loading = false
-                
+                this.hideAlert()
             })
             .catch((error) => {
                 this.errorAlert = true
                 console.log(error);
-                console.log("login() run into error")
+                console.log("login() ERROR")
                 this.loading = false
+                this.hideAlert()
             })
-        }
+        },
+            hideAlert(){
+                setTimeout(() => {         
+                    this.successAlert = false
+                    this.errorAlert = false
+            }, 2000);
 
         // login(){
         //     this.loadig = true;
@@ -113,7 +119,8 @@ export default {
 
         // }
 
-    }
+    },
    
+    }
 }
 </script>

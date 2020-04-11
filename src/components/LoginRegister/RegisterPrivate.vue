@@ -278,7 +278,7 @@ export default {
                 })
                 .catch((error) => {
                     console.log(error);
-                    console.log("run into error")
+                    console.log("ERROR")
                     this.loading = false
                 })
         },

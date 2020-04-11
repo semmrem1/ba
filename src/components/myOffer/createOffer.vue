@@ -4,7 +4,7 @@
 
             <!-- <v-skeleton-loader
             class="mx-auto"
-            width="300"
+            width="600"
             type="card"
             ></v-skeleton-loader> -->
 
@@ -25,20 +25,20 @@
                 <!-- Form -->
                 <!-- v-model="valid" -->
                 <v-form ref="form" lazy-validation class="px-3 pt-0">                    
-                    <!-- <v-alert v-show="successAlert" class="mt-4" type="success" elevation="2" outlined transition="fade-transition">
-                                <p class="pa-0 ma-0 font-weight-bold">Angebot erfolgreich erstellt!</p></v-alert> -->
-                                <v-snackbar class="subtitle-1 black-text font-weight-bold" v-model="successAlert" color="green lighten-1" multi-line vertical top>Angebot erfolgreich erstellt!
+                    <v-alert v-show="successAlert" class="mt-4" type="success" elevation="2" outlined transition="fade-transition">
+                                <p class="pa-0 ma-0 font-weight-bold">Speichern erfolgreich!</p></v-alert>
+                                <!-- <v-snackbar class="subtitle-1 black-text font-weight-bold" v-model="successAlert" color="green lighten-1" multi-line vertical top>Speichern erfolgreich!
                                    <v-btn color="white" text @click="snackbar = false">OK</v-btn>
-                                </v-snackbar>
+                                </v-snackbar> -->
                     <v-alert v-show="errorAlert" class="mt-4" type="error" elevation="2" outlined transition="fade-transition">Speichern fehlgeschlagen! :-(</v-alert>
                     <v-card-title class="pl-0 pb-3">Obstaum:</v-card-title>
-                    <v-card-subtitle class="pl-0 pb-0">Was für Obst möchtest du inserieren?</v-card-subtitle>
+                    <v-card-subtitle class="pl-0 pb-0">Welchen Typ Obst möchtest du inserieren?</v-card-subtitle>
 
                         <!-- <v-text-field class="py-0" color="green" :rules="treenameRules" label="Name" v-model="treename"></v-text-field> -->
                         <v-select
                         :items="types"
                         name="type"
-                        label="Kategorie*"
+                        label="Typ*"
                         :rules="categoryRules"
                         v-model="product.category"
                         item-text="name"
@@ -46,13 +46,14 @@
                         color="green"
                         >
                         </v-select>
-                        {{product.category}}
+                        <!-- {{product.category}} -->
                     <!-- ### ERNTE ### -->
-                    <v-card-title class="pl-0 pt-0 pb-3">Ernte:</v-card-title>
-                    <v-card-subtitle class="pl-0 pb-0">Wann und wo kann das Obst geerntet oder abgeholt werden?</v-card-subtitle>
+                    
                     
                     <v-div v-for="(line, index) in lines" :key="index">
                        <v-card class="my-4 pa-4">
+                        <v-card-title class="pl-0 pt-0 pb-3">Ernte:</v-card-title>
+                        <v-card-subtitle class="pl-0 pb-0">Wann und wo kann das Obst geerntet oder abgeholt werden?</v-card-subtitle>
                        <!-- Datum von -->
                        <!-- <v-card-title class="subtitle-2 pt-4 pa-0">Von:</v-card-title> -->
                        
@@ -117,24 +118,25 @@
                                     <v-text-field  color="green" :rules="avQuantityRules" v-model="product.amount" placeholder="10" label="Menge*" suffix="kg"></v-text-field>
                                 </v-col>
                                 <v-col class="pt-0" cols="6" sm="4">
-                                    <v-combobox v-model="line.repeat" :items="repeat" color="green" label="Wiederkehrend"></v-combobox>
+                                    <v-combobox v-model="product.repeat" :items="repeat" color="green" placeholder="wöchentlich" label="wiederkehrend"></v-combobox>
                                 </v-col>
+
                                 <!-- <v-col class="pt-0" cols="0">
                                 </v-col> -->        
                             </v-row>
                             <v-row> 
-                                <v-col class="pt-0" cols="6" sm="4">
-                                    <v-checkbox color="green" v-model="product.tobecropped" value="true" label="zum ernten"></v-checkbox>
+                                <v-col class="py-0" cols="6" sm="4" >
+                                    <v-checkbox color="green" v-model="product.tobecropped" :rules="checkboxRules" value="true" label="zum ernten"></v-checkbox>
                                 </v-col>
-                                <v-col class="pt-0" cols="6" sm="4">
-                                    <v-checkbox color="green" v-model="product.tobecropped" value="false" label="zum abholen"></v-checkbox>
+                                <v-col class="py-0" cols="6" sm="4">
+                                    <v-checkbox color="green" v-model="product.tobecropped" :rules="checkboxRules" value="false" label="zum abholen"></v-checkbox>
                                 </v-col>
                             </v-row>
                             <!-- <p>{{this.line.amount}}</p> -->
                             
 
                             <!-- ### Addresse wählen ### -->
-                              <v-text class="font-weight-bold">Addresse:</v-text>
+                              <!-- <v-text class="font-weight-bold">Addresse:</v-text> -->
                                  <v-select
                                 :items="locations"
                                 name="type"
@@ -153,32 +155,47 @@
                                         {{item.street }} {{item.streetnumber}}, {{item.postcode}} {{item.city}}
                                     </template>
                                 </v-select>
-                                {{product.location}}
-                                {{product.location.uuid}}
-                                <!-- ### neue Addresse erstellen ### -->
-                                <v-btn class="px-2 pt-4 pb-8" @click="addLocation" color="green" text small><v-icon>mdi-playlist-plus</v-icon>Addresse erstellen</v-btn>
-
-                                <v-row>
-                                    <v-col cols="9">
-                                        <v-text-field class="py-0" color="green" label="Strasse*" :rules="streetRules" v-model="product.location.street"></v-text-field>
-
-                                    </v-col>
-                                    <v-col cols="3">
-                                        <v-text-field class="py-0" color="green" label="Nr." v-model="product.location.streetnumber"></v-text-field>
-                                    </v-col>
-                                </v-row>
-                                <v-row>
-                                    <v-col class="py-0" cols="3">
-                                        <v-text-field class="py-0" color="green" label="PLZ*" :rules="postcodeRules" v-model="product.location.postcode"></v-text-field>
-                                    </v-col>
-                                    <v-col class="py-0" cols="9">
-                                        <v-text-field class="py-0" color="green" label="Ort*" :rules="cityRules" v-model="product.location.city"></v-text-field>
-                                    </v-col>
-                                </v-row>
                         </v-card>
                         </v-div>
-                            <v-btn class="px-2 pt-4 pb-8" @click="addLine" color="green" text small><v-icon>mdi-playlist-plus</v-icon>Ernte hinzufügen</v-btn>
-                            <v-btn class="px-2 pt-4 pb-8" @click="removeLine(index)" color="grey" text small> <v-icon>mdi-playlist-minus</v-icon>Ernte entfernen</v-btn>
+                                <v-dialog v-model="dialog" max-width="450">
+                                    <template v-slot:activator="{ on }">
+                                        <v-btn v-on="on" class="px-2 mt-2 mb-8" @click="addLocation" color="green" text small><v-icon>mdi-plus</v-icon>Neue Addresse</v-btn>
+                                    </template>
+                                    <v-card>
+                                        <v-toolbar :color="options.color" dark dense flat><v-icon class="pr-3" size="x-large">mdi-plus</v-icon>
+                                         <v-card-title class="pl-0 white--text font-weight-bold">Addresse hinzufügen</v-card-title>
+                                        </v-toolbar>
+                                        <v-alert v-show="errorAlertDialog" class="mt-4 mx-4" type="error" elevation="2" outlined dense transition="fade-transition">Speichern fehlgeschlagen! Addresse möglicherweise ungültig.</v-alert>
+                                        
+                                            <v-row class="px-4">
+                                                <v-row class="px-4">
+                                                    <v-col cols="9">
+                                                        <v-text-field class="py-0" color="green" label="Strasse*" :rules="streetRules" v-model="offerLocation.street"></v-text-field>
+                                                    </v-col>
+                                                    <v-col cols="3">
+                                                        <v-text-field class="py-0" color="green" label="Nr." v-model="offerLocation.streetnumber"></v-text-field>
+                                                    </v-col>
+                                                </v-row>
+                                                <v-row class="px-4">
+                                                    <v-col class="py-0" cols="3">
+                                                        <v-text-field class="py-0" color="green" label="PLZ*" :rules="postcodeRules" v-model="offerLocation.postcode"></v-text-field>
+                                                    </v-col>
+                                                    <v-col class="py-0" cols="9">
+                                                        <v-text-field class="py-0" color="green" label="Ort*" :rules="cityRules" v-model="offerLocation.city"></v-text-field>
+                                                    </v-col>
+                                                </v-row>
+                                            </v-row>
+                                        
+                                        <v-card-actions class="pa-4">
+                                            <v-btn @click="dialog=false" outlined width="40%" color="grey">Abbrechen</v-btn>
+                                        <v-btn color="green darken-1 white--text" raised width="60%" :loading="loadingDialog" :disabled="!isComplete" @click="postLocation()">SPEICHERN</v-btn>
+                                        </v-card-actions>
+                                    </v-card>
+                                </v-dialog>
+
+                            <v-btn class="px-2 mt-2 mb-8" @click="addLine" color="green" text small><v-icon>mdi-playlist-plus</v-icon>Ernte hinzufügen</v-btn>
+                            <v-btn class="px-2 mt-2 mb-8" @click="removeLine(index)" color="grey" text small> <v-icon>mdi-playlist-minus</v-icon>Ernte entfernen</v-btn>
+                            
 
                             <!-- <v-row class="pt-6 pb-0">
                                 <v-col>
@@ -211,12 +228,22 @@
   export default {
     data() {
         return {   
+            uuid: "5e8b8cf50a975a541edfda68",
             loader: null,
             loading: false,
+            loadingDialog: false,
             index: 0,
-            tobecropped: true,
-            successAlert: '',
-            errorAlert: '',
+            snackbar: false,
+            dialog: false,
+            counter: 10,
+            options: {
+                color: "green",
+                width: 290,
+            },
+            tobecropped: "",
+            successAlert: false,
+            errorAlert: false,
+            errorAlertDialog: false,
             repeat: [
             'täglich',
             'wöchentlich',
@@ -225,9 +252,8 @@
             ],
             types: [],
             lines: [],
-            location: '',
-            offerLocation: '',
             locations: [],
+            location: '',
             radios: '',
             category: '',
             treename: '',
@@ -246,6 +272,9 @@
             timeUntil: '',
             timeRules: [
                 v => !!v || 'Zeit ist erforderlich',
+            ],
+            checkboxRules: [
+                v => !!v || 'Angabe ist erforderlich',
             ],
             avQuantity: '',
             avQuantityRules: [
@@ -277,12 +306,19 @@
                 timeUntil: "23:59",
                 amount: "",
                 tobecropped: true,
+                repeat: "",
                 category: {
                     uuid: ""
                 },
                 location: {
                     uuid: ""
                 },
+            },
+            offerLocation: {
+                street: '',
+                streetnumber: '',
+                postcode: '',
+                city: ''
             },
             cropCheckbox: false,
             takeCheckbox: false,
@@ -295,12 +331,34 @@
         }
     },
     mounted(){
+        this.getCategory()
+        this.getLocation()
         this.addLine()
         this.addLocation()
-        // ### GET Categoryies for Select ###
-        const categoryUrl = "/category";
-        var config = {headers: {"userid": "5e8c0e8e0a975a541edfda6b"}};
-        this.$http.get(categoryUrl, config)
+        this.$refs.form.reset()        
+    },
+    computed: {
+      computedDateFormatted () {
+        return this.formatDate(this.date)
+      },
+      isComplete(){
+          return this.offerLocation.street && this.offerLocation.postcode && this.offerLocation.city
+      }
+    },
+
+    watch: {
+        lines () {
+            this.blockRemoval = this.lines.length <= 1
+        },
+        
+  },
+
+    methods: {
+        getCategory(){
+            var uuid = this.uuid
+            const url = "/category";
+            var config = {headers: {"userid": uuid}};
+            this.$http.get(url, config)
         .then((response) => {
             console.log(response)
             this.types = response.data
@@ -309,10 +367,12 @@
             this.loading = false
             console.log(error.response)
         })
-        // ### GET Locations of User for Select ###
-        // const locationUrl = "/person/"+ this.person.uuid +"/locationforoffer"
-        const locationUrl2 = "/person/5e904f9a0a975a3e6842e63a/location"
-        this.$http.get(locationUrl2, config)
+        },
+        getLocation(){
+            var uuid = this.uuid
+            var config = {headers: {"userid": uuid}};
+            const locationUrl = "/person/"+uuid+"/location"
+            this.$http.get(locationUrl, config)
         .then((response) => {
             console.log(response)
             this.locations = response.data
@@ -323,39 +383,7 @@
         .catch((error) => {
             console.log(error)
         })
-        
-    },
-    computed: {
-      computedDateFormatted () {
-        return this.formatDate(this.date)
-      },
-    },
-
-    watch: {
-        lines () {
-         this.blockRemoval = this.lines.length <= 1
-        },
-        
-  },
-
-    methods: {
-        getCategory(){
-            const url = "/category";
-        var config = {headers: {"userid": "5e8c0e8e0a975a541edfda6b"}};
-        this.$http.get(url, config)
-        .then((response) => {
-            console.log(response)
-            console.log(response.data)
-            this.types = response.data
-        })
-        .catch((error) => {
-            this.loading = false
-            console.log(error.response)
-        })
-        
-
-        },
-        
+        },       
         reset () {
             this.$refs.form.reset()
         },
@@ -379,7 +407,6 @@
             if(checkEmptyLine.length >= 1 && this.line.length > 0) {
                 return
             }
-
             this.lines.push({
                 street: null,
                 streetnumber: null,
@@ -410,11 +437,11 @@
         postProduct(){
             if (this.$refs.form.validate()) {
             const url = "/product";
-            var config = {headers: {"userid":"5e8c0e8e0a975a541edfda6b"}};
+            var config = {headers: {"userid": this.uuid}};
             var data =
             {
                 owner: {
-                    uuid: "5e8c0e8e0a975a541edfda6b"
+                    uuid: this.uuid
                 },
                 category: {
                     uuid: this.product.category
@@ -432,7 +459,7 @@
                 ]
 
             }
-            console.log(data)
+            // console.log(data)
             this.loading = true
             this.$http.post(url, data, config)
             .then((response) => {
@@ -440,17 +467,56 @@
                 this.successAlert = true
                 this.alert = response.data.description
                 this.loading = false
-                console.log("run into success")
+                console.log("SUCCESS")
                 this.$refs.form.reset()
+                this.hideAlert()
             })
             .catch((error) => {
                 console.log(error)
-                console.log("run into error")
+                console.log("ERROR")
                 this.errorAlert = true
                 this.loading = false
+                this.hideAlert()
                 
             })
-        }
+          }
+        },
+        postLocation(){
+                var uuid = this.uuid
+                const url = "/person/"+uuid+"/locationforoffer";
+                var config = {headers: {"userid": uuid}};
+                var data =
+                {
+                    street: this.offerLocation.street,
+                    streetnumber: this.offerLocation.streetnumber,
+                    city: this.offerLocation.city,
+                    postcode: this.offerLocation.postcode,
+                }
+                console.log(data)
+                this.loadingDialog = true
+                this.$http.post(url, data, config)
+                .then((response) => {
+                    console.log(response)
+                    console.log("SUCCESS")
+                    this.successAlert = true
+                    this.loadingDialog = false
+                    this.dialog = false
+                    this.getLocation()
+                    this.hideAlert()
+                })
+                .catch((error) => {
+                    console.log(error)
+                    console.log("ERROR")
+                    this.errorAlertDialog = true
+                    this.loadingDialog = false
+                    this.hideAlert()
+                })
+            },
+            hideAlert(){
+                setTimeout(() => {         
+                    this.successAlert = false
+                    this.errorAlert = false
+            }, 2000);
         }
 
 

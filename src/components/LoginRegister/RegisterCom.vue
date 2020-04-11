@@ -116,9 +116,7 @@ export default {
             snackbar: false,
             text: '',
             timeout: 5000,
-
-            hideAlert: true,
-            successAlert: '',
+            successAlert: false,
             errorAlert: '',
             emailAlert: '',
             email2Alert: '',
@@ -142,7 +140,6 @@ export default {
                     city: "",
                     postcode: "",
                 },
-                
                 password: ""
                 },
             submitted: false,
@@ -186,20 +183,13 @@ export default {
             agb: false,
         }
     },
-    
+    mounted() {
+        this.setTimeout()
+        this.hideAlert()
+    },
     computed: {
         isComplete(){//button only visible if these fields are filled
             return this.person.age && this.person.agb
-            // this.person.companyName &&
-            // this.person.first &&
-            // this.person.last &&
-            // this.person.street &&
-            // this.person.streetnumber &&
-            // this.person.plz &&
-            // this.person.city &&
-            // this.person.email &&
-            // this.person.password &&
-
         },
         loggedIn() {
             return this.$store.state.auth.status.loggedIn;
@@ -247,7 +237,7 @@ export default {
                         this.text = "Telefonnummer ist ungültig oder unvollständig."
                     } else if(response.data.code == "005"){
                         this.snackbar = true
-                        this.text = "addresse ungültig (nicht auf local.ch gefunden)."
+                        this.text = "Addresse ungültig (nicht auf local.ch gefunden)."
                     } else if(response.data.code == "006"){
                         this.snackbar = true
                         this.text = "E-Mail addresse ist ungültig oder unvollständig."
@@ -266,34 +256,20 @@ export default {
                     this.loading = false
                 })
         },
-        // handleRegister() {
-        //     this.message = '';
-        //     this.submitted = true;
-        //     this.$validator.validate().then(isValid => {
-        //         if (isValid) {
-        //         this.$store.dispatch('auth/register', this.person).then(
-        //             data => {
-        //             this.message = data.message;
-        //             this.successful = true;
-        //             },
-        //             error => {
-        //             this.message =
-        //                 (error.response && error.response.data) ||
-        //                 error.message ||
-        //                 error.toString();
-        //             this.successful = false;
-        //             }
-        //         );
-        //         }
-        //     });
-        // },
         validate () {
             this.$refs.form.validate()
             console.log(this.$refs.form)
         },
         reset () {
            this.$refs.form.reset()
-      },
+        },
+
+        hideAlert(){
+            setTimeout(() => {
+                this.successAlert = false
+            }, 1000)
+        }
+
     }
     
     
