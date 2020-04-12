@@ -29,7 +29,8 @@
 
                 <v-card-actions class="pt-2 mt-2">
                    <!-- <v-btn class="centered-input mx-auto mb-2" color="green darken-1 white--text" raised @click="showBooking()" width="95%">ERNTE BUCHEN</v-btn> -->
-                   <bookingOverview @click="dialog=false"></bookingOverview>
+                   <v-btn @click="postBooking()" class="centered-input mx-auto mb-2" color="green darken-1 white--text" :loading="loading" raised width="95%">ERNTE BUCHEN</v-btn>
+                   <!-- <bookingOverview @click="postBooking()"></bookingOverview> -->
                 </v-card-actions>
             </v-card>
             
@@ -38,12 +39,15 @@
 </template>
 
 <script>
-import bookingOverview from "../Offers/bookingOverview"
+// import bookingOverview from "../Offers/bookingOverview"
+
 export default {
-    components: { bookingOverview },
+    // components: { bookingOverview },
     data() {
     return {
+        uuid: "5e8b8cf50a975a541edfda68",
         snackbar: false,
+        loading: false,
         dialog: false,
         options: {
             color: "green",
@@ -67,7 +71,37 @@ export default {
       showBooking(){
         //   this.currentDialog = components
       },
+      postBooking(){
+            const url = "/booking";
+            var config = {headers: {"userid": this.uuid}};
+            var data = 
+            {
+                offer: {
+                    uuid: "5e8cd9a40a975a1d15edb39d"
+                },
+                requester: {
+                    uuid: this.uuid
+                }
+            }    
+            this.loading = true
+            this.$http.post(url, data, config)
+            .then((response) => {
+                console.log(response)
+                    console.log(response)
+                    console.log("SUCCESS")
+                    this.successAlert = true
+                    this.loading = false
+                    this.dialog = false
+            })
+            .catch((error) => {
+                console.log(error)
+                console.log("ERROR")
+                this.loading = false
+                this.dialog = false
+            })
+      }
   }
+    
 };
 
 </script>

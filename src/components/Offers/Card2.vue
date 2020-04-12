@@ -1,53 +1,80 @@
 <template>
   <v-container class="justify-center ma-0 py-2 px-4" cols="12" sm="6" md="8">
+
     
     <v-col class="pa-0 mr-0" cols="12">
-        <v-col class="pa-0 pl-1" cols="12">
-          <v-combobox
-            v-model="fruit"
-            :items="types"
-            color="green"
-            label="Obstsorte"
-            item-text="name"
-            item-value="uuid"
-            multiple
-            clearable
-            chips
-          ></v-combobox>
-        </v-col>
-        <v-card-text class="pa-0">
-          <v-row>
-            <v-col class="pl-2 pr-2">
-              <v-slider
-                v-model="slider"
-                class="align-center pa-0"
-                color="green"
-                track-color="grey"
-                :max="max"
-                :min="min"
-                hide-details
-              >
-                <template v-slot:append>
-                  <v-text-field
-                    v-model="slider"
-                    class="mt-0 pa-0 mr-2"
-                    suffix="kg"
-                    hide-details
-                    single-line
-                    type="number"
-                    style="width: 60px"
-                  ></v-text-field>
-                </template>
-              </v-slider>
+          <v-alert v-show="successAlert" class="mt-4 mx-4" type="success" elevation="2" outlined transition="fade-transition">Änderungen erfolgreich gespeichert!</v-alert>
+          <v-alert v-show="errorAlert" class="mt-4 mx-4" type="error" elevation="2" outlined  transition="fade-transition">Änderungen fehlgeschlagen!</v-alert>
+
+          <!-- ### ROW FOR TESTING PURPOSES ### -->
+          <!-- <v-row>
+            <v-col cols="6">
+                <v-btn @click="getOfferUuids()">GET Offer Uuids</v-btn>
+                <p>offerUuids:</p>
+                <div v-for="(item, i) in offerUuids" :key="i">
+                  <span>{{offerUuids[i]}}</span>
+                </div>
             </v-col>
-          </v-row>
-          <p>Sortieren</p>
-          {{types}}
-          {{offers}}
-        </v-card-text>
+            <v-col cols="6">
+              <v-btn @click="getOffersbyUuid()">GET  Offers By Uuid</v-btn>
+              <p>Offers:</p>
+              <p>{{offer.uuid}}</p>
+              <p>{{offer.location.city}}</p>
+              <p>{{offer.location.postcode}}</p>
+              <p>{{offer.amountInKg}}</p>
+              <p>{{offer.until}}</p>
+              <p>{{offer.from}}</p>
+            </v-col>
+          </v-row> -->
+
+
       </v-col>
 
       <v-row>
+        <!-- ### TESTCARD ### --> 
+          <v-col class="justify-center py-2" v-for="(item, i) in offer" :key="i" cols="12"  sm="6" md="6" lg="4">
+            <!-- Card -->
+            <v-card class="ma-0 pa-0" max-height="175" elevation="3">
+              <v-row >
+                <!-- IMG -->
+                <v-col class="py-0" cols="6">
+                  <v-avatar class="ma-0 pa-0" min-width="100%" height="200" tile>
+                    <v-img :src="item.src"></v-img>
+                  </v-avatar>
+                </v-col>
+
+                <!-- Details -->
+                <v-col class="pa-1 pl-5" cols="6">
+                  <v-row>
+                    <v-card-title class="pa-0 pt-1">Title</v-card-title>
+                  </v-row>
+
+                  <v-row>
+                    <v-card-subtitle class="pa-0">{{ offer.location.street }} {{ offer.location.streetnumber }}</v-card-subtitle>
+                  </v-row>
+
+                  <v-row>
+                    <v-card-subtitle class="pa-0">{{ offer.location.postcode }} {{ offer.location.city }}</v-card-subtitle>
+                  </v-row>
+
+                  <v-row>
+                    <v-card-subtitle class="pa-0 pt-2">Max. {{ offer.amountInKg }} Kg</v-card-subtitle>
+                  </v-row>
+
+                  <v-row>
+                    <v-card-subtitle class="pa-0">{{ offer.from }} bis {{ offer.until }}</v-card-subtitle>
+                  </v-row>
+
+                  <v-row class="justify-end align-end">
+                    <v-spacer></v-spacer>
+                    <span class="pr-5"><confirmBooking/></span>
+                  </v-row>
+                </v-col>
+              </v-row> 
+            </v-card>
+        </v-col>
+
+
         <v-col class="justify-center py-2" v-for="(item, i) in items" :key="i" cols="12"  sm="6" md="6" lg="4">
           <!-- Card -->
           <v-card class="ma-0 pa-0" max-height="175" elevation="3">
@@ -74,12 +101,12 @@
                 </v-row>
 
                 <v-row>
-                  <v-card-subtitle class="pa-0">bis {{ item.date }}</v-card-subtitle>
+                  <v-card-subtitle class="pa-0">{{ item.date }} bis {{ item.date }}</v-card-subtitle>
                 </v-row>
 
-                <v-row>
+                <v-row class="justify-end align-end">
                   <v-spacer></v-spacer>
-                  <span class="justify-end mr-3 mt-7 pt-0 pr-3"><confirmBooking/></span>
+                  <span class="pr-6"><confirmBooking/></span>
                 </v-row>
               </v-col>
             </v-row> 
@@ -98,23 +125,29 @@ import searchSub from "./searchSub"
 export default {  
   components: { confirmBooking, searchSub },
 
-    data: () => ({
+    data() {
+      return {
+        uuid: "5e8b8cf50a975a541edfda68",
+        counter: 0,
+        skeletonLoader: true,
+        successAlert: false,
+        errorAlert: false,
         min: 0,
         max: 40,
         slider: 10,
         range: [-20, 70],
         select: ['Äpfel'],
-        fruit: null, 
-        types: [],
-        offers: [],
-      items: [
+        // fruit: null, 
+        offer: [],
+        offerUuids: "",
+        items: [
         {
           src: 'https://images.unsplash.com/photo-1538104308589-50ef22ba5d26?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80',
           title: 'Bio Gala',
-          postcode: '8405',
-          location: 'Seen',
-          quantity: '25kg',
-          date: '11.09.2020',
+          postcode: '8450',
+          location: 'Hettingen',
+          quantity: '15kg',
+          date: '23.09.2020',
         },
         {
           src: 'https://images.unsplash.com/photo-1541600321016-ac52d598f563?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80',
@@ -125,33 +158,76 @@ export default {
           date: '23.09.2020',
         },
       ],
-    }),
+    }
+    },
     mounted(){
-        this.getCategory()
-        this.getOffers()
+        // this.getCategory()
+        this.getOfferUuids()
     },
     methods: {
-        getCategory(){
-            var uuid = this.uuid
-            const url = "/category";
-            var config = {headers: {"userid": uuid}};
+      //   getCategory(){
+      //       var uuid = this.uuid
+      //       const url = "/category";
+      //       var config = {headers: {"userid": uuid}};
+      //       this.$http.get(url, config)
+      //   .then((response) => {
+      //       console.log(response)
+      //       this.types = response.data
+      //   })
+      //   .catch((error) => {
+      //       this.loading = false
+      //       console.log(error.response)
+      //   })
+      // },
+        getOfferUuids(){
+          // ### Counter is for multiple arrays later in this project ###
+            var counter = 0;
+            const url = "/searchresult/person/"+this.uuid;
+            var config = {headers: {"userid": this.uuid}};
             this.$http.get(url, config)
-        .then((response) => {
-            console.log(response)
-            this.types = response.data
-        })
-        .catch((error) => {
-            this.loading = false
-            console.log(error.response)
-        })
+            .then((response) => {
+                console.log(response)
+                console.log(url)
+                console.log("SUCCESS")
+                this.offerUuids = response.data[counter].offerUuids
+                this.getOffersbyUuid()
+            })
+            .catch((error) => {
+                console.log(error.response)
+                console.log("ERROR")
+            })
+        },
+        getOffersbyUuid(){
+            const url = "/offer/"+this.offerUuids[this.counter];
+            var config = {headers: {"userid": this.uuid}};
+            this.$http.get(url, config)
+            .then((response) => {
+                console.log(response)
+                console.log(url)
+                this.offer = response.data
+                this.dateFormatted()
+                this.counter++;  
+            })
+            .catch((error) => {
+                console.log(error.response)
+                console.log("ERROR")
+            })
       },
-      getOffers(){
-
+      dateFormatted(){
+        var dateUntilString = this.offer.until
+        var dateFromString = this.offer.from
+        var dU = new Date(dateUntilString);
+        var dF = new Date(dateFromString);
+        var dateUntil = (dU.getDate())+ "." +dU.getMonth() + "." + dU.getFullYear();
+        var dateFrom = (dF.getDate())+ "." +dF.getMonth() + ".";
+        this.offer.until =  dateUntil
+        this.offer.from = dateFrom
       }
+        // getOfferDelayed(){
+        //   setTimeout(() => {                
+        //         this.getOffersbyUuid()
+        //     }, 3000);
+        // }
     }
 }
 </script>
-
-<style scoped>
-
-</style>

@@ -16,8 +16,8 @@
                         <input type="file" style="display: none" ref="fileInput" accept="image/*"/>
                     </v-col>
                 </v-row>
-                <v-alert v-show="successAlert" class="mt-4 mx-4" type="success" elevation="2" outlined :timeout="timeout" transition="fade-transition">Änderungen erfolgreich gespeichert!</v-alert>
-                <v-alert v-show="errorAlert" class="mt-4 mx-4" type="error" elevation="2" outlined :timeout="timeout" transition="fade-transition">Änderungen fehlgeschlagen!</v-alert>
+                <v-alert v-show="successAlert" class="mt-4 mx-4" type="success" elevation="2" outlined transition="fade-transition">Änderungen erfolgreich gespeichert!</v-alert>
+                <v-alert v-show="errorAlert" class="mt-4 mx-4" type="error" elevation="2" outlined  transition="fade-transition">Änderungen fehlgeschlagen!</v-alert>
                 <!-- Form -->
                 <v-form class="px-3 pt-6">
                     <div>
@@ -56,7 +56,9 @@
                         </v-row>
                         <v-row class="pt-9">
                             <v-col class="pl-3 pr-1" cols="5">
-                                <v-btn class="mx-auto" color="green darken-1 white--text" outlined  @click="makeReadable" width="95%"><v-icon left>mdi-pencil</v-icon>BEARBEITEN</v-btn>
+                                <v-btn class="mx-auto" color="green darken-1 white--text" outlined  @click="makeReadable" width="95%">
+                                    <!-- <v-icon left>mdi-pencil</v-icon> -->
+                                    BEARBEITEN</v-btn>
                             </v-col>
                             <v-col class="pr-1 pl-0" cols="7">
                                 <v-btn class="mx-auto mb-1" color="green darken-1 white--text" :disabled="makeSaveable" @click="updatePerson" :loading="loading" raised  width="95%">SPEICHERN</v-btn>
@@ -77,7 +79,8 @@
 export default {
     data() {
         return {
-            uuid: "5e8c0e8e0a975a541edfda6b",
+            uuid: "5e8b8cf50a975a541edfda68",
+            text: '',
             loader: null,
             loading: false,
             isReadonly: true,
@@ -154,7 +157,7 @@ export default {
         },
         updatePerson(){
             const url = "/updateperson";
-            var config = {headers: {"userid": "5cb8d10725839944c26ff1f5"}};
+            var config = {headers: {"userid": this.uuid}};
             var data = 
             {
                 uuid: this.person.uuid,
@@ -162,7 +165,7 @@ export default {
                 first: this.person.first,
                 last: this.person.last,
                 cell: this.person.cell,
-                sndEmail: this.person.email.sndEmail,
+                sndEmail: this.person.sndEmail,
                 email: 
                 {
                     uuid: this.person.email.uuid,

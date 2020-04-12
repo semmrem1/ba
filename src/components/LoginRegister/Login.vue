@@ -12,7 +12,6 @@
                     <v-card-text class="pa-2">
                         
                             <!-- E-MAIL -->
-                            <!-- v-validate="'required'" -->
                             <v-text-field label="E-Mail" color="green" v-model="person.email"  prepend-icon="mdi-account"/>
    
                             <!-- PASSWORD -->

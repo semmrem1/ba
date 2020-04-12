@@ -51,7 +51,7 @@
                 </v-list>
                 <template v-slot:append>
                     <div class="pa-4">
-                        <v-btn block class="grey darken-3 white--text">Logout</v-btn>
+                        <v-btn block class="grey darken-3 white--text" to="/">Logout</v-btn>
                     </div>
                 </template>
             </v-navigation-drawer>
