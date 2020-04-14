@@ -5,14 +5,21 @@ import router from './router'
 import vuetify from './plugins/vuetify';
 import store from './store';
 import axios from 'axios'
+import Vuex from 'vuex';
 import VueAxios from './plugins/axios'
 
 axios.defaults.baseURL = "https://cors-anywhere.herokuapp.com/http://env-9201482.jcloud.ik-server.com"
 
 Vue.use(VueAxios)
+Vue.use(Vuex);
 
 Vue.config.productionTip = false;
 Vue.prototype.$http = axios;
+
+// const token = localStorage.getItem('token')
+// if (token) {
+//   Vue.prototype.$http.defaults.headers.common['Authorization'] = token
+// }
 
 new Vue({
   router,

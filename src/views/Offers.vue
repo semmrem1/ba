@@ -66,7 +66,7 @@ export default {
       return {
         min: 0,
         max: 50,
-        slider: 40,
+        slider: 10,
         range: [-20, 70],
         type: "",
         types: [],

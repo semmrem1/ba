@@ -16,14 +16,14 @@
                 <v-spacer></v-spacer>
 
                 <!-- if already logged in -->
-                <!-- <div v-if="currentUser">
+                <div v-if="currentUser">
                     <v-btn icon color="black" to="/profile"><v-icon>mdi-account</v-icon></v-btn>
-                </div> -->
+                </div>
 
                 <!-- if not logged in -->
-                <!-- <div v-if="!currentUser"> -->
+                <div v-if="!currentUser">
                     <v-btn text depressed to="/login">Login</v-btn>
-                <!-- </div> -->
+                </div>
 
             </v-app-bar>
             
@@ -92,20 +92,6 @@ export default {
         }
 
 },
-    // watch: {
-    //     mounted(){
-    //         const url = "/person/5e8b8cf50a975a541edfda68";
-    //         var config = {headers: {"userid": "5cb8d10725839944c26ff1f5"}};
-    //         this.$http.get(url, config)
-    //         .then((response) => {
-    //             this.person = response.data;
-    //                 })
-    //         .catch((error) => {
-    //             console.log(error.response)
-    //         })
-    // },
-    // },
-
     computed: {
         currentUser() {
             return this.$store.state.auth.user;

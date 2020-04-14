@@ -1,15 +1,17 @@
-const loginURL = 'http://localhost:3000/';
-const registerURL =  'https://cors-anywhere.herokuapp.com/http://env-9201482.jcloud.ik-server.com/regiserperson';
+import axios from 'axios';
+
+const API_URL = 'http://env-8368367.jcloud.ik-server.com/users/login';
 
 class AuthService {
-  login(person) {
-    return this.$http.post(loginURL, {
-        email: person.email,
-        password: person.password
+  login(user) {
+    return axios
+      .post(API_URL, {
+        username: user.username,
+        password: user.password
       })
       .then(response => {
         if (response.data.accessToken) {
-          localStorage.setItem('person', JSON.stringify(response.data));
+          localStorage.setItem('user', JSON.stringify(response.data));
         }
 
         return response.data;
@@ -17,14 +19,7 @@ class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('person');
-  }
-
-  register(person) {
-    return this.$http.post(registerURL, {
-      email: person.email,
-      password: person.password
-    });
+    localStorage.removeItem('user');
   }
 }
 

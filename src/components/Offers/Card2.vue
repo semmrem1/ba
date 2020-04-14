@@ -7,25 +7,34 @@
           <v-alert v-show="errorAlert" class="mt-4 mx-4" type="error" elevation="2" outlined  transition="fade-transition">Änderungen fehlgeschlagen!</v-alert>
 
           <!-- ### ROW FOR TESTING PURPOSES ### -->
-          <!-- <v-row>
+          <v-row>
             <v-col cols="6">
                 <v-btn @click="getOfferUuids()">GET Offer Uuids</v-btn>
                 <p>offerUuids:</p>
-                <div v-for="(item, i) in offerUuids" :key="i">
+                <!-- <div v-for="(item, i) in offerUuids" :key="i">
                   <span>{{offerUuids[i]}}</span>
-                </div>
+                </div> -->
+                <span>{{offerUuids}}</span>
             </v-col>
             <v-col cols="6">
               <v-btn @click="getOffersbyUuid()">GET  Offers By Uuid</v-btn>
-              <p>Offers:</p>
-              <p>{{offer.uuid}}</p>
-              <p>{{offer.location.city}}</p>
-              <p>{{offer.location.postcode}}</p>
-              <p>{{offer.amountInKg}}</p>
-              <p>{{offer.until}}</p>
-              <p>{{offer.from}}</p>
+              <p>Offer:</p>
+              <!-- <p>{{offer}}</p>
+              <p>asdf</p> -->
+              <!-- <div v-for="(item, i) in offer" :key="i">
+                <p>{{offer[i]}}</p>
+              </div> -->
+              <p>{{this.offer}}</p>
+              <!-- <p>{{offer[0].uuid}}</p> -->
+
+              <!-- <p>{{offer[0].uuid}}</p>
+              <p>{{offer[0].location.city}}</p>
+              <p>{{offer[0].location.postcode}}</p>
+              <p>{{offer[0].amountInKg}}</p>
+              <p>{{offer[0].until}}</p>
+              <p>{{offer[0].from}}</p> -->
             </v-col>
-          </v-row> -->
+          </v-row>
 
 
       </v-col>
@@ -58,11 +67,11 @@
                   </v-row>
 
                   <v-row>
-                    <v-card-subtitle class="pa-0 pt-2">Max. {{ offer.amountInKg }} Kg</v-card-subtitle>
+                    <v-card-subtitle class="pa-0 pt-2">{{ offer.from }} bis {{ offer.until }}</v-card-subtitle>
                   </v-row>
 
                   <v-row>
-                    <v-card-subtitle class="pa-0">{{ offer.from }} bis {{ offer.until }}</v-card-subtitle>
+                    <v-card-subtitle class="pa-0">Menge: {{ offer.amountInKg }} Kg</v-card-subtitle>
                   </v-row>
 
                   <v-row class="justify-end align-end">
@@ -138,8 +147,9 @@ export default {
         range: [-20, 70],
         select: ['Äpfel'],
         // fruit: null, 
-        offer: [],
-        offerUuids: "",
+        offer: [
+        ],
+        offerUuids: [],
         items: [
         {
           src: 'https://images.unsplash.com/photo-1538104308589-50ef22ba5d26?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80',
@@ -181,16 +191,14 @@ export default {
       // },
         getOfferUuids(){
           // ### Counter is for multiple arrays later in this project ###
-            var counter = 0;
             const url = "/searchresult/person/"+this.uuid;
             var config = {headers: {"userid": this.uuid}};
             this.$http.get(url, config)
             .then((response) => {
                 console.log(response)
-                console.log(url)
                 console.log("SUCCESS")
-                this.offerUuids = response.data[counter].offerUuids
-                this.getOffersbyUuid()
+                this.offerUuids = response.data[0].offerUuids
+                // this.getOffersbyUuid()
             })
             .catch((error) => {
                 console.log(error.response)
@@ -198,36 +206,48 @@ export default {
             })
         },
         getOffersbyUuid(){
-            const url = "/offer/"+this.offerUuids[this.counter];
+          for (let i = 0; i < 2; i++) {
+            const offerID = this.offerUuids[i];
+            const url = "/offer/"+offerID;
             var config = {headers: {"userid": this.uuid}};
             this.$http.get(url, config)
             .then((response) => {
-                console.log(response)
-                console.log(url)
+                console.log(response.data)
+                console.log(offerID)
                 this.offer = response.data
                 this.dateFormatted()
-                this.counter++;  
             })
             .catch((error) => {
                 console.log(error.response)
                 console.log("ERROR")
             })
+          }
+                      // const url = "/offer/"+this.offerUuids[0];
+            // var config = {headers: {"userid": this.uuid}};
+            // this.$http.get(url, config)
+            // .then((response) => {
+            //     console.log(response)
+            //     this.offer.push(response.data)
+            //     this.dateFormatted()
+            //     })
+            // .catch((error) => {
+            //     console.log(error.response)
+            //     console.log("ERROR")
+            // })
       },
+
       dateFormatted(){
         var dateUntilString = this.offer.until
         var dateFromString = this.offer.from
         var dU = new Date(dateUntilString);
         var dF = new Date(dateFromString);
-        var dateUntil = (dU.getDate())+ "." +dU.getMonth() + "." + dU.getFullYear();
-        var dateFrom = (dF.getDate())+ "." +dF.getMonth() + ".";
+        var dateUntil = (dU.getDate()) + "." + dU.getMonth() + "." + dU.getFullYear();
+        var dateFrom = (dF.getDate()) + "." + dF.getMonth() + ".";
         this.offer.until =  dateUntil
         this.offer.from = dateFrom
       }
-        // getOfferDelayed(){
-        //   setTimeout(() => {                
-        //         this.getOffersbyUuid()
-        //     }, 3000);
-        // }
-    }
+    },
+
+
 }
 </script>

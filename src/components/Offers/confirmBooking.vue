@@ -17,7 +17,7 @@
                     </v-col>
                     
                     <v-col cols="5">
-                        <v-text-field class="justify-center" color="green" outlined readonly :value="counter" suffix="KG">{{ counter }}</v-text-field>
+                        <v-text-field v-model="amountInKg" class="justify-center" color="green" outlined readonly :value="amountInKg" suffix="KG">{{ amountInKg }}</v-text-field>
                     </v-col>
                     <v-col>
                         <v-btn class="ml-2" fab dark color="green darken-1">
@@ -53,18 +53,18 @@ export default {
             color: "green",
             width: 290,
         },  
-        counter: 10,
         currentDialog: null,
+        amountInKg: 10,
     };
 
   },
     methods: {
       increase: function(){
-          this.counter++;
+          this.amountInKg++;
       },
       decrease: function(){
-          if(this.counter > 0){
-            this.counter--;              
+          if(this.amountInKg > 0){
+            this.amountInKg--;              
           }
 
       },
@@ -81,17 +81,17 @@ export default {
                 },
                 requester: {
                     uuid: this.uuid
-                }
+                },
+                amountInKg: this.amountInKg,
             }    
             this.loading = true
             this.$http.post(url, data, config)
             .then((response) => {
                 console.log(response)
-                    console.log(response)
-                    console.log("SUCCESS")
-                    this.successAlert = true
-                    this.loading = false
-                    this.dialog = false
+                console.log("SUCCESS")
+                this.successAlert = true
+                this.loading = false
+                this.dialog = false
             })
             .catch((error) => {
                 console.log(error)

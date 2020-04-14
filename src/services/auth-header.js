@@ -1,9 +1,10 @@
 export default function authHeader() {
-    let person = JSON.parse(localStorage.getItem('person'));
-  
-    if (person && person.accessToken) { //person with jwt available
-      return { Authorization: 'Bearer ' + person.accessToken }; //return the necessary header
-    } else {
-      return {};
-    }
+  let user = JSON.parse(localStorage.getItem('user'));
+
+  if (user && user.accessToken) {
+    return { Authorization: 'Bearer ' + user.accessToken }; // for Spring Boot back-end
+    // return { 'x-access-token': user.accessToken };       // for Node.js Express back-end
+  } else {
+    return {};
   }
+}

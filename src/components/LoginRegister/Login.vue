@@ -6,17 +6,17 @@
             <!-- CARD -->
             <v-card class="ma-0 mt-4 pa-1" width="90%" max-width="600px" elevation="3">
 
-                <v-form name="form" type="submit">
+                <v-form name="form" type="submit" @submit.prevent="login">
                     <v-card-title class="pa-3 display-1 font-weight-bold">Login</v-card-title>
                     <v-alert v-show="errorAlert" class="mt-4 mx-2" type="error" elevation="2" outlined transition="fade-transition" dense>Email oder Password ist nicht korrekt!</v-alert>
                     <v-card-text class="pa-2">
                         
                             <!-- E-MAIL -->
-                            <v-text-field label="E-Mail" color="green" v-model="person.email"  prepend-icon="mdi-account"/>
+                            <v-text-field label="E-Mail" color="green" v-model="user.username"  prepend-icon="mdi-account"/>
    
                             <!-- PASSWORD -->
-                            <v-text-field type="password" color="green" label="Passwort" v-model="person.password" prepend-icon="mdi-lock"/>
-                            <v-btn class="ml-6" to="/passwordReset" text small>Passwort vergessen?</v-btn>
+                            <v-text-field type="password" color="green" label="Passwort" v-model="user.password" prepend-icon="mdi-lock"/>
+                            <v-btn class="ml-6" to="/passwordReset" type="submit" text small>Passwort vergessen?</v-btn>
                         <!-- <p>{{person.email}}</p>
                         <p>{{person.password}}</p> -->
                     </v-card-text>
@@ -25,7 +25,7 @@
                         <v-col class="px-2" justify-center cols="12">
                             <v-btn class="btn white--text"
                             
-                            @click="login"
+                            @click="handleLogin"
                             :loading="loading"
                             :elevation="5"
                             color="green"
@@ -42,23 +42,23 @@
 </template>
 
 <script>
-import Person from '@/models/Person';
 
 export default {
     name: 'Login',
     data () {
       return {
+        user: {
+            username: "",
+            password: "",
+        },
         errorAlert: '',
-        person: new Person ('', ''),
+        person: "",
         loader: null,
         loading: false,
         message: '',
       };    
     },
     computed: {
-        // isComplete(){
-        //     return this.person.email && this.person.password;
-        // },
         loggedIn() {
             return this.$store.state.auth.status.loggedIn;
         }
@@ -69,54 +69,28 @@ export default {
             }
     },
     methods: {
-        login(){
-            this.loading = true
-            var data = {
-                username: this.person.email,
-                password: this.person.password
+        handleLogin() {
+            this.loading = true;
+                if (this.user.username && this.user.password) {
+                this.$store.dispatch('auth/login', this.user).then(
+                    () => {
+                    this.$router.push('/profile');
+                    },
+                    error => {
+                    this.loading = false;
+                    this.message =
+                        (error.response && error.response.data) ||
+                        error.message ||
+                        error.toString();
+                    }
+                );
             }
-            this.$http.post("http://localhost:3000/login", data)
-            .then((response) => {
-                console.log(response)
-                this.person = response.data
-                this.token = response.data.token
-                localStorage.setItem("token", response.data.token)
-                this.$router.push('/profile');
-                this.loading = false
-                this.hideAlert()
-            })
-            .catch((error) => {
-                this.errorAlert = true
-                console.log(error);
-                console.log("login() ERROR")
-                this.loading = false
-                this.hideAlert()
-            })
-        },
+            },
             hideAlert(){
                 setTimeout(() => {         
                     this.successAlert = false
                     this.errorAlert = false
             }, 2000);
-
-        // login(){
-        //     this.loadig = true;
-        //     if (this.person.email && this.person.password) {
-        //         this.$store.dispatch('/login', this.person).then(
-        //             () => {
-        //               this.$router.push('/profile');
-        //             },
-        //             error => {
-        //                this.loading = false;
-        //                this.message =
-        //                 (error.response && error.response.data) ||
-        //                 error.message ||
-        //                 error.toString();
-        //             }
-        //         );
-        // }
-
-        // }
 
     },
    
