@@ -14,7 +14,7 @@
                 <!-- <div v-for="(item, i) in offerUuids" :key="i">
                   <span>{{offerUuids[i]}}</span>
                 </div> -->
-                <span>{{offerUuids}}</span>
+                <span>{{this.offerUuids}}</span>
             </v-col>
             <v-col cols="6">
               <v-btn @click="getOffersbyUuid()">GET  Offers By Uuid</v-btn>
@@ -25,6 +25,7 @@
                 <p>{{offer[i]}}</p>
               </div> -->
               <p>{{this.offer}}</p>
+              {{offer}}
               <!-- <p>{{offer[0].uuid}}</p> -->
 
               <!-- <p>{{offer[0].uuid}}</p>
@@ -110,7 +111,10 @@
                 </v-row>
 
                 <v-row>
-                  <v-card-subtitle class="pa-0">{{ item.date }} bis {{ item.date }}</v-card-subtitle>
+                  <v-card-subtitle class="pa-0">vom {{ item.date }} </v-card-subtitle>
+                </v-row>
+                <v-row>
+                  <v-card-subtitle class="pa-0"> bis {{ item.date }}</v-card-subtitle>
                 </v-row>
 
                 <v-row class="justify-end align-end">
@@ -147,8 +151,7 @@ export default {
         range: [-20, 70],
         select: ['Äpfel'],
         // fruit: null, 
-        offer: [
-        ],
+        offer: [],
         offerUuids: [],
         items: [
         {
@@ -190,7 +193,6 @@ export default {
       //   })
       // },
         getOfferUuids(){
-          // ### Counter is for multiple arrays later in this project ###
             const url = "/searchresult/person/"+this.uuid;
             var config = {headers: {"userid": this.uuid}};
             this.$http.get(url, config)
@@ -212,9 +214,9 @@ export default {
             var config = {headers: {"userid": this.uuid}};
             this.$http.get(url, config)
             .then((response) => {
+                this.offer.concat(response.data)
                 console.log(response.data)
                 console.log(offerID)
-                this.offer = response.data
                 this.dateFormatted()
             })
             .catch((error) => {
@@ -222,7 +224,7 @@ export default {
                 console.log("ERROR")
             })
           }
-                      // const url = "/offer/"+this.offerUuids[0];
+            // const url = "/offer/"+this.offerUuids[0];
             // var config = {headers: {"userid": this.uuid}};
             // this.$http.get(url, config)
             // .then((response) => {
@@ -250,4 +252,7 @@ export default {
 
 
 }
+
 </script>
+
+

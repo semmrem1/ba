@@ -2,7 +2,7 @@
     <v-content class="pt-0"> 
     <section id="hero" elevation-3>
         <v-row justify="center" no-gutters>
-        <v-img class="elevation-3" justify-center max-height="100%" :min-height="'calc(100vh - ' + $vuetify.application.top + 'px)'"
+        <v-img class="elevation-3" justify-center max-height="600px" :min-height="'calc(100vh - ' + $vuetify.application.top + 'px)'"
         src="https://images.unsplash.com/photo-1539756250244-b39c3a836b85?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1001&q=80">
             <v-theme-provider dark>
             <v-container fluid fill-height>

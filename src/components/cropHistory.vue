@@ -1,7 +1,17 @@
 <template>
   <v-container class="justify-center ma-0 py-2 px-4" justify-center cols="12" sm="6" md="8">
-      <p>Booking IDs</p>
-      <p>{{this.bookingIds}}</p>
+    <v-row>
+        <v-col cols="6">
+            <v-btn @click="getBookingIds()">GET Booking IDs</v-btn>
+            <p>Booking Uuids</p>
+            <p>{{bookingUuids}}</p>
+        </v-col>
+        <v-col>
+            <v-btn @click="getBookings()">GET Bookings</v-btn>
+            <p>Bookings</p>
+            <p>{{this.bookings}}</p>
+        </v-col>    
+    </v-row>
       <v-row>
         <v-col class="justify-center py-2" v-for="(item, i) in items" :key="i" cols="12"  sm="6" md="6" lg="4">
         <v-card class="justify-center ma-0 pa-0" max-height="275" elevation="3">
@@ -45,7 +55,8 @@ export default {
     data() {
         return {
             uuid: "5e8b8cf50a975a541edfda68",
-            bookingIds: [],
+            bookingUuids: [],
+            bookings: [],
             items: [
             {
                 bookingNumber: '#8400001',
@@ -79,18 +90,34 @@ export default {
     }
     },
     mounted(){
-        this.getBookingIds()
+        // this.getBookingIds()
     },
     methods: {
         getBookingIds() {
-            const url = "/booking/requester/"+this.uuid
+            const url = "/booking/requester/"+this.uuid;
             var config = {headers: {"userid": this.uuid}};
             this.$http.get(url, config)
             .then((response) => {
                 console.log(response)
                 console.log(response.data)
                 console.log("SUCCESS")
-                this.bookingIds = response.data
+                this.bookingUuids = response.data
+            })
+            .catch((error) => {
+                console.log(error.response)
+                console.log("ERROR")
+            })
+        },
+        getBookings(){
+            const bookingID = "5e8cd9a40a975a1d15edb39c";
+            const url = "/booking/"+bookingID;
+            var config = {headers: {"userid": this.uuid}};
+            this.$http.get(url, config)
+            .then((response) => {
+                this.offer.concat(response.data)
+                console.log(response.data)
+                console.log("success")
+                this.dateFormatted()
             })
             .catch((error) => {
                 console.log(error.response)

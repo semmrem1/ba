@@ -6,10 +6,10 @@
                 <!-- Form -->
                 <v-form ref="form" v-model="valid" lazy-validation class="pa-3">
                     <div>
-                        <v-text-field class="py-0" color="green" :rules="nameRules" label="Name" v-model="name" required></v-text-field>
-                        <v-text-field class="py-0" color="green" :rules="emailRules" label="E-Mail" v-model="email" required></v-text-field>
-                        <v-text-field class="py-0" color="green" :rules="topicRules" label="Betreff" v-model="topic" required></v-text-field>
-                        <v-textarea label="Ihre Nachricht" :counter="0"></v-textarea>
+                        <v-text-field class="py-0" color="green" :rules="nameRules" label="Name" v-model="message.name" required></v-text-field>
+                        <v-text-field class="py-0" color="green" :rules="emailRules" label="E-Mail" v-model="message.email" required></v-text-field>
+                        <v-text-field class="py-0" color="green" :rules="topicRules" label="Betreff" v-model="message.topic" required></v-text-field>
+                        <v-textarea label="Ihre Nachricht" v-model="message.message" :counter="0"></v-textarea>
                     </div>
                     <v-row class="pt-6">
                         <v-col class="pl-3 pr-1" cols="4">
@@ -30,30 +30,47 @@
 <script>
 export default {
     data: () => ({
-            valid: true,
-            name: '',
-            nameRules: [
-                v => !!v || 'Name ist erforderlich',
-            ],
-            email: '',
-            emailRules: [
-                v => !!v || 'E-Mail ist erforderlich',
-                v => /.+@.+\..+/.test(v) || 'E-mail muss gültig sein'
-            ],
-            topic: '',
-            topicRules: [
-                v => !!v || 'Betreff ist erforderlich',
-            ],
+        uuid: "5e8b8cf50a975a541edfda68",
+        message: {
+            name: "",
+            email: "",
+            topic: "", 
+            message: "",
+        },
+        valid: true,
+        name: '',
+        nameRules: [
+            v => !!v || 'Name ist erforderlich',
+        ],
+        email: '',
+        emailRules: [
+            v => !!v || 'E-Mail ist erforderlich',
+            v => /.+@.+\..+/.test(v) || 'E-mail muss gültig sein'
+        ],
+        topic: '',
+        topicRules: [
+            v => !!v || 'Betreff ist erforderlich',
+        ],
 
     }),
     methods: {
         validate () {
         this.$refs.form.validate()
-        console.log(this.name, this.email, this.betreff)
         },
         reset () {
         this.$refs.form.reset()
       },
+      postMessage(){
+          const url = "/contactform";
+          var config = {headers: {"userid": this.uuid}};
+          var data = {
+              name: this.message.name,
+              email: this.message.email,
+              topic: this.message.topic,
+              message: this.message.message
+          }
+          this.$http.get(url, data, config)
+      }
     }
     
     
