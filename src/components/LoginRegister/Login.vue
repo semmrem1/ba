@@ -72,9 +72,9 @@ export default {
         handleLogin() {
             this.loading = true;
                 if (this.user.username && this.user.password) {
-                this.$store.dispatch('auth/login', this.user).then(
-                    () => {
-                    this.$router.push('/profile');
+                this.$store.dispatch('auth/login', this.user)
+                .then(() => {
+                    this.$router.push('/offers');
                     },
                     error => {
                     this.loading = false;

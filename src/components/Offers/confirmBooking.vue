@@ -45,7 +45,7 @@ export default {
     // components: { bookingOverview },
     data() {
     return {
-        uuid: "5e8b8cf50a975a541edfda68",
+        uuid: "5e9ac90c0a975a3a277cc343",
         snackbar: false,
         loading: false,
         dialog: false,
@@ -77,7 +77,7 @@ export default {
             var data = 
             {
                 offer: {
-                    uuid: "5e8cd9a40a975a1d15edb39d"
+                    uuid: "5e9add3d0a975a62e51beade"
                 },
                 requester: {
                     uuid: this.uuid

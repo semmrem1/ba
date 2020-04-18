@@ -149,12 +149,13 @@
                                 return-object
                                 >
                                     <template slot="selection" slot-scope='{item}'>
-                                        {{item.street }} {{item.streetnumber}}, {{item.postcode}} {{item.city}}
+                                        {{item.title }} {{item.street }} {{item.streetnumber}}, {{item.postcode}} {{item.city}}
                                     </template>
                                     <template slot="item" slot-scope='{item}'>
-                                        {{item.street }} {{item.streetnumber}}, {{item.postcode}} {{item.city}}
+                                        {{item.title }} {{item.street }} {{item.streetnumber}}, {{item.postcode}} {{item.city}}
                                     </template>
                                 </v-select>
+                                <v-textarea label="Beschreibung" v-model="product.description" :counter="0"></v-textarea>
                         </v-card>
                         </v-div>
                                 <v-dialog v-model="dialog" max-width="450">
@@ -169,6 +170,9 @@
                                         
                                             <v-row class="px-4">
                                                 <v-row class="px-4">
+                                                    <v-col cols="12">
+                                                        <v-text-field class="py-0" color="green" label="Name" v-model="offerLocation.title"></v-text-field>
+                                                    </v-col>
                                                     <v-col cols="9">
                                                         <v-text-field class="py-0" color="green" label="Strasse*" :rules="streetRules" v-model="offerLocation.street"></v-text-field>
                                                     </v-col>
@@ -182,6 +186,9 @@
                                                     </v-col>
                                                     <v-col class="py-0" cols="9">
                                                         <v-text-field class="py-0" color="green" label="Ort*" :rules="cityRules" v-model="offerLocation.city"></v-text-field>
+                                                    </v-col>
+                                                    <v-col>
+                                                        <v-textarea label="Beschreibung" v-model="offerLocation.description" :counter="0"></v-textarea>
                                                     </v-col>
                                                 </v-row>
                                             </v-row>
@@ -228,7 +235,7 @@
   export default {
     data() {
         return {   
-            uuid: "5e8b8cf50a975a541edfda68",
+            uuid: "5e9acab70a975a3a277cc347",
             loader: null,
             loading: false,
             loadingDialog: false,
@@ -318,7 +325,8 @@
                 street: '',
                 streetnumber: '',
                 postcode: '',
-                city: ''
+                city: '',
+                description: ''
             },
             cropCheckbox: false,
             takeCheckbox: false,
@@ -487,10 +495,12 @@
                 var config = {headers: {"userid": uuid}};
                 var data =
                 {
+                    title: this.offerLocation.title,
                     street: this.offerLocation.street,
                     streetnumber: this.offerLocation.streetnumber,
                     city: this.offerLocation.city,
                     postcode: this.offerLocation.postcode,
+                    description: this.offerLocation.description,
                 }
                 console.log(data)
                 this.loadingDialog = true

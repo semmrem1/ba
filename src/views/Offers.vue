@@ -11,7 +11,7 @@
             label="Obstsorte"
             item-text="name"
             item-value="uuid"
-            multiple
+            multiplew
             clearable
             chips
           ></v-combobox>
