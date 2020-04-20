@@ -249,11 +249,13 @@ export default {
                         this.errorAlert = true
                         this.text = "Nicht berechtigt."
                     }
+                    this.hideAlert()
                 })
                 .catch((error) => {
                     console.log(error);
                     this.correct = false
                     this.loading = false
+                    this.hideAlert()
                 })
         },
         validate () {
@@ -263,12 +265,12 @@ export default {
         reset () {
            this.$refs.form.reset()
         },
-
         hideAlert(){
-            setTimeout(() => {
+            setTimeout(() => {                
                 this.successAlert = false
-            }, 1000)
-        }
+                this.errorAlert = false
+            }, 2000);
+        },
 
     }
     

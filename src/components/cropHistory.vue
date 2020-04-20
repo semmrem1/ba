@@ -4,19 +4,27 @@
         <v-col cols="12">
             <v-btn @click="getBookings()">GET Booking</v-btn>
             <p>Bookings</p>
-            <!-- <p>{{bookings}}</p> -->
-            <!-- <p>{{bookings[0]}}</p>
-            <p>{{bookings[1]}}</p> -->
-            <p>{{bookings[0].uuid}}</p>
+            <div v-for="(item, i) in bookings" :key="i">
+                <p>
+                    {{bookings[i].uuid}}
+                </p>
+                
+                <p>
+                    {{bookings[i].offer}}
+                </p>
+                
+            </div>
+            <!-- <p>{{bookings[0].uuid}}</p>
             <p>Requester: {{bookings[0].requester}}</p>
             <p>Requester Uuid: {{bookings[0].requester.uuid}}</p>
             <p>Offer 1: {{bookings[0].offer}}</p>
+            <p>OfferUuid 1: {{bookings[0].offer.uuid}}</p>
 
             <p>Offer 2: {{bookings[1].offer}}</p>
             <p>Offer 2 Uuid: {{bookings[1].offer.uuid}}</p>
             <p>Offer 2 location: {{bookings[1].offer.location}}</p>
             <p>Offer 2 location: {{bookings[1].offer.from}}</p>
-            <p>Offer 2 Menge: {{bookings[1].offer.amountInKg}}</p>
+            <p>Offer 2 Menge: {{bookings[1].offer.amountInKg}}</p> -->
 
 
         </v-col>  
@@ -44,13 +52,13 @@
                     <v-card-text class="py-0 pt-4 pr-0 font-weight-bold">Addresse:</v-card-text>
                 </v-col>
                 <v-col class="pl-0" cols="8">
-                    <v-card-text class="py-0">{{ moment(bookings[1].bookingDate).format('DD.MM.YYYY') }}</v-card-text>
-                    <v-card-text class="py-0">{{ moment(bookings[1].offer.from).format('DD.MM.YYYY') }} bis {{ moment(bookings[1].offer.until).format('DD.MM.YYYY') }}</v-card-text>
+                    <!-- <v-card-text class="py-0">{{ moment(bookings[i].bookingDate).format('DD.MM.YYYY') }}</v-card-text>
+                    <v-card-text class="py-0">{{ moment(bookings[i].offer.from).format('DD.MM.YYYY') }} bis {{ moment(bookings[i].offer.until).format('DD.MM.YYYY') }}</v-card-text> -->
                     <v-card-text class="py-0">zum abholen</v-card-text>
-                    <v-card-text class="py-0">{{ bookings[1].offer.amountInKg }}</v-card-text>
+                    <!-- <v-card-text class="py-0">{{ bookings[i].offer.amountInKg }}</v-card-text> -->
                     <!-- <v-card-text class="py-0 pt-3">Bauernhof 33</v-card-text> -->
-                    <v-card-text class="py-0 pt-4">{{ bookings[1].offer.location.street }} {{ bookings[1].offer.location.streetnumber }}</v-card-text>
-                    <v-card-text class="py-0">{{ bookings[1].offer.location.postcode }} {{ bookings[1].offer.location.city }}</v-card-text>
+                    <!-- <v-card-text class="py-0 pt-4">{{ bookings[i].offer.location.street }} {{ bookings[i].offer.location.streetnumber }}</v-card-text>
+                    <v-card-text class="py-0">{{ bookings[i].offer.location.postcode }} {{ bookings[i].offer.location.city }}</v-card-text> -->
                 </v-col>
             </v-row>
         </v-card>
@@ -142,16 +150,6 @@ export default {
                 this.type = "zum ernten"
             }
         },
-        // dateFormatted(){
-        //     this.bookings.forEach(element => {
-        //         var dateFromString = this.bookings.offer.from
-        //         var dateUntilString = this.bookings.offer.until
-        //         var dU = new Date(dateUntilString);
-        //         var dF = new Date(dateFromString);
-        //     });
-            
-
-        // }
     }
 }
 </script>

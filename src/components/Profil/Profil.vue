@@ -79,7 +79,7 @@
 export default {
     data() {
         return {
-            uuid: "5e9ac90c0a975a3a277cc343",
+            // uuid: "5e9ac90c0a975a3a277cc343",
             text: '',
             loader: null,
             loading: false,
@@ -126,6 +126,7 @@ export default {
 
     mounted(){
         this.getPerson()
+        console.log(this.$store.state.user.uuid);
     },
 
     computed: {
@@ -139,8 +140,8 @@ export default {
 
     methods: {
         getPerson(){
-            const url = "/person/"+this.uuid;
-            var config = {headers: {"userid": this.uuid}};
+            const url = "/person/"+this.$store.state.user.uuid;
+            var config = {headers: {"userid": this.$store.state.user.uuid}};
             this.$http.get(url, config)
             .then((response) => {
                 console.log(response)

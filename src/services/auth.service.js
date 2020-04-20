@@ -10,12 +10,18 @@ class AuthService {
         password: user.password
       })
       .then(response => {
-        if (response.data.accessToken) {
+        if (response.data.token) {
           localStorage.setItem('user', JSON.stringify(response.data));
-        }
-
+          localStorage.setItem('token', JSON.stringify(response.data.token));
+          console.log(response)
+        }        
+      })
+      .catch(response => {
+        console.log("ERROR LOGIN")
+        console.log(response)
         return response.data;
-      });
+      })
+      ;
   }
 
   logout() {

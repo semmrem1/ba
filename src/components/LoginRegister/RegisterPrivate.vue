@@ -73,7 +73,7 @@
                     required
                     >
                         <template v-slot:label>
-                            <div>Ich erkläre mich mit den <a target="_blank" href="http://google.com" @click.stop v-on="on">AGB</a> von Obst vom Baum einverstanden.</div>
+                            <div>Ich erkläre mich mit den <a target="_blank" href="http://google.com" @click.stop>AGB</a> von Obst vom Baum einverstanden.</div>
                         </template>
                     </v-checkbox>   
 
@@ -114,8 +114,6 @@ export default {
             snackbar: false,
             text: '',
             timeout: 5000,
-
-            hideAlert: true,
             successAlert: '',
             errorAlert: '',
             emailAlert: '',
@@ -274,35 +272,22 @@ export default {
                         this.errorAlert = true
                         this.text = "Nicht berechtigt."
                     }
+                    this.hideAlert()
                     
                 })
                 .catch((error) => {
                     console.log(error);
                     console.log("ERROR")
                     this.loading = false
+                    this.hideAlert()
                 })
         },
-        // handleRegister() {
-        //     this.message = '';
-        //     this.submitted = true;
-        //     this.$validator.validate().then(isValid => {
-        //         if (isValid) {
-        //         this.$store.dispatch('auth/register', this.person).then(
-        //             data => {
-        //             this.message = data.message;
-        //             this.successful = true;
-        //             },
-        //             error => {
-        //             this.message =
-        //                 (error.response && error.response.data) ||
-        //                 error.message ||
-        //                 error.toString();
-        //             this.successful = false;
-        //             }
-        //         );
-        //         }
-        //     });
-        // },
+        hideAlert(){
+            setTimeout(() => {                
+                this.successAlert = false
+                this.errorAlert = false
+            }, 2000);
+        },
         validate () {
             this.$refs.form.validate()
             console.log(this.$refs.form)

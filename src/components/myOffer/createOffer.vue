@@ -395,9 +395,6 @@
         reset () {
             this.$refs.form.reset()
         },
-        validate () {
-            this.$refs.form.validate()
-        },
         formatDate (date) {
             if (!date) return null
 
@@ -467,7 +464,6 @@
                 ]
 
             }
-            // console.log(data)
             this.loading = true
             this.$http.post(url, data, config)
             .then((response) => {
