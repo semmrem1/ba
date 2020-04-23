@@ -86,6 +86,7 @@ export default {
                 this.successAlert = true
                 this.loading = false
                 this.hideAlert()
+                this.$refs.form.reset()
             })
             .catch((error) => {
                 console.log(error)

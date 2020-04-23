@@ -13,6 +13,12 @@ export default new Vuex.Store({
     user: {
       uuid: "5e9ac90c0a975a3a277cc343",
       token: "",
+      image: "",
+      offerUuid: [],
+    },
+    offer: {
+      uuid: [],
+      image: ""
     }
   },
   getters: {},

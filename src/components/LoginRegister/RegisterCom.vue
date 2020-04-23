@@ -197,7 +197,7 @@ export default {
     },
     methods: {
         registerPerson(){
-            const url = "/registercommercial";
+            const url = "/person/commercial/register";
             var config = {headers: {"userid": "5cb8d10725839944c26ff1f5"}};
             var data = 
             {

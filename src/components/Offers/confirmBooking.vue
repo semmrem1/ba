@@ -7,6 +7,8 @@
                 <v-toolbar :color="options.color" dark dense flat><v-icon color="white">mdi-check</v-icon>
                     <v-card-title class="headline">Ernte buchen</v-card-title>
                 </v-toolbar>
+
+                {{this.$store.state.offer.uuid}}
                 <v-card-text class="body-2 pt-4">Bitte gib deine gewünschte Menge an Obst an, welche du ernten möchtest.</v-card-text>
                 <v-card-text class="subtitle-1 font-weight-bold">Menge:</v-card-text>
                 <v-row class="mt-2">
@@ -39,13 +41,13 @@
 </template>
 
 <script>
-// import bookingOverview from "../Offers/bookingOverview"
+// import Card2 from "../Offers/Card2"
 
 export default {
     // components: { bookingOverview },
     data() {
     return {
-        uuid: "5e9ac90c0a975a3a277cc343",
+        // uuid: "5e9ac90c0a975a3a277cc343",
         snackbar: false,
         loading: false,
         dialog: false,
@@ -67,9 +69,6 @@ export default {
             this.amountInKg--;              
           }
 
-      },
-      showBooking(){
-        //   this.currentDialog = components
       },
       postBooking(){
             const url = "/booking";

@@ -31,10 +31,10 @@
                 <v-list>
                     <v-list-item to="/profile">
                         <v-list-item-avatar size="75">
-                            <v-img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80"></v-img>
+                            <v-img :src="profileImage"></v-img>
                         </v-list-item-avatar>
                         <v-list-item-content router>
-                            <v-list-item-title class="title">Gabriel Gala</v-list-item-title>
+                            <v-list-item-title class="title">{{this.$store.state.user.first}} {{this.$store.state.user.last}}</v-list-item-title>
                             
                             <!-- <v-list-item-subtitle>Level 3: Pflücker</v-list-item-subtitle> -->
                         </v-list-item-content>
@@ -95,6 +95,9 @@ export default {
     computed: {
         currentUser() {
             return this.$store.state.auth.user;
+        },
+        profileImage(){
+            return `data:image/png;base64, ${this.$store.state.user.image}`
         }
     },
     methods: {

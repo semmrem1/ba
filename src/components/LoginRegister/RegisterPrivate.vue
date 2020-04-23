@@ -219,7 +219,7 @@ export default {
 
     methods: {
         registerPerson(){
-            const url = "/registerperson";
+            const url = "/person/private/register";
             var config = {headers: {"userid": "5cb8d10725839944c26ff1f5"}};
             var data = 
             {

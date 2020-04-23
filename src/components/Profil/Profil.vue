@@ -8,20 +8,38 @@
                     <!-- Avatar -->
                     <v-col class="pl-6 pr-0">
                         <v-avatar size="150">
-                            <v-img src="https://www.la-nt.de/img/dummy.jpg"></v-img>
+                            <!-- <v-img src="https://www.la-nt.de/img/dummy.jpg"></v-img> -->
+                            <v-img :src="profileImage"></v-img>
                         </v-avatar>
                     </v-col>
                     <v-col class="d-flex align-center pl-0 px-3">
-                        <v-btn outlined small color="green" class="d-flex align-center">Bild hochladen</v-btn>
+                        <v-btn outlined small color="green" class="d-flex align-center" @click="postProfileImage()">Bild hochladen</v-btn>
                         <input type="file" style="display: none" ref="fileInput" accept="image/*"/>
                     </v-col>
+<!-- 
+                    <v-row>
+                        <h1>Upload new Photo</h1>
+                        <form method="POST" action="/photos/add" enctype="multipart/form-data">
+                            Title:<input type="text" name="title" />
+                            Image:<input type="file" name="image" accept="image/*" />
+                            <input type="submit" value="Upload" />
+                            
+                            <h1>View Photo</h1>
+                            Title: <span th:text="${title}">name</span>
+                            <img alt="sample" th:src="*{'data:image/png;base64,'+image}" />
+                        </form>
+                    </v-row> -->
+
                 </v-row>
                 <v-alert v-show="successAlert" class="mt-4 mx-4" type="success" elevation="2" outlined transition="fade-transition">Änderungen erfolgreich gespeichert!</v-alert>
                 <v-alert v-show="errorAlert" class="mt-4 mx-4" type="error" elevation="2" outlined  transition="fade-transition">Änderungen fehlgeschlagen!</v-alert>
                 <!-- Form -->
                 <v-form class="px-3 pt-6">
                     <div>
+                        <v-text-field class="py-0" color="green" label="Picture Uuid" disabled v-model="person.picture.uuid"></v-text-field>
+                        <v-text-field class="py-0" color="green" label="Image Data" disabled v-model="person.picture.image.data"></v-text-field>
                         <v-text-field class="py-0" color="green" label="uuid" disabled v-model="person.uuid"></v-text-field>
+                        <v-text-field class="py-0" color="green" label="personType" disabled v-model="person.personType"></v-text-field>
                         <v-text-field class="py-0" color="green" label="Vorname" :readonly="isReadonly" v-model="person.first"></v-text-field>
                         <v-text-field class="py-0" color="green" label="Nachname" :readonly="isReadonly" v-model="person.last"></v-text-field>
                         <!-- <v-text-field class="py-0" color="green" label="E-Mail uuid" disabled v-model="this.person.email.uuid"></v-text-field> -->
@@ -126,7 +144,6 @@ export default {
 
     mounted(){
         this.getPerson()
-        console.log(this.$store.state.user.uuid);
     },
 
     computed: {
@@ -135,7 +152,10 @@ export default {
         },
         currentUser() {
             return this.$store.state.auth.user;
-    }
+        },
+        profileImage(){
+            return `data:image/png;base64, ${this.$store.state.user.image}`
+        }
     },
 
     methods: {
@@ -144,9 +164,13 @@ export default {
             var config = {headers: {"userid": this.$store.state.user.uuid}};
             this.$http.get(url, config)
             .then((response) => {
-                console.log(response)
+                console.log(response.data)
                 this.loading = false
                 this.person = response.data;
+                this.$store.state.user = response.data
+                this.$store.state.user.image = response.data.picture.image.data
+                console.log(this.$store.state.user)
+                console.log(this.$store.state.user.uuid)
             })
             .catch((error) => {
                 this.loading = false
@@ -220,6 +244,16 @@ export default {
                 console.log(error.response)
                 this.hideAlert()
         })
+        },
+        postProfileImage(){
+            const url = "/product";
+            var config = {headers: {"userid": this.uuid}};
+            var data =
+            {
+
+            }
+            this.loading = true
+            this.$http.post(url, data, config)
         },
         hideAlert(){
             setTimeout(() => {                

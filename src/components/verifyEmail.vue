@@ -34,6 +34,9 @@ export default {
         loading: false,
       }    
     },
+    mounted() {
+        console.log(this.$route.query.page)
+    },
     methods: {
       verifyEmail(){
             this.loading = true

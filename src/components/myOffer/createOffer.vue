@@ -267,12 +267,12 @@
             categoryRules: [
                 v => !!v || 'Kategorie ist erforderlich',
             ],
-            dateFrom: new Date().toISOString().substr(0, 10),
-            dateUntil: new Date().toISOString().substr(0, 10),
+            dateFrom: "",
+            dateUntil: "",
             dateRules: [
                 v => !!v || 'Datum ist erforderlich',
             ],
-            dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
+            dateFormatted: "",
             menuFrom: false,
             menuUntil: false,
             timeFrom: '',
@@ -346,9 +346,9 @@
         this.$refs.form.reset()        
     },
     computed: {
-      computedDateFormatted () {
-        return this.formatDate(this.date)
-      },
+    //   computedDateFormatted () {
+    //     return this.formatDate(this.date)
+    //   },
       isComplete(){
           return this.offerLocation.street && this.offerLocation.postcode && this.offerLocation.city
       }
@@ -395,18 +395,18 @@
         reset () {
             this.$refs.form.reset()
         },
-        formatDate (date) {
-            if (!date) return null
+        // formatDate (date) {
+        //     if (!date) return null
 
-            const [year, month, day] = date.split('-')
-            return `${day}.${month}.${year}`
-        },
-        parseDate (date) {
-            if (!date) return null
+        //     const [year, month, day] = date.split('-')
+        //     return `${day}.${month}.${year}`
+        // },
+        // parseDate (date) {
+        //     if (!date) return null
 
-            const [month, day, year] = date.split('/')
-            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
-        },
+        //     const [month, day, year] = date.split('/')
+        //     return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+        // },
         addLine(){
             let checkEmptyLine = this.lines.filter(line => line.number === null)
             if(checkEmptyLine.length >= 1 && this.line.length > 0) {
@@ -485,9 +485,12 @@
             })
           }
         },
+        postProductImage(){
+
+        },
         postLocation(){
                 var uuid = this.uuid
-                const url = "/person/"+uuid+"/locationforoffer";
+                const url = "/person/"+uuid+"/offer/location";
                 var config = {headers: {"userid": uuid}};
                 var data =
                 {

@@ -2,7 +2,7 @@
   <v-container class="justify-center ma-0 py-2 px-4" justify-center cols="12" sm="6" md="8">
     <v-row>
         <v-col cols="12">
-            <v-btn @click="getBookings()">GET Booking</v-btn>
+            <!-- <v-btn @click="getBookings()">GET Booking</v-btn>
             <p>Bookings</p>
             <div v-for="(item, i) in bookings" :key="i">
                 <p>
@@ -13,7 +13,7 @@
                     {{bookings[i].offer}}
                 </p>
                 
-            </div>
+            </div> -->
             <!-- <p>{{bookings[0].uuid}}</p>
             <p>Requester: {{bookings[0].requester}}</p>
             <p>Requester Uuid: {{bookings[0].requester.uuid}}</p>
@@ -35,7 +35,8 @@
 
             <v-row class="pl-1">
                 <v-col class="pa-0 pl-3 pb-0" cols="10">
-                    <v-card-text class="title pb-0">{{ bookings[i].uuid }}</v-card-text>
+                    <v-card-text class="title pb-0">Bestellnummer</v-card-text>
+                    <v-card-text class="py-0">{{ bookings[i].uuid }}</v-card-text>
                 </v-col>
                 <v-col class="justify-end pt-2 pl-2 pb-0" cols="2">
                     <confirmDelete/>
@@ -45,20 +46,20 @@
             <v-row class="pt-0 pl-1" >
                 <v-col class="pr-0" cols="4">
                     <v-card-text class="py-0 pr-0 font-weight-bold">Bestellt am:</v-card-text>
-                    <v-card-text class="py-0 pr-0 font-weight-bold">Verfügbar:</v-card-text>
+                    <v-card-text class="py-0 pr-0 font-weight-bold">Verfügbar bis:</v-card-text>
                     <v-card-text class="py-0 pr-0 font-weight-bold">Art:</v-card-text>
                     <v-card-text class="py-0 pr-0 font-weight-bold">Menge:</v-card-text>
                     <!-- <v-card-text class="pt-3 pr-0 font-weight-bold">Anbieter:</v-card-text> -->
                     <v-card-text class="py-0 pt-4 pr-0 font-weight-bold">Addresse:</v-card-text>
                 </v-col>
                 <v-col class="pl-0" cols="8">
-                    <!-- <v-card-text class="py-0">{{ moment(bookings[i].bookingDate).format('DD.MM.YYYY') }}</v-card-text>
-                    <v-card-text class="py-0">{{ moment(bookings[i].offer.from).format('DD.MM.YYYY') }} bis {{ moment(bookings[i].offer.until).format('DD.MM.YYYY') }}</v-card-text> -->
+                    <v-card-text class="py-0">{{ moment(bookings[i].bookingDate).format('DD.MM.YYYY') }}</v-card-text>
+                    <v-card-text class="py-0">{{ moment(bookings[i].offer.from).format('DD.MM.YYYY') }} bis {{ moment(bookings[i].offer.until).format('DD.MM.YYYY') }}</v-card-text>
                     <v-card-text class="py-0">zum abholen</v-card-text>
-                    <!-- <v-card-text class="py-0">{{ bookings[i].offer.amountInKg }}</v-card-text> -->
+                    <v-card-text class="py-0">{{ bookings[i].offer.amountInKg }} kg</v-card-text>
                     <!-- <v-card-text class="py-0 pt-3">Bauernhof 33</v-card-text> -->
-                    <!-- <v-card-text class="py-0 pt-4">{{ bookings[i].offer.location.street }} {{ bookings[i].offer.location.streetnumber }}</v-card-text>
-                    <v-card-text class="py-0">{{ bookings[i].offer.location.postcode }} {{ bookings[i].offer.location.city }}</v-card-text> -->
+                    <v-card-text class="py-0 pt-4">{{ bookings[i].offer.location.street }} {{ bookings[i].offer.location.streetnumber }}</v-card-text>
+                    <v-card-text class="py-0">{{ bookings[i].offer.location.postcode }} {{ bookings[i].offer.location.city }}</v-card-text>
                 </v-col>
             </v-row>
         </v-card>
@@ -112,25 +113,10 @@ export default {
         this.getBookings()
     },
     methods: {
-        // getBookingIds() {
-        //     const url = "/booking/requester/"+this.uuid;
-        //     var config = {headers: {"userid": this.uuid}};
-        //     this.$http.get(url, config)
-        //     .then((response) => {
-        //         console.log(response)
-        //         console.log(response.data)
-        //         console.log("SUCCESS")
-        //         this.bookingUuids = response.data
-        //     })
-        //     .catch((error) => {
-        //         console.log(error.response)
-        //         console.log("ERROR")
-        //     })
-        // },
         getBookings(){
-            // const urlSupplier = "/booking/supplier/"+this.uuid;
-            const urlRequester = "/booking/requester/"+this.uuid;
-            var config = {headers: {"userid": this.uuid}};
+            // const urlSupplier = "/booking/supplier/"+this.$store.state.user.uuid;
+            const urlRequester = "/booking/requester/"+this.$store.state.user.uuid;
+            var config = {headers: {"userid": this.$store.state.user.uuid}};
             this.$http.get(urlRequester, config)
             .then((response) => {
                 console.log(response)

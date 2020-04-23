@@ -16,7 +16,7 @@
             chips
           ></v-combobox>
         </v-col>
-          <v-row>
+          <!-- <v-row>
             <v-col class="pl-2 pr-2">
               <v-slider
                 v-model="slider"
@@ -41,7 +41,7 @@
               </v-slider>
             </v-col>
           </v-row>
-          <p>Sortieren</p>
+          <p>Sortieren</p> -->
           </v-col>
               <!-- <v-skeleton-loader
             class="mx-auto"
@@ -85,6 +85,8 @@ export default {
       .then((response) => {
           console.log(response)
           this.types = response.data
+          console.log(response.data[0].name)
+          
       })
       .catch((error) => {
           this.loading = false
