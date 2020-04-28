@@ -7,21 +7,21 @@
         <router-view></router-view>
       </v-content>
     <!-- Footer -->
-    <Footer></Footer>
+    <!-- <Footer></Footer> -->
   </v-app>
 </template>
 
 <script>
 // import Navbar from '@/components/LandingPage/Navbar'
 import NavbarLP from '@/components/LandingPage/NavbarLP'
-import Footer from '@/components/LandingPage/Footer'
+// import Footer from '@/components/LandingPage/Footer'
 
 export default {
   name: 'App',
   components: {
     // Navbar,
     NavbarLP,
-    Footer
+    // Footer
   },
   data: () => ({
       
