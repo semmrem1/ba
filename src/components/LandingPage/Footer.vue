@@ -4,7 +4,7 @@
       <v-btn v-for="(link, idx) in links" :key="idx" color="white" text  class="mt-2 mb-6" router :to="link.route">{{ link.name }}</v-btn>
 
         <v-card-text class="white--text pt-0 text-center">
-        Text über Obst vom Baum
+       
         </v-card-text>
 
       <v-divider></v-divider>

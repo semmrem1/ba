@@ -1,7 +1,6 @@
 <template>
-  <v-container class="justify-center ma-0 py-2 px-4" justify-center cols="12" sm="6" md="8">
+  <v-container class="justify-center ma-0 pt-0 py-2 px-4" justify-center cols="12" sm="6" md="8">
     <v-row>
-        <v-col cols="12">
             <!-- <v-btn @click="getBookings()">GET Booking</v-btn>
             <p>Bookings</p>
             <div v-for="(item, i) in bookings" :key="i">
@@ -26,8 +25,19 @@
             <p>Offer 2 location: {{bookings[1].offer.from}}</p>
             <p>Offer 2 Menge: {{bookings[1].offer.amountInKg}}</p> -->
 
+        <v-row class="justify-center">
 
-        </v-col>  
+            <v-progress-linear
+                :active="!loaded"
+                indeterminate
+                absolute
+                height="2px"
+                color="blue"
+                background-opacity = 0.0
+            ></v-progress-linear>
+
+        </v-row>
+
     </v-row>
       <v-row>
         <v-col class="justify-center py-2" v-for="(item, i) in bookings" :key="i" cols="12"  sm="6" md="6" lg="4">
@@ -77,37 +87,44 @@ export default {
             uuid: "5e9ac90c0a975a3a277cc343",
             bookings: [],
             type: "",
-            items: [
-            {
-                bookingNumber: '#8400001',
-                quantity: '18kg',
-                date: '11.10.2020',
-                plz: '8400 Winterthur',
-                location: 'Apfeltaschenstrasse 22 '
-            },
-            {
-                bookingNumber: '#8400011',
-                quantity: '10kg',
-                date: '11.10.2020',
-                plz: '8400 Winterthur',
-                location: 'Apfeltaschenstrasse 22 '
-            },
-            {
-                bookingNumber: '#9500001',
-                quantity: '28kg',
-                date: '11.10.2020',
-                plz: '8400 Winterthur',
-                location: 'Apfeltaschenstrasse 22 '
-            },
-            {
-                bookingNumber: '#8000001',
-                quantity: '18kg',
-                date: '11.10.2020',
-                plz: '8400 Winterthur',
-                location: 'Apfeltaschenstrasse 22 '
-            },
-        ],
+            loaded: false,
+        //     items: [
+        //     {
+        //         bookingNumber: '#8400001',
+        //         quantity: '18kg',
+        //         date: '11.10.2020',
+        //         plz: '8400 Winterthur',
+        //         location: 'Apfeltaschenstrasse 22 '
+        //     },
+        //     {
+        //         bookingNumber: '#8400011',
+        //         quantity: '10kg',
+        //         date: '11.10.2020',
+        //         plz: '8400 Winterthur',
+        //         location: 'Apfeltaschenstrasse 22 '
+        //     },
+        //     {
+        //         bookingNumber: '#9500001',
+        //         quantity: '28kg',
+        //         date: '11.10.2020',
+        //         plz: '8400 Winterthur',
+        //         location: 'Apfeltaschenstrasse 22 '
+        //     },
+        //     {
+        //         bookingNumber: '#8000001',
+        //         quantity: '18kg',
+        //         date: '11.10.2020',
+        //         plz: '8400 Winterthur',
+        //         location: 'Apfeltaschenstrasse 22 '
+        //     },
+        // ],
     }
+    },
+    created: {
+        loader(){
+            this.loaded = false
+        }
+        
     },
     mounted(){
         this.getBookings()
@@ -123,10 +140,12 @@ export default {
                 console.log(response.data)
                 console.log("SUCCESS")
                 this.bookings = response.data
+                this.loaded = true
             })
             .catch((error) => {
                 console.log(error.response)
                 console.log("ERROR")
+                this.loaded = true
             })
         },
         toBeCropped(){

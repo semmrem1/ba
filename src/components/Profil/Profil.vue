@@ -1,43 +1,56 @@
 <template>
-    <v-container class="pt-4">
-        <!-- <v-progress-circular indeterminate></v-progress-circular> -->
+    <v-container class="pt-0">
         <v-row class="justify-center">
+
+            <v-progress-linear
+                :active="!loaded"
+                indeterminate
+                absolute
+                height="2px"
+                color="blue"
+                background-opacity = 0.0
+            ></v-progress-linear>
+
+        </v-row>
+        <v-row class="justify-center pt-4">
             <!-- Card -->
             <v-card class="ma-0 pa-0" width="90%" max-width="600px" elevation="3">
                 <v-row>
                     <!-- Avatar -->
-                    <v-col class="pl-6 pr-0">
+                    <v-col class="pl-6 pr-0" cols="12" xs="12" sm="12" md="4">
                         <v-avatar size="150">
-                            <!-- <v-img src="https://www.la-nt.de/img/dummy.jpg"></v-img> -->
                             <v-img :src="profileImage"></v-img>
                         </v-avatar>
                     </v-col>
-                    <v-col class="d-flex align-center pl-0 px-3">
-                        <v-btn outlined small color="green" class="d-flex align-center" @click="postProfileImage()">Bild hochladen</v-btn>
-                        <input type="file" style="display: none" ref="fileInput" accept="image/*"/>
-                    </v-col>
-<!-- 
-                    <v-row>
-                        <h1>Upload new Photo</h1>
-                        <form method="POST" action="/photos/add" enctype="multipart/form-data">
-                            Title:<input type="text" name="title" />
-                            Image:<input type="file" name="image" accept="image/*" />
-                            <input type="submit" value="Upload" />
-                            
-                            <h1>View Photo</h1>
-                            Title: <span th:text="${title}">name</span>
-                            <img alt="sample" th:src="*{'data:image/png;base64,'+image}" />
-                        </form>
-                    </v-row> -->
 
-                </v-row>
+                    <v-row class="pl-6 pt-8">
+                        <v-col cols="6">
+                            <v-file-input
+                                accept="image/png, image/jpeg, image/bmp, image.jpg"
+                                placeholder="Bild auswählen"
+                                prepend-icon="mdi-camera"
+                                label="Profilbild"
+                                type="file"
+                                color="green"
+                                @change="onFileSelected"
+                            ></v-file-input>
+                        </v-col>
+
+                        <v-col class="pt-6" cols="4">
+                            <!-- <input type="file" @change="onFileSelected"> -->
+                            <v-btn class="mx-auto" color="green darken-1 white--text" :loading="loadingImage" outlined @click="uploadImage">Hochladen</v-btn>
+                        </v-col>
+                    </v-row>
+
+                 </v-row>
+
                 <v-alert v-show="successAlert" class="mt-4 mx-4" type="success" elevation="2" outlined transition="fade-transition">Änderungen erfolgreich gespeichert!</v-alert>
                 <v-alert v-show="errorAlert" class="mt-4 mx-4" type="error" elevation="2" outlined  transition="fade-transition">Änderungen fehlgeschlagen!</v-alert>
                 <!-- Form -->
                 <v-form class="px-3 pt-6">
                     <div>
-                        <v-text-field class="py-0" color="green" label="Picture Uuid" disabled v-model="person.picture.uuid"></v-text-field>
-                        <v-text-field class="py-0" color="green" label="Image Data" disabled v-model="person.picture.image.data"></v-text-field>
+                        <!-- <v-text-field class="py-0" color="green" label="Picture Uuid" disabled v-model="person.picture.uuid"></v-text-field> -->
+                        <!-- <v-text-field class="py-0" color="green" label="Image Data" disabled v-model="person.picture.image.data"></v-text-field> -->
                         <v-text-field class="py-0" color="green" label="uuid" disabled v-model="person.uuid"></v-text-field>
                         <v-text-field class="py-0" color="green" label="personType" disabled v-model="person.personType"></v-text-field>
                         <v-text-field class="py-0" color="green" label="Vorname" :readonly="isReadonly" v-model="person.first"></v-text-field>
@@ -55,6 +68,8 @@
                                 <v-text-field class="py-0" color="green" label="location uuid" disabled="" v-model="this.person.location.uuid"></v-text-field>
                             </v-col>
                         </v-row> -->
+
+
                         <v-row>
                             <v-col cols="9">
                                 <v-text-field class="py-0" color="green" label="Strasse" :readonly="isReadonly" v-model="person.location.street"></v-text-field>
@@ -72,6 +87,8 @@
                                 <v-text-field class="py-0" color="green" label="Ort" :readonly="isReadonly" v-model="person.location.city"></v-text-field>
                             </v-col>
                         </v-row>
+
+
                         <v-row class="pt-9">
                             <v-col class="pl-3 pr-1" cols="5">
                                 <v-btn class="mx-auto" color="green darken-1 white--text" outlined  @click="makeReadable" width="95%">
@@ -79,7 +96,7 @@
                                     BEARBEITEN</v-btn>
                             </v-col>
                             <v-col class="pr-1 pl-0" cols="7">
-                                <v-btn class="mx-auto mb-1" color="green darken-1 white--text" :disabled="makeSaveable" @click="updatePerson" :loading="loading" raised  width="95%">SPEICHERN</v-btn>
+                                <v-btn class="mx-auto mb-1" color="green darken-1 white--text" :disabled="makeSaveable" @click="updatePerson" :loading="loadingSave" raised  width="95%">SPEICHERN</v-btn>
                                 <!-- <v-btn @click="getPerson" color="grey" text small>get /person</v-btn> -->
                             </v-col>
                         </v-row>
@@ -94,13 +111,18 @@
 </template>
 
 <script>
+
 export default {
     data() {
         return {
             // uuid: "5e9ac90c0a975a3a277cc343",
             text: '',
+            selectedFile: null,
+            loaded: false,
             loader: null,
-            loading: false,
+            loading: true,
+            loadingSave: false,
+            loadingImage: false,
             isReadonly: true,
             snackbar: false,
             successAlert: false,
@@ -133,17 +155,21 @@ export default {
 
         }
     },
-    watch: {
-      loader () {
-        const l = this.loader
-        this[l] = !this[l]
-        this.loader = null
-      },
+    created() {
+            this.loaded = false
     },
 
+    // watch: {
+    //   loader () {
+    //     const l = this.loader
+    //     this[l] = !this[l]
+    //     this.loader = null
+    //   },
+    // },
 
-    mounted(){
-        this.getPerson()
+
+    mounted() {
+            this.getPerson()
     },
 
     computed: {
@@ -164,25 +190,45 @@ export default {
             var config = {headers: {"userid": this.$store.state.user.uuid}};
             this.$http.get(url, config)
             .then((response) => {
-                console.log(response.data)
+                this.loaded = true
                 this.loading = false
-                this.person = response.data;
-                this.$store.state.user = response.data
-                this.$store.state.user.image = response.data.picture.image.data
-                console.log(this.$store.state.user)
-                console.log(this.$store.state.user.uuid)
+                if (response.data != null) {
+                    console.log(response.data)
+                    this.person = response.data;
+                    this.$store.state.user = response.data
+                    this.$store.state.user.image = response.data.picture.image.data
+                }
             })
             .catch((error) => {
                 this.loading = false
-                console.log(error.response)
+                this.loaded = true
+                console.log(error)
+                this.hideAlert()
         })
         },
         makeReadable(){
             this.isReadonly = false
         },
+        onFileSelected(event){
+            console.log(event)
+            this.selectedFile = event
+        },
+        uploadImage(){
+            this.loadingImage = true
+            const url = "/person/"+this.$store.state.user.uuid+"/picture/add";
+            var config = {headers: {"userid": this.$store.state.user.uuid}};
+            const fd = new FormData();
+            fd.append('image', this.selectedFile, this.selectedFile.name)
+            this.$http.post(url, fd, config)
+            .then((response) => {
+                console.log(response)
+                this.loadingImage = false
+                window.location.reload()
+            })
+        },
         updatePerson(){
-            const url = "/updateperson";
-            var config = {headers: {"userid": this.uuid}};
+            const url = "/person/update";
+            var config = {headers: {"userid": this.$store.state.user.uuid}};
             var data = 
             {
                 uuid: this.person.uuid,
@@ -205,11 +251,11 @@ export default {
                     postcode: this.person.location.postcode
                 }
             }    
-            this.loading = true
+            this.loadingSave = true
             this.$http.post(url, data, config)
             .then((response) => {
                 console.log(response)
-                this.loading = false
+                this.loadingSave = false
                     if (response.data.code == "001") {
                         this.successAlert = true
                     } else if(response.data.code == "002"){
@@ -246,8 +292,8 @@ export default {
         })
         },
         postProfileImage(){
-            const url = "/product";
-            var config = {headers: {"userid": this.uuid}};
+            const url = "/person/"+this.$store.state.user.uuid+"/picture/add";
+            var config = {headers: {"userid": this.$store.state.user.uuid}};
             var data =
             {
 
@@ -259,6 +305,7 @@ export default {
             setTimeout(() => {                
                 this.successAlert = false
                 this.errorAlert = false
+                this.loaded = true
             }, 2000);
         }
 

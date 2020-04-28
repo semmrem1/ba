@@ -11,14 +11,18 @@ export default new Vuex.Store({
   },
   state: {
     user: {
-      uuid: "5e9ac90c0a975a3a277cc343",
+      uuid: "5ea3e90c0a975a6638cf46d5",
       token: "",
       image: "",
       offerUuid: [],
     },
     offer: {
       uuid: [],
-      image: ""
+      image: [],
+    },
+    createOffer: {
+      uuid: [],
+      image: []
     }
   },
   getters: {},

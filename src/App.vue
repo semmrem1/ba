@@ -3,10 +3,10 @@
     <!-- <Navbar/> -->
     <NavbarLP/>
       <v-content>
-        <!-- <v-container class="justify-center px-0 mx-0" width="100%" justify-center> -->
-          <router-view></router-view>
-        <!-- </v-container> -->
+        <!-- Routing -->
+        <router-view></router-view>
       </v-content>
+    <!-- Footer -->
     <Footer></Footer>
   </v-app>
 </template>
@@ -35,13 +35,11 @@ export default {
               config.url
           } at ${new Date().toLocaleString()}`
           );
-
           return config;
       },
       error => {
           return Promise.reject(error);
-      }
-      );
+      });
     },
 };
 </script>

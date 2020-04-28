@@ -273,6 +273,7 @@ export default {
                         this.text = "Nicht berechtigt."
                     }
                     this.hideAlert()
+                    this.reset()
                     
                 })
                 .catch((error) => {

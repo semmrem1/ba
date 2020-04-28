@@ -1,6 +1,6 @@
 <template>
     <v-container class="pt-4">
-        <v-row class="justify-center">
+        
 
             <!-- <v-skeleton-loader
             class="mx-auto"
@@ -8,22 +8,47 @@
             type="card"
             ></v-skeleton-loader> -->
 
-
+        <v-row class="justify-center">
             <!-- Card -->
             <v-card class="ma-0 pa-2" width="90%" max-width="600px" elevation="3">
                 <v-row>
-                    <v-col class="pl-6 pr-0" cols="6" sm="4">
+                    <!-- Offer Image -->
+                    <v-col class="pl-6 pr-0" cols="12" xs="12" sm="12" md="4">
                         <v-avatar size="150" tile>
-                            <v-img src="https://images.unsplash.com/photo-1576673442511-7e39b6545c87?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=954&q=80"></v-img>
+                            <!-- <v-img src="https://images.unsplash.com/photo-1576673442511-7e39b6545c87?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=954&q=80"></v-img> -->
+                            <v-img :src="offerImage"></v-img>
                         </v-avatar>
                     </v-col>
+                
+                    
+                    <v-row class="pl-6 pt-8">
+                        <v-col cols="6">
+                            <v-file-input
+                                accept="image/png, image/jpeg, image/bmp, image.jpg"
+                                placeholder="Bild auswählen"
+                                prepend-icon="mdi-camera"
+                                label="Profilbild"
+                                type="file"
+                                color="green"
+                                @change="onFileSelected"
+                            ></v-file-input>
+                        </v-col>
+
+                        <v-col class="pt-6" cols="4">
+                            <!-- <input type="file" @change="onFileSelected"> -->
+                            <v-btn class="mx-auto" color="green darken-1 white--text" :loading="loadingImage" outlined @click="uploadImage">Hochladen</v-btn>
+                        </v-col>
+                    </v-row>
+
                 </v-row>
-                    <v-row class="pl-6">
+
+                    <!-- <v-row class="pl-6">
                         <v-btn outlined small color="green">Bild hochladen</v-btn>
                         <input type="file" style="display: none" ref="fileInput" accept="image/*"/>
-                    </v-row>
+                    </v-row> -->
+
+
                 <!-- Form -->
-                <!-- v-model="valid" -->
                 <v-form ref="form" lazy-validation class="px-3 pt-0">                    
                     <v-alert v-show="successAlert" class="mt-4" type="success" elevation="2" outlined transition="fade-transition">
                                 <p class="pa-0 ma-0 font-weight-bold">Speichern erfolgreich!</p></v-alert>
@@ -188,7 +213,7 @@
                                                         <v-text-field class="py-0" color="green" label="Ort*" :rules="cityRules" v-model="offerLocation.city"></v-text-field>
                                                     </v-col>
                                                     <v-col>
-                                                        <v-textarea label="Beschreibung" v-model="offerLocation.description" :counter="0"></v-textarea>
+                                                        <v-textarea label="Beschreibung" color="green" v-model="offerLocation.description" :counter="0"></v-textarea>
                                                     </v-col>
                                                 </v-row>
                                             </v-row>
@@ -200,8 +225,9 @@
                                     </v-card>
                                 </v-dialog>
 
-                            <v-btn class="px-2 mt-2 mb-8" @click="addLine" color="green" text small><v-icon>mdi-playlist-plus</v-icon>Ernte hinzufügen</v-btn>
-                            <v-btn class="px-2 mt-2 mb-8" @click="removeLine(index)" color="grey" text small> <v-icon>mdi-playlist-minus</v-icon>Ernte entfernen</v-btn>
+                            <!-- ### ERNTE HINZUFÜGEN ERNTE ENTFERNEN ### -->
+                            <!-- <v-btn class="px-2 mt-2 mb-8" @click="addLine" color="green" text small><v-icon>mdi-playlist-plus</v-icon>Ernte hinzufügen</v-btn>
+                            <v-btn class="px-2 mt-2 mb-8" @click="removeLine(index)" color="grey" text small> <v-icon>mdi-playlist-minus</v-icon>Ernte entfernen</v-btn> -->
                             
 
                             <!-- <v-row class="pt-6 pb-0">
@@ -239,6 +265,8 @@
             loader: null,
             loading: false,
             loadingDialog: false,
+            selectedFile: null,
+            loadingImage: false,
             index: 0,
             snackbar: false,
             dialog: false,
@@ -349,9 +377,12 @@
     //   computedDateFormatted () {
     //     return this.formatDate(this.date)
     //   },
-      isComplete(){
-          return this.offerLocation.street && this.offerLocation.postcode && this.offerLocation.city
-      }
+        isComplete(){
+            return this.offerLocation.street && this.offerLocation.postcode && this.offerLocation.city
+        },
+        offerImage(){
+            return `data:image/png;base64, ${this.$store.state.createOffer.image}`
+        }
     },
 
     watch: {
@@ -391,7 +422,24 @@
         .catch((error) => {
             console.log(error)
         })
-        },       
+        },
+        onFileSelected(event){
+            console.log(event)
+            this.selectedFile = event
+        },
+        uploadImage(){
+            this.loadingImage = true
+            const url = "/product/"+this.$store.state.user.uuid+"/picture/add";
+            var config = {headers: {"userid": this.$store.state.user.uuid}};
+            const fd = new FormData();
+            fd.append('image', this.selectedFile, this.selectedFile.name)
+            this.$http.post(url, fd, config)
+            .then((response) => {
+                console.log(response)
+                this.loadingImage = false
+                window.location.reload()
+            })
+        },
         reset () {
             this.$refs.form.reset()
         },

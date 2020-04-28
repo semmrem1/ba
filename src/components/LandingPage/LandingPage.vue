@@ -58,41 +58,32 @@
         <div class="py-8"></div>
 
     <!-- WHY WHAT HOW -->
-    
     <section id="what-how-why">
         <div class="py-12"></div>
         <v-container fluid class="text-center px-0">
-        <!-- HEADER -->
-        <h2 class="display-2 font-weight-bold mb-3">NACHHALTIGES OBSTSHARING</h2>
-        <!-- <p>WHAT - HOW - WHY</p> -->
-        <v-responsive class="mx-auto mb-8" width="75">
-          <v-divider class="mb-1"></v-divider>
-            <v-divider></v-divider>
-        </v-responsive>
-        
-
-        <v-responsive class="mx-auto title font-weight-light mb-8" >
-          <!-- <p><span class="font-weight-bold">WHAT</span>do we do</p>
-          <p><span class="font-weight-bold">HOW </span>do we do, what we do</p>
-          <p><span class="font-weight-bold">WHY </span>do we do, what we do</p>
-          <v-img  class="elevation-3" justify-center src="src/assets/saisontabelle.PNG"></v-img> -->
- 
-          <v-row class="justify-center">
+          <!-- HEADER -->
+          <h2 class="display-2 font-weight-bold mb-3">NACHHALTIGES OBSTSHARING</h2>
+            <v-responsive class="mx-auto mb-8" width="75">
+              <v-divider class="mb-1"></v-divider>
+                <v-divider></v-divider>
+            </v-responsive>
+            <v-responsive class="mx-auto title font-weight-light mb-8" >
+              <v-row class="justify-center">
                 <v-col v-for="({ icon, title, text }, i) in progress" :key="i" cols="12" md="3">
                   <v-card class="pt-4 px-2" min-height="250" elevation="0">
-                          <div>
-                            <v-avatar color="white" size="50">
-                            <v-icon large color="black" v-text="icon"></v-icon>
-                            </v-avatar>
-                        </div>
+                    <div>
+                        <v-avatar color="white" size="50">
+                        <v-icon large color="black" v-text="icon"></v-icon>
+                        </v-avatar>
+                    </div>
                     <v-card-title class="justify-center px-1 font-weight-black text-uppercase" color="green" v-text="title"></v-card-title>
                     <v-card-text class="subtitle-1 px-1 text-left" v-text="text"></v-card-text>
                   </v-card>
-                </v-col>
-            </v-row>
-            <div class="py-8"></div>
-            <v-btn class="align-self-end pa-2 font--white" outlined to="/contact">Kontakt</v-btn>
-        </v-responsive>
+                  </v-col>
+                </v-row>
+                  <div class="py-8"></div>
+                <v-btn class="align-self-end pa-2 font--white" outlined to="/contact">Kontakt</v-btn>
+            </v-responsive>
         </v-container>
 
 

@@ -8,16 +8,11 @@
                 <v-btn color="white black--text" width="50%" large tile depressed>Kommerziell</v-btn>
 
                 <v-card-title  class="pa-3 display-1 font-weight-bold">Registrieren</v-card-title>
-                <!-- <v-alert v-show="successAlert" class="mx-2 mt-4 py-1" type="success">Registrierung erfolgreich!</v-alert>
-                <v-alert v-show="errorAlert" class="mx-2 mt-4 py-1" type="error">Registrierung fehlgeschlagen!</v-alert> -->
+
                 <v-text class="body-2 pl-3" color="grey"><v-icon medium>mdi-information-outline</v-icon> Deine Daten sind öffentlich nicht zugänglich!</v-text>
-                <!-- <v-alert class="mx-2 mt-4 py-1" type="info" outlined dense>Deine Daten sind öffentlich nicht zugänglich!</v-alert> -->
-                <!-- <p class="title red--text">{{this.errorAlert}}</p> -->
-                <!-- <p class="title green--text">{{this.successAlert}}</p>     -->
                 <v-form ref="form" v-model="valid" lazy-validation class="pa-3">
                     <div>
                         <v-select :items="items" label="Anrede" v-model="person.title"></v-select>
-                        <!-- <v-text-field class="py-0" color="green" :rules="usernameRules" label="Benutzername" v-model="username" required :counter="0"></v-text-field> -->
                         <v-text-field class="py-0" color="green" :rules="nameRules" label="Firma/Hofname*" v-model="person.companyName" required></v-text-field>
                         <v-text-field class="py-0" color="green" :rules="firstnameRules" label="Vorname*" v-model="person.first" required></v-text-field>
                         <v-text-field class="py-0" color="green" :rules="lastnameRules" label="Nachname*" v-model="person.last" required></v-text-field>
@@ -52,7 +47,6 @@
                             <v-text-field class="py-0" color="green" :rules="emailRules" label="E-Mail*" v-model="person.email.email"></v-text-field>
                             <!-- <p class="caption red--text" v-show="emailAlert">E-Mail addresse ist ungültig</p>
                             <p class="caption red--text" v-show="email2Alert">E-Mail addresse bereits vorhanden</p> -->
-                            <!-- <v-alert type="warning" dense>{{this.emailAlert}}</v-alert> -->
                             <v-text-field class="py-0" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" @click:append="show = !show" :type="show ? 'text' : 'password'" color="green" :rules="[passwordRules.required, passwordRules.min]" label="Passwort*" v-model="person.password"></v-text-field>
                             <v-alert v-show="successAlert" class="mt-4" type="success" elevation="2" outlined transition="fade-transition">
                                 <p class="pa-0 ma-0 font-weight-bold">Registrierung erfolgreich!</p>
@@ -184,8 +178,8 @@ export default {
         }
     },
     mounted() {
-        this.setTimeout()
-        this.hideAlert()
+        this.setTimeout
+        this.hideAlert
     },
     computed: {
         isComplete(){//button only visible if these fields are filled
@@ -250,6 +244,7 @@ export default {
                         this.text = "Nicht berechtigt."
                     }
                     this.hideAlert()
+                    this.reset()
                 })
                 .catch((error) => {
                     console.log(error);

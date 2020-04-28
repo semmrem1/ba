@@ -1,5 +1,18 @@
 <template>
-  <v-container class="justify-center ma-0 py-2 px-4" cols="12" sm="6" md="8">
+  <v-container class="justify-center ma-0 pt-0 px-4" cols="12" sm="6" md="8">
+
+        <v-row class="justify-center">
+
+            <v-progress-linear
+                :active="!loaded"
+                indeterminate
+                absolute
+                height="2px"
+                color="blue"
+                background-opacity = 0.0
+            ></v-progress-linear>
+
+        </v-row>
 
     
     <v-col class="pa-0 mr-0" cols="12">
@@ -23,18 +36,65 @@
           </v-row> -->
                <!-- {{this.$store.state.offer.uuid}} -->
 
-               <!-- pictureUuids:
-               {{pictureUuids}}
-               {{this.$store.state.offer.image}} -->
+              <!-- <p>$store offer: {{this.$store.state.offer}}</p> -->
 
 
-          <!-- <v-row>
-            <v-btn @click="getImages()">getImages</v-btn>
-          </v-row> -->
+              <!-- <p>base64 pictures {{pictureCode}}</p> -->
 
    
       </v-col>
 
+      <v-col>
+        <v-row class="px-0">
+          <v-col class="pa-0 pl-1" cols="12">
+            <v-combobox
+              v-model="filterCategory"
+              :items="types"
+              color="green"
+              label="Obstsorte"
+              item-text="name"
+              item-value="uuid"
+              multiplew
+              clearable
+              chips
+            ></v-combobox>
+          </v-col>
+
+          <!-- <v-col cols="2" xs="3">
+            <v-spacer></v-spacer>
+            <v-btn color="green" outlined large @click="getOffers()">Suchen</v-btn>
+          </v-col> -->
+        </v-row>
+
+        <!-- <v-row>
+          <v-col class="pa-0 pl-1">
+            <v-slider
+              v-model="slider"
+              class="align-center pa-0"
+              color="green"
+              track-color="grey"
+              :max="max"
+              :min="min"
+              hide-details
+            >
+              <template v-slot:append>
+                <v-text-field
+                  v-model="slider"
+                  class="mt-0 pa-0 mr-3"
+                  suffix="kg"
+                  hide-details
+                  single-line
+                  type="number"
+                  style="width: 60px"
+                ></v-text-field>
+              </template>
+            </v-slider>
+          </v-col>
+        </v-row> -->
+
+      </v-col>
+
+      <v-alert v-show="emptyAlert" class="mt-4 mx-0" type="warning" color="red" elevation="2" outlined prominent transition="fade-transition">Leider sind aktuell keine Angebote verfügbar. Bitte versuchen Sie ez zu einem späteren Zeitpunkt nocheinmal.</v-alert>
       <v-row>
         <!-- ### TESTCARD ### --> 
           <v-col class="justify-center py-2" v-for="(item, i) in offers.offersReturn" :key="i" cols="12"  sm="6" md="6" lg="4">
@@ -51,7 +111,11 @@
                 <!-- Details -->
                 <v-col class="pa-1 pl-5" cols="6">
                   <v-row>
-                    <v-card-subtitle class="font-weight-bold pa-0 pt-1">{{ offers.offersReturn[i].uuid }}</v-card-subtitle>
+                    <v-card-subtitle class="font-weight-bold pa-0 pt-1">Offer Uuid: {{ offers.offersReturn[i].uuid }}</v-card-subtitle>
+                  </v-row>
+
+                  <v-row>
+                    <v-card-subtitle class="font-weight-bold pa-0 pt-1">Picture Uuid: {{ offers.offersReturn[i].productPictureUuid }}</v-card-subtitle>
                   </v-row>
 
                   <v-row>
@@ -118,9 +182,12 @@
               </v-row> 
             </v-card>
         </v-col>
-
       </v-row>
-    <searchSub/>   
+    <searchSub/>
+    <div class="py-12"></div>
+    <!-- <v-row class="justify-center">
+      <v-btn color="green" outlined @click="getOffers()">MEHR</v-btn>
+    </v-row>    -->
   </v-container>
 </template>
 
@@ -134,15 +201,12 @@ export default {
     data() {
       return {
         uuid: "5e9ac90c0a975a3a277cc343",
-        pictureUuids: [
-          "5e9c4fab0a975a6f0d9a839b",
-          "5e9c560b0a975a12bb2d0677",
-          "5e9c564c0a975a12bb2d0678"
-        ],
         counter: 0,
         skeletonLoader: true,
+        loaded: false,
         successAlert: false,
         errorAlert: false,
+        emptyAlert: false,
         min: 0,
         max: 40,
         slider: 10,
@@ -150,40 +214,28 @@ export default {
         select: ['Äpfel'],
         offers: [],
         offerUuids: [],
+        pictureUuids: [],
+        pictureCode: [],
         loading: false,
+        type: "",
+        types: [],
         dialog: false,
         options: {
             color: "green",
         },  
         currentDialog: null,
         amountInKg: 10,
-      //   items: [
-      //   {
-      //     src: 'https://images.unsplash.com/photo-1538104308589-50ef22ba5d26?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=975&q=80',
-      //     title: 'Bio Gala',
-      //     postcode: '8450',
-      //     location: 'Hettingen',
-      //     quantity: '15kg',
-      //     date: '23.09.2020',
-      //   },
-      //   {
-      //     src: 'https://images.unsplash.com/photo-1541600321016-ac52d598f563?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80',
-      //     title: 'Boskoop',
-      //     postcode: '8450',
-      //     location: 'Hettingen',
-      //     quantity: '15kg',
-      //     date: '23.09.2020',
-      //   },
-      // ],
+        filterAmount: 50,
+        filterCategory: "",
     }
     },
-    mounted(){
-        // this.getCategory()
+    mounted:function(){
+        this.getCategory()
         this.getOffers()
     },
     computed: {
         offerImage(){
-          return `data:image/png;base64, ${this.$store.state.offer.image}`
+          return `data:image/png;base64, ${this.pictureCode[0]}`
         }
     },
     methods: {
@@ -194,68 +246,81 @@ export default {
           if(this.amountInKg > 0){
             this.amountInKg--;              
           }
-
       },
-      //   getCategory(){
-      //       var uuid = this.uuid
-      //       const url = "/category";
-      //       var config = {headers: {"userid": uuid}};
-      //       this.$http.get(url, config)
-      //   .then((response) => {
-      //       console.log(response)
-      //       this.types = response.data
-      //   })
-      //   .catch((error) => {
-      //       this.loading = false
-      //       console.log(error.response)
-      //   })
-      // },
+      getCategory(){
+            var uuid = this.uuid
+            const url = "/category";
+            var config = {headers: {"userid": uuid}};
+            this.$http.get(url, config)
+        .then((response) => {
+            this.types = response.data
+        })
+        .catch((error) => {
+            console.log(error.response)
+        })
+      },
       getOffers(){
         const url = "/searchresult/person/"+this.$store.state.user.uuid;
         var config = {headers: {"userid": this.$store.state.user.uuid}};
+        // var params = {
+        //   filerAmount: this.filterAmount,
+        //   filterCategory: this.filterCategory.uuid
+        // };
         this.$http.get(url, config)
         .then((response) => {
-          console.log(response)
-          console.log("SUCCESS")
-          this.offers = response.data[0]
-          // console.log(response.data[0].offersReturn[0].uuid)
-          response.data[0].offersReturn.forEach(element => {
-            this.offerUuids.push(element.uuid)
-            this.$store.state.offer.uuid = this.offerUuids.slice()
-            console.log(this.$store.state.offer.uuid)
-            this.getImages()
+          console.log("SUCCESS getOffers")
+          if (response.data[0].length != 0) {
+            console.log(response.data[0])
+            this.offers = response.data[0]
+            this.loaded = true
+            // console.log(response.data[0].offersReturn[0].uuid)
+            response.data[0].offersReturn.forEach(element => {
+              this.offerUuids.push(element.uuid)
+              this.$store.state.offer.uuid = this.offerUuids.slice()
+              this.pictureUuids.push(element.productPictureUuid)
+              this.$store.state.offer.image = this.pictureUuids.slice()
+              // console.log(this.$store.state.offer.uuid)
+              this.getImages()
           });
+          }
+
         })
         .catch((response) => {
+          this.emptyAlert = true
+          this.hideAlert()
           console.log(response)
-          console.log("ERROR")
+          console.log("ERROR getOffers")
         })
       },
       getImages(){
-        const url = "/picture/"+this.pictureUuids[2];
+        this.pictureUuids.forEach(element => {
+        const url = "/picture/"+element;
         var config = {headers: {"userid": this.$store.state.user.uuid}};
         this.$http.get(url, config)
         .then((response) => {
-          // console.log(response.data)
-          // console.log(response.data.image.data)
-          console.log("SUCCESS")
-          this.$store.state.offer.image = response.data.image.data
+          if (response.data.length != 0) {
+          console.log(response.data)
+          console.log("SUCCESS getImage")
+          console.log(element)
+          this.pictureCode.push(response.data.image.data)
+          }
         })
         .catch((response) => {
           console.log(response)
           console.log("ERROR")
         })
+        });
       },
       postBooking(){
         const url = "/booking";
-        var config = {headers: {"userid": this.uuid}};
+        var config = {headers: {"userid": this.$store.state.user.uuid}};
         var data = 
         {
             offer: {
-                uuid: "5e9add3d0a975a62e51beade"
+                uuid: "5e9acbaf0a975a3a277cc349"
             },
             requester: {
-                uuid: this.uuid
+                uuid: this.$store.state.user.uuid
             },
             amountInKg: this.amountInKg,
         }    
@@ -263,7 +328,7 @@ export default {
         this.$http.post(url, data, config)
         .then((response) => {
             console.log(response)
-            console.log("SUCCESS")
+            console.log("SUCCESS postBooking")
             this.successAlert = true
             this.loading = false
             this.dialog = false
@@ -281,6 +346,7 @@ export default {
             setTimeout(() => {                
                 this.successAlert = false
                 this.errorAlert = false
+                this.loaded = true
             }, 2000);
         }
     },
