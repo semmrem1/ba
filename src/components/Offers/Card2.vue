@@ -40,7 +40,6 @@
 
 
               <!-- <p>base64 pictures {{pictureCode}}</p> -->
-
    
       </v-col>
 
@@ -111,12 +110,12 @@
                 <!-- Details -->
                 <v-col class="pa-1 pl-5" cols="6">
                   <v-row>
-                    <v-card-subtitle class="font-weight-bold pa-0 pt-1">Offer Uuid: {{ offers.offersReturn[i].uuid }}</v-card-subtitle>
+                    <v-card-subtitle class="font-weight-bold pa-0 pt-1">{{ offers.offersReturn[i].uuid }}</v-card-subtitle>
                   </v-row>
 
-                  <v-row>
+                  <!-- <v-row>
                     <v-card-subtitle class="font-weight-bold pa-0 pt-1">Picture Uuid: {{ offers.offersReturn[i].productPictureUuid }}</v-card-subtitle>
-                  </v-row>
+                  </v-row> -->
 
                   <v-row>
                     <v-card-subtitle class="pa-0">{{ offers.offersReturn[i].location.street }} {{offers.offersReturn[i].location.streetnumber}}</v-card-subtitle>

@@ -7,55 +7,63 @@
             width="600"
             type="card"
             ></v-skeleton-loader> -->
-
         <v-row class="justify-center">
             <!-- Card -->
-            <v-card class="ma-0 pa-2" width="90%" max-width="600px" elevation="3">
-                <v-row>
-                    <!-- Offer Image -->
+            <v-card class="ma-0" width="90%" max-width="600px" elevation="3">
+                <div class="pa-0 ma-0 image-preview" v-if="imageData.length > 0">
+                    <img class="preview" width="100%" :src="imageData">
+                </div>
+                <div class="mx-4 pt-2">
+                    <v-btn width="100%" outlined color="green">
+                        <label type="submit" value="submit">Bild auswählen
+                            <input type="file" @change="previewImage" accept="image/*" style="display: none">
+                        </label>
+                    </v-btn>
+                </div>
+
+                <!-- <v-row>
                     <v-col class="pl-6 pr-0" cols="12" xs="12" sm="12" md="4">
                         <v-avatar size="150" tile>
-                            <!-- <v-img src="https://images.unsplash.com/photo-1576673442511-7e39b6545c87?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=954&q=80"></v-img> -->
                             <v-img :src="offerImage"></v-img>
                         </v-avatar>
                     </v-col>
-                
-                    
-                    <v-row class="pl-6 pt-8">
-                        <v-col cols="6">
-                            <v-file-input
-                                accept="image/png, image/jpeg, image/bmp, image.jpg"
-                                placeholder="Bild auswählen"
-                                prepend-icon="mdi-camera"
-                                label="Profilbild"
-                                type="file"
-                                color="green"
-                                @change="onFileSelected"
-                            ></v-file-input>
-                        </v-col>
-
-                        <v-col class="pt-6" cols="4">
-                            <!-- <input type="file" @change="onFileSelected"> -->
-                            <v-btn class="mx-auto" color="green darken-1 white--text" :loading="loadingImage" outlined @click="uploadImage">Hochladen</v-btn>
-                        </v-col>
-                    </v-row>
-
-                </v-row>
+                </v-row> -->
 
                     <!-- <v-row class="pl-6">
                         <v-btn outlined small color="green">Bild hochladen</v-btn>
                         <input type="file" style="display: none" ref="fileInput" accept="image/*"/>
                     </v-row> -->
 
-
                 <!-- Form -->
-                <v-form ref="form" lazy-validation class="px-3 pt-0">                    
+                <v-form ref="form" lazy-validation class="pa-4 pt-0">
                     <v-alert v-show="successAlert" class="mt-4" type="success" elevation="2" outlined transition="fade-transition">
                                 <p class="pa-0 ma-0 font-weight-bold">Speichern erfolgreich!</p></v-alert>
                                 <!-- <v-snackbar class="subtitle-1 black-text font-weight-bold" v-model="successAlert" color="green lighten-1" multi-line vertical top>Speichern erfolgreich!
                                    <v-btn color="white" text @click="snackbar = false">OK</v-btn>
                                 </v-snackbar> -->
                     <v-alert v-show="errorAlert" class="mt-4" type="error" elevation="2" outlined transition="fade-transition">Speichern fehlgeschlagen! :-(</v-alert>
+                    <v-alert v-show="errorAlert" class="mt-4" type="error" elevation="2" outlined transition="fade-transition">{{alert}}</v-alert>
+
+                        <v-col class="px-0 mx-0" cols="12">
+                            <div>
+                                <div class="file-upload-form">
+
+                                    <!-- <v-file-input type="file" @change="previewImage" accept="image/*"></v-file-input> -->				
+                                </div>
+                            </div>
+
+                            <!-- <v-file-input
+                                accept="image/png, image/jpeg, image/bmp, image.jpg"
+                                placeholder="Bild auswählen"
+                                prepend-icon="mdi-camera"
+                                label="Produktbild"
+                                type="file"
+                                color="green"
+                                @change="onFileSelected"
+                            ></v-file-input> -->
+                            
+                        </v-col> 
+                                           
                     <v-card-title class="pl-0 pb-3">Obstaum:</v-card-title>
                     <v-card-subtitle class="pl-0 pb-0">Welchen Typ Obst möchtest du inserieren?</v-card-subtitle>
 
@@ -76,7 +84,7 @@
                     
                     
                     <v-div v-for="(line, index) in lines" :key="index">
-                       <v-card class="my-4 pa-4">
+                       <v-card class="my-4 mx-0 pa-4">
                         <v-card-title class="pl-0 pt-0 pb-3">Ernte:</v-card-title>
                         <v-card-subtitle class="pl-0 pb-0">Wann und wo kann das Obst geerntet oder abgeholt werden?</v-card-subtitle>
                        <!-- Datum von -->
@@ -261,7 +269,9 @@
   export default {
     data() {
         return {   
-            uuid: "5e9acab70a975a3a277cc347",
+            uuid: "5e9acab70a975a3a277cc347", //Angela Anbieter
+            imageUuid: "",
+            imageData: "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png",
             loader: null,
             loading: false,
             loadingDialog: false,
@@ -279,6 +289,7 @@
             successAlert: false,
             errorAlert: false,
             errorAlertDialog: false,
+            alert: "",
             repeat: [
             'täglich',
             'wöchentlich',
@@ -429,20 +440,37 @@
         },
         uploadImage(){
             this.loadingImage = true
-            const url = "/product/"+this.$store.state.user.uuid+"/picture/add";
-            var config = {headers: {"userid": this.$store.state.user.uuid}};
+            const url = "/product/"+this.imageUuid+"/picture/add";
+            var config = {headers: {"userid": this.uuid}};
             const fd = new FormData();
-            fd.append('image', this.selectedFile, this.selectedFile.name)
+            fd.append('image', this.imageData, this.imageData.name)
             this.$http.post(url, fd, config)
             .then((response) => {
                 console.log(response)
                 this.loadingImage = false
-                window.location.reload()
+                // window.location.reload()
+            })
+            .catch((response) => {
+                console.log(response)
             })
         },
+        previewImage(event) {
+            var input = event.target;
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = (event) => {
+                    this.imageData = event.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        },
+
+
+
         reset () {
             this.$refs.form.reset()
         },
+
         // formatDate (date) {
         //     if (!date) return null
 
@@ -507,20 +535,27 @@
                     toBeCropped: this.product.tobecropped,
                     from: this.product.dateFrom,
                     until: this.product.dateUntil 
-                    
                     }
                 ]
-
             }
             this.loading = true
             this.$http.post(url, data, config)
             .then((response) => {
                 console.log(response)
-                this.successAlert = true
-                this.alert = response.data.description
+                if (response.data.code == "001") {
+                    this.loading = false
+                    this.$refs.form.reset()
+                    this.imageUuid = response.data.uuid
+                    this.successAlert = true
+                    console.log("SUCCESS postProduct")
+                    this.uploadImage()
+                } else{
+                    console.log(response.data.description)
+                    console.log("ERROR with Product")
+                    this.errorAlert = true
+                    this.alert = response.data.description
+                }
                 this.loading = false
-                console.log("SUCCESS")
-                this.$refs.form.reset()
                 this.hideAlert()
             })
             .catch((error) => {
@@ -532,9 +567,6 @@
                 
             })
           }
-        },
-        postProductImage(){
-
         },
         postLocation(){
                 var uuid = this.uuid
@@ -573,14 +605,9 @@
                 setTimeout(() => {         
                     this.successAlert = false
                     this.errorAlert = false
-            }, 2000);
+            }, 4000);
         }
-
-
     },
-    
-    
-    
 } 
 
 

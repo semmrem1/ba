@@ -15,15 +15,17 @@
         <v-row class="justify-center pt-4">
             <!-- Card -->
             <v-card class="ma-0 pa-0" width="90%" max-width="600px" elevation="3">
-                <v-row>
                     <!-- Avatar -->
-                    <v-col class="pl-6 pr-0" cols="12" xs="12" sm="12" md="4">
-                        <v-avatar size="150">
-                            <v-img :src="profileImage"></v-img>
-                        </v-avatar>
+                    <v-col class="pa-0 ma-0">
+                        <div class="pa-0 ma-0 image-preview" v-if="this.$store.state.user.image == null">
+                            <img class="preview" width="100%" :src="defaultProfileImage">
+                        </div>
+                        <div class="pa-0 ma-0 image-preview" v-if="this.$store.state.user.image != null">
+                            <img class="preview" width="100%" :src="profileImage">
+                        </div>
                     </v-col>
-
-                    <v-row class="pl-6 pt-8">
+                <v-row>
+                    <v-row class="pl-6">
                         <v-col cols="6">
                             <v-file-input
                                 accept="image/png, image/jpeg, image/bmp, image.jpg"
@@ -51,8 +53,8 @@
                     <div>
                         <!-- <v-text-field class="py-0" color="green" label="Picture Uuid" disabled v-model="person.picture.uuid"></v-text-field> -->
                         <!-- <v-text-field class="py-0" color="green" label="Image Data" disabled v-model="person.picture.image.data"></v-text-field> -->
-                        <v-text-field class="py-0" color="green" label="uuid" disabled v-model="person.uuid"></v-text-field>
-                        <v-text-field class="py-0" color="green" label="personType" disabled v-model="person.personType"></v-text-field>
+                        <!-- <v-text-field class="py-0" color="green" label="uuid" disabled v-model="person.uuid"></v-text-field> -->
+                        <!-- <v-text-field class="py-0" color="green" label="personType" disabled v-model="person.personType"></v-text-field> -->
                         <v-text-field class="py-0" color="green" label="Vorname" :readonly="isReadonly" v-model="person.first"></v-text-field>
                         <v-text-field class="py-0" color="green" label="Nachname" :readonly="isReadonly" v-model="person.last"></v-text-field>
                         <!-- <v-text-field class="py-0" color="green" label="E-Mail uuid" disabled v-model="this.person.email.uuid"></v-text-field> -->
@@ -118,6 +120,7 @@ export default {
             // uuid: "5e9ac90c0a975a3a277cc343",
             text: '',
             selectedFile: null,
+            defaultProfileImage: "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png",
             loaded: false,
             loader: null,
             loading: true,
@@ -169,7 +172,8 @@ export default {
 
 
     mounted() {
-            this.getPerson()
+        this.getPerson()
+    
     },
 
     computed: {
@@ -181,7 +185,7 @@ export default {
         },
         profileImage(){
             return `data:image/png;base64, ${this.$store.state.user.image}`
-        }
+        },
     },
 
     methods: {
@@ -196,6 +200,11 @@ export default {
                     console.log(response.data)
                     this.person = response.data;
                     this.$store.state.user = response.data
+                    if (response.data.personType == "PRIVATE") {
+                        this.$store.state.user.personType = "Privatperson"
+                    } else {
+                        this.$store.state.user.personType = "Unternehmen"
+                    }
                     this.$store.state.user.image = response.data.picture.image.data
                 }
             })

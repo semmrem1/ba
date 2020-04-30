@@ -35,6 +35,8 @@
                         </v-list-item-avatar>
                         <v-list-item-content router>
                             <v-list-item-title class="title">{{this.$store.state.user.first}} {{this.$store.state.user.last}}</v-list-item-title>
+                            <v-list-item-subtitle>{{this.$store.state.user.personType}}</v-list-item-subtitle>
+                            <v-list-item-subtitle>{{this.$store.state.user.uuid}}</v-list-item-subtitle>
                             
                             <!-- <v-list-item-subtitle>Level 3: Pflücker</v-list-item-subtitle> -->
                         </v-list-item-content>
@@ -98,7 +100,7 @@ export default {
         },
         profileImage(){
             return `data:image/png;base64, ${this.$store.state.user.image}`
-        }
+        },
     },
     methods: {
         logOut() {

@@ -12,8 +12,9 @@ export default new Vuex.Store({
   state: {
     user: {
       uuid: "5ea3e90c0a975a6638cf46d5",
+      personType: "",
       token: "",
-      image: "",
+      image: null,
       offerUuid: [],
     },
     offer: {
@@ -30,3 +31,4 @@ export default new Vuex.Store({
   actions: {}
 
 });
+

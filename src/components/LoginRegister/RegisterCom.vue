@@ -222,22 +222,22 @@ export default {
                         this.successAlert = true
                     } else if(response.data.code == "002"){
                         this.snackbar = true
-                        this.text = "Anrede ungültig oder unvollständig."
+                        this.text = "Anrede ist ungültig oder unvollständig."
                     } else if(response.data.code == "003"){
                         this.snackbar = true
-                        this.text = "Name ungültig oder unvollständig."
+                        this.text = "Name ist ungültig oder unvollständig."
                     } else if (response.data.code == "004") {
                         this.snackbar = true
                         this.text = "Telefonnummer ist ungültig oder unvollständig."
                     } else if(response.data.code == "005"){
                         this.snackbar = true
-                        this.text = "Addresse ungültig (nicht auf local.ch gefunden)."
+                        this.text = "Angaben ensprechen keiner existierenden Addresse."
                     } else if(response.data.code == "006"){
                         this.snackbar = true
-                        this.text = "E-Mail addresse ist ungültig oder unvollständig."
+                        this.text = "E-Mailaddresse ist ungültig oder unvollständig."
                     } else if (response.data.code == "007") {
                         this.snackbar = true
-                        this.text = "E-Mail addresse bereits vorhanden."
+                        this.text = "E-Mailaddresse bereits vorhanden."
                     } else if (response.data.code == "099") {
                         this.snackbar = true
                         this.errorAlert = true
@@ -268,9 +268,5 @@ export default {
         },
 
     }
-    
-    
 }
-
-
 </script>
