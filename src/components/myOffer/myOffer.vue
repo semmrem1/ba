@@ -8,10 +8,10 @@
 
           <v-row>
             <v-col cols="10">
-                <v-card-title class="py-0 pl-4">Angebot:<span class="font-weight-light pl-1"> {{item.title}}</span></v-card-title>
+                <v-card-title class="py-0 pl-4">Angebot:<span class="font-weight-light pl-1"> {{ item.title }}</span></v-card-title>
             </v-col>
             <v-col class="justify-end pt-2 pl-2 pb-0" cols="2">
-                 <deleteOffer/>
+                 <!-- <deleteOffer/> -->
             </v-col>
           </v-row>
             <v-row class="pt-0 pl-1" >
@@ -46,10 +46,10 @@
 
 <script>
 import editOffer from "./editOffer"
-import deleteOffer from "./deleteOffer"
+// import deleteOffer from "./deleteOffer"
 
 export default {  
-  components: { editOffer, deleteOffer },
+  components: { editOffer,  },
 
     data: () => ({
       select: ['Äpfel'],

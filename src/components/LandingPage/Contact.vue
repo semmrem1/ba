@@ -9,9 +9,9 @@
                 <v-form ref="form" v-model="valid" lazy-validation class="pa-3">
                     <div>
                         <v-text-field class="py-0" color="green" label="Name" v-model="message.name"></v-text-field>
-                        <v-text-field class="py-0" color="green" :rules="emailRules" label="E-Mail" v-model="message.email" required></v-text-field>
+                        <v-text-field class="py-0" color="green" :rules="emailRules" label="E-Mail*" v-model="message.email" required></v-text-field>
                         <v-text-field class="py-0" color="green" label="Betreff" v-model="message.topic"></v-text-field>
-                        <v-textarea label="Ihre Nachricht" v-model="message.message" :rules="messageRules" required :counter="0"></v-textarea>
+                        <v-textarea label="Ihre Nachricht*" v-model="message.message" :rules="messageRules" required :counter="0"></v-textarea>
                     </div>
                     <v-row class="pt-6">
                         <v-col class="pl-3 pr-1" cols="4">
@@ -103,10 +103,5 @@ export default {
         }
 
     }
-    
-    
-        
-
-
 }
 </script>

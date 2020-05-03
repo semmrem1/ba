@@ -26,9 +26,10 @@
                     </v-col>
                 <v-row>
                     <v-row class="pl-6">
-                        <v-col cols="6">
+                        <v-col cols="6" xs="6">
                             <v-file-input
                                 accept="image/png, image/jpeg, image/bmp, image.jpg"
+                                v-model="imageData"
                                 placeholder="Bild auswählen"
                                 prepend-icon="mdi-camera"
                                 label="Profilbild"
@@ -38,7 +39,7 @@
                             ></v-file-input>
                         </v-col>
 
-                        <v-col class="pt-6" cols="4">
+                        <v-col class="pt-6" cols="4" xs="6">
                             <!-- <input type="file" @change="onFileSelected"> -->
                             <v-btn class="mx-auto" color="green darken-1 white--text" :loading="loadingImage" outlined @click="uploadImage">Hochladen</v-btn>
                         </v-col>
@@ -47,7 +48,9 @@
                  </v-row>
 
                 <v-alert v-show="successAlert" class="mt-4 mx-4" type="success" elevation="2" outlined transition="fade-transition">Änderungen erfolgreich gespeichert!</v-alert>
+                <v-alert v-show="successDelete" class="mt-4 mx-4" type="success" elevation="2" outlined transition="fade-transition">Löschen erfolgreich!</v-alert>
                 <v-alert v-show="errorAlert" class="mt-4 mx-4" type="error" elevation="2" outlined  transition="fade-transition">Änderungen fehlgeschlagen!</v-alert>
+                <v-alert v-show="errorDelete" class="mt-4 mx-4" type="error" elevation="2" outlined  transition="fade-transition">Löschen fehlgeschlagen!</v-alert>
                 <!-- Form -->
                 <v-form class="px-3 pt-6">
                     <div>
@@ -90,8 +93,7 @@
                             </v-col>
                         </v-row>
 
-
-                        <v-row class="pt-9">
+                        <v-row>
                             <v-col class="pl-3 pr-1" cols="5">
                                 <v-btn class="mx-auto" color="green darken-1 white--text" outlined  @click="makeReadable" width="95%">
                                     <!-- <v-icon left>mdi-pencil</v-icon> -->
@@ -99,17 +101,74 @@
                             </v-col>
                             <v-col class="pr-1 pl-0" cols="7">
                                 <v-btn class="mx-auto mb-1" color="green darken-1 white--text" :disabled="makeSaveable" @click="updatePerson" :loading="loadingSave" raised  width="95%">SPEICHERN</v-btn>
-                                <!-- <v-btn @click="getPerson" color="grey" text small>get /person</v-btn> -->
                             </v-col>
                         </v-row>
                     </div>
                 </v-form>
+                        <v-expansion-panels class="mx-0 px-0">
+                            <v-expansion-panel>
+                            <v-expansion-panel-header color="red--text">Einträge löschen</v-expansion-panel-header>
+                            <v-expansion-panel-content>
+                            <v-select
+                                :items="locations"
+                                name="type"
+                                label="Addresse wählen"
+                                :rules="addressRules"
+                                v-model="locationDelete"
+                                item-text="location"
+                                item-value="uuid"
+                                color="green"
+                                return-object
+                                >
+                                    <template slot="selection" slot-scope='{item}'>
+                                        <span class="font-weight-bold">{{ item.title }}</span>
+                                        <span> - </span>
+                                         {{ item.street }} {{item.streetnumber}}, {{item.postcode}} {{item.city}}
+                                    </template>
+                                    <template slot="item" slot-scope='{item}'>
+                                        <span class="font-weight-bold">{{item.title }}</span>
+                                        <span> - </span>
+                                        {{item.street }} {{item.streetnumber}}, {{item.postcode}} {{item.city}}
+                                    </template>
+                                </v-select>
+                        <v-row class="px-4">
+                            <v-row>
+                                <v-col cols="2" xs="4">
+                                    <v-btn v-on="on" color="red" outlined small @click="deleteAddress()"><v-icon>mdi-delete</v-icon>Adresse LÖSCHEN</v-btn>
+                                </v-col>
+                            </v-row>
+                            <v-dialog v-model="dialog" max-width="450">
+                                <template v-slot:activator="{ on }">
+                                    <v-col cols="8" xs="4">
+                                        <v-row>
+                                           <v-btn v-on="on" color="red" outlined small><v-icon>mdi-delete</v-icon>PROFIL LÖSCHEN</v-btn>
+                                        </v-row>
+                                    </v-col>
+                                </template>
+                                <!-- CARD -->
+                                <v-card>
+                                    <v-toolbar :color="options.color" dark dense flat>
+                                        <v-toolbar-title class="white--text font-weight-bold"><v-icon class="pr-3" size="x-large">mdi-alert</v-icon>{{ title }}</v-toolbar-title>
+                                    </v-toolbar>
+                                    <v-card-text v-show="!!message" class="pa-4">{{ message }}</v-card-text>
+                                    <v-card-actions class="pa-4">
+                                        <v-spacer></v-spacer>
+                                        <v-btn @click="dialog=false" outlined color="grey">Abbrechen</v-btn>
+                                        <v-btn class="white--text ml-4" @click="deleteProfile()" depressed :color="options.color">Ja</v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
+                        </v-row>
+                    </v-expansion-panel-content>
+                    </v-expansion-panel>
+                </v-expansion-panels>
             </v-card>
             <v-snackbar v-model="snackbar" color="red lighten-1" top :timeout="timeout">{{ text }}
                 <v-btn color="white" text @click="snackbar = false">OK</v-btn>
             </v-snackbar>
-        </v-row>
-    </v-container>
+            </v-row>
+
+    </v-container>   
 </template>
 
 <script>
@@ -121,6 +180,7 @@ export default {
             text: '',
             selectedFile: null,
             defaultProfileImage: "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png",
+            imageData: "",
             loaded: false,
             loader: null,
             loading: true,
@@ -130,9 +190,19 @@ export default {
             snackbar: false,
             successAlert: false,
             errorAlert: false,
+            successDelete: false,
+            errorDelete: false,
             timeout: 5000,
             info: null,
-
+            dialog: false,
+            resolve: null,
+            reject: null,
+            message: "Wollen Sie ihr Prpfil wirklich löschen? Dies kann nicht rückgängig gemacht werden.",
+            title: "Profil löschen",
+            options: {
+                color: "red",
+                width: 290,
+            },
             person: {
                 uuid: "",
                 title: "",
@@ -155,27 +225,17 @@ export default {
                 password: ""
                 },
             image: null,
+            locations: [],
 
         }
     },
     created() {
             this.loaded = false
     },
-
-    // watch: {
-    //   loader () {
-    //     const l = this.loader
-    //     this[l] = !this[l]
-    //     this.loader = null
-    //   },
-    // },
-
-
     mounted() {
         this.getPerson()
-    
+        this.getLocation()
     },
-
     computed: {
         makeSaveable(){
             return this.isReadonly
@@ -187,7 +247,6 @@ export default {
             return `data:image/png;base64, ${this.$store.state.user.image}`
         },
     },
-
     methods: {
         getPerson(){
             const url = "/person/"+this.$store.state.user.uuid;
@@ -215,6 +274,21 @@ export default {
                 this.hideAlert()
         })
         },
+        getLocation(){
+            var config = {headers: {"userid": this.$store.state.user.uuid}};
+            const locationUrl = "/person/"+this.$store.state.user.uuid+"/location"
+            this.$http.get(locationUrl, config)
+        .then((response) => {
+            console.log(response)
+            this.locations = response.data
+            if (response.data.type == "OFFER") {
+                this.locations = response.data
+            }
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+        },
         makeReadable(){
             this.isReadonly = false
         },
@@ -223,6 +297,7 @@ export default {
             this.selectedFile = event
         },
         uploadImage(){
+            if (this.imageData.name) {
             this.loadingImage = true
             const url = "/person/"+this.$store.state.user.uuid+"/picture/add";
             var config = {headers: {"userid": this.$store.state.user.uuid}};
@@ -234,6 +309,7 @@ export default {
                 this.loadingImage = false
                 window.location.reload()
             })
+            }
         },
         updatePerson(){
             const url = "/person/update";
@@ -300,15 +376,40 @@ export default {
                 this.hideAlert()
         })
         },
-        postProfileImage(){
-            const url = "/person/"+this.$store.state.user.uuid+"/picture/add";
+        deleteProfile(){
+            const url = "/person/"+this.$store.state.user.uuid;
             var config = {headers: {"userid": this.$store.state.user.uuid}};
-            var data =
-            {
-
-            }
-            this.loading = true
-            this.$http.post(url, data, config)
+            this.$http.delete(url, config)
+            .then((response) => {
+                console.log(response)
+                this.successDelete = true
+                window.scrollTo(0,0);
+                this.hideAlert()
+            })
+            .catch((error) =>{
+                console.log(error)
+                this.errorDelete = true
+                window.scrollTo(0,0);
+                this.hideAlert()
+            })
+        },
+        deleteAddress(){
+            const url = "/location/"+this.locationDelete.uuid;
+            var config = {headers: {"userid": this.$store.state.user.uuid}};
+            this.$http.delete(url, config)
+            .then((response) => {
+                console.log(response)
+                this.successDelete = true
+                window.scrollTo(0,0);
+                this.getLocation()
+                this.hideAlert()
+            })
+            .catch((error) =>{
+                console.log(error)
+                this.errorDelete = true
+                window.scrollTo(0,0);
+                this.hideAlert()
+            })
         },
         hideAlert(){
             setTimeout(() => {                

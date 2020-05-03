@@ -12,6 +12,8 @@ import RegisterCom from '../views/RegisterCom.vue'
 import passwordReset from '../views/passwordReset.vue'
 import Contact from '../views/Contact.vue'
 import verifyEmail from '../views/verifyEmail.vue'
+import verifyCom from '../views/verifyCom.vue'
+
 
 Vue.use(VueRouter)
 
@@ -75,6 +77,11 @@ const routes = [
     path: '/verifyEmail',
     name: 'verifyEmail',
     component: verifyEmail
+  },
+  {
+    path: '/verifyCom',
+    name: 'verifyCom',
+    component: verifyCom
   },
 ]
 

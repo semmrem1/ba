@@ -41,8 +41,7 @@
                                 <!-- <v-snackbar class="subtitle-1 black-text font-weight-bold" v-model="successAlert" color="green lighten-1" multi-line vertical top>Speichern erfolgreich!
                                    <v-btn color="white" text @click="snackbar = false">OK</v-btn>
                                 </v-snackbar> -->
-                    <v-alert v-show="errorAlert" class="mt-4" type="error" elevation="2" outlined transition="fade-transition">Speichern fehlgeschlagen! :-(</v-alert>
-                    <v-alert v-show="errorAlert" class="mt-4" type="error" elevation="2" outlined transition="fade-transition">{{alert}}</v-alert>
+                    <v-alert v-show="errorAlert" class="mt-4" type="error" elevation="2" outlined transition="fade-transition">Speichern fehlgeschlagen! :-( <p>{{alert}}</p> </v-alert>
 
                         <v-col class="px-0 mx-0" cols="12">
                             <div>
@@ -148,7 +147,7 @@
                             <!-- Menge -->
                             <v-row>
                                 <v-col class="pt-0" cols="6" sm="3">
-                                    <v-text-field  color="green" :rules="avQuantityRules" v-model="product.amount" placeholder="10" label="Menge*" suffix="kg"></v-text-field>
+                                    <v-text-field  color="green" :rules="avQuantityRules" data-type="decimal" v-model="product.amount" placeholder="10" label="Menge*" suffix="kg"></v-text-field>
                                 </v-col>
                                 <v-col class="pt-0" cols="6" sm="4">
                                     <v-combobox v-model="product.repeat" :items="repeat" color="green" placeholder="wöchentlich" label="wiederkehrend"></v-combobox>
@@ -182,13 +181,17 @@
                                 return-object
                                 >
                                     <template slot="selection" slot-scope='{item}'>
-                                        {{item.title }} {{item.street }} {{item.streetnumber}}, {{item.postcode}} {{item.city}}
+                                        <span class="font-weight-bold">{{ item.title }}</span>
+                                        <span> - </span>
+                                         {{ item.street }} {{item.streetnumber}}, {{item.postcode}} {{item.city}}
                                     </template>
                                     <template slot="item" slot-scope='{item}'>
-                                        {{item.title }} {{item.street }} {{item.streetnumber}}, {{item.postcode}} {{item.city}}
+                                        <span class="font-weight-bold">{{item.title }}</span>
+                                        <span> - </span>
+                                        {{item.street }} {{item.streetnumber}}, {{item.postcode}} {{item.city}}
                                     </template>
                                 </v-select>
-                                <v-textarea label="Beschreibung" v-model="product.description" :counter="0"></v-textarea>
+                                <v-textarea label="Beschreibung" color="green" v-model="product.description" :counter="0"></v-textarea>
                         </v-card>
                         </v-div>
                                 <v-dialog v-model="dialog" max-width="450">
@@ -269,13 +272,12 @@
   export default {
     data() {
         return {   
-            uuid: "5e9acab70a975a3a277cc347", //Angela Anbieter
+            uuid: "5ead92e50a975a30d776c500",
             imageUuid: "",
             imageData: "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png",
             loader: null,
             loading: false,
             loadingDialog: false,
-            selectedFile: null,
             loadingImage: false,
             index: 0,
             snackbar: false,
@@ -371,7 +373,6 @@
             takeCheckbox: false,
             place: "",
             description: '',
-
             blockRemoval: true,
             
             
@@ -395,14 +396,12 @@
             return `data:image/png;base64, ${this.$store.state.createOffer.image}`
         }
     },
-
     watch: {
         lines () {
             this.blockRemoval = this.lines.length <= 1
         },
         
   },
-
     methods: {
         getCategory(){
             var uuid = this.uuid
@@ -434,10 +433,6 @@
             console.log(error)
         })
         },
-        onFileSelected(event){
-            console.log(event)
-            this.selectedFile = event
-        },
         uploadImage(){
             this.loadingImage = true
             const url = "/product/"+this.imageUuid+"/picture/add";
@@ -464,22 +459,16 @@
                 reader.readAsDataURL(input.files[0]);
             }
         },
-
-
-
         reset () {
             this.$refs.form.reset()
         },
-
         // formatDate (date) {
         //     if (!date) return null
-
         //     const [year, month, day] = date.split('-')
         //     return `${day}.${month}.${year}`
         // },
         // parseDate (date) {
         //     if (!date) return null
-
         //     const [month, day, year] = date.split('/')
         //     return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
         // },
@@ -493,7 +482,6 @@
                 streetnumber: null,
                 postcode: null,
                 city: null
-
             })
         },
         removeLine(lineId){
@@ -506,13 +494,11 @@
             if(checkEmptyLine.length >= 1 && this.location.length > 0) {
                 return
             }
-
             this.locations.push({
                 street: null,
                 streetnumber: null,
                 postcode: null,
                 city: null
-
             })
         },
         postProduct(){
@@ -547,12 +533,21 @@
                     this.$refs.form.reset()
                     this.imageUuid = response.data.uuid
                     this.successAlert = true
+                    window.scrollTo(0,0);
                     console.log("SUCCESS postProduct")
+                } else if (this.imageData != null){
                     this.uploadImage()
-                } else{
+                } else if (response.data.code == "002"){
+                    console.log(response.data.description)
+                    console.log("ERROR with E-Mail of User")
+                    this.errorAlert = true
+                    window.scrollTo(0,0);
+                    this.alert = response.data.description
+                } else {
                     console.log(response.data.description)
                     console.log("ERROR with Product")
                     this.errorAlert = true
+                    window.scrollTo(0,0);
                     this.alert = response.data.description
                 }
                 this.loading = false
@@ -609,6 +604,4 @@
         }
     },
 } 
-
-
 </script>

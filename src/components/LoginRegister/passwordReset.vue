@@ -6,7 +6,7 @@
                     <v-card-text class="px-3">
                     Gib deine E-Mailaddresse an um ein neues Passwort anzufordern.
                         <v-form>
-                            <v-text-field class="pt-8" label="E-Mail"/>
+                            <v-text-field class="pt-8" color="green" label="E-Mail"/>
                         </v-form>
                     </v-card-text>
                     <v-card-actions class="pa-0" justify-center>

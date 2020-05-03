@@ -93,7 +93,7 @@
 
       </v-col>
 
-      <v-alert v-show="emptyAlert" class="mt-4 mx-0" type="warning" color="red" elevation="2" outlined prominent transition="fade-transition">Leider sind aktuell keine Angebote verfügbar. Bitte versuchen Sie ez zu einem späteren Zeitpunkt nocheinmal.</v-alert>
+      <v-alert v-show="emptyAlert" class="mt-4 mx-0" type="warning" color="red" elevation="2" outlined prominent transition="fade-transition">Leider sind aktuell keine Angebote verfügbar. Bitte versuchen Sie es zu einem späteren Zeitpunkt nocheinmal.</v-alert>
       <v-row>
         <!-- ### TESTCARD ### --> 
           <v-col class="justify-center py-2" v-for="(item, i) in offers.offersReturn" :key="i" cols="12"  sm="6" md="6" lg="4">
@@ -270,6 +270,7 @@ export default {
           console.log("SUCCESS getOffers")
           if (response.data[0].length != 0) {
             console.log(response.data[0])
+            console.log(response.data)
             this.offers = response.data[0]
             this.loaded = true
             // console.log(response.data[0].offersReturn[0].uuid)

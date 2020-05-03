@@ -36,9 +36,9 @@
                 background-opacity = 0.0
             ></v-progress-linear>
 
-        </v-row>
-
+        </v-row>   
     </v-row>
+    <v-alert v-show="errorAlert" class="mt-4 mx-2" type="warning" color="red" elevation="2" outlined prominent transition="fade-transition">{{ this.text }}</v-alert>
       <v-row>
         <v-col class="justify-center py-2" v-for="(item, i) in bookings" :key="i" cols="12"  sm="6" md="6" lg="4">
         <v-card class="justify-center ma-0 pa-0" max-height="275" elevation="3">
@@ -49,7 +49,7 @@
                     <v-card-text class="py-0">{{ bookings[i].uuid }}</v-card-text>
                 </v-col>
                 <v-col class="justify-end pt-2 pl-2 pb-0" cols="2">
-                    <confirmDelete/>
+                    <!-- <confirmDelete/> -->
                 </v-col>
      
             </v-row>
@@ -79,14 +79,16 @@
 </template>
 
 <script>
-import confirmDelete from "./confirmDelete"
+// import confirmDelete from "./confirmDelete"
 export default {  
-  components: { confirmDelete },
+  components: {  },
     data() {
         return {
             uuid: "5e9ac90c0a975a3a277cc343",
             bookings: [],
             type: "",
+            text: "",
+            errorAlert: false,
             loaded: false,
         //     items: [
         //     {
@@ -137,14 +139,27 @@ export default {
             this.$http.get(urlRequester, config)
             .then((response) => {
                 console.log(response)
-                console.log(response.data)
-                console.log("SUCCESS")
-                this.bookings = response.data
-                this.loaded = true
+                if (response.data.code == "020") {
+                    this.loaded = true
+                    this.errorAlert = true
+                    this.text = response.data.description
+                } else if (response.data.length == 0){
+                    console.log("empty array")
+                    this.loaded = true
+                    this.errorAlert = true
+                    this.text = "Du hast noch keine Angebote gebucht. Buche ein Angebot unter Angebote und finde es anschliessend hier gelistet."
+                    // this.hideAlert()
+                } else {
+                    console.log("here will be bookings")
+                    this.bookings = response.data
+                }
+                
             })
             .catch((error) => {
                 console.log(error.response)
                 console.log("ERROR")
+                this.text = error.response.description
+                this.hideAlert()
                 this.loaded = true
             })
         },
@@ -155,6 +170,13 @@ export default {
                 this.type = "zum ernten"
             }
         },
+        hideAlert(){
+            setTimeout(() => {                
+                this.successAlert = false
+                this.errorAlert = false
+                this.loaded = true
+            }, 2000);
+        }
     }
 }
 </script>

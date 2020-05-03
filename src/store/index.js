@@ -11,7 +11,7 @@ export default new Vuex.Store({
   },
   state: {
     user: {
-      uuid: "5ea3e90c0a975a6638cf46d5",
+      uuid: "5ead92e50a975a30d776c500",
       personType: "",
       token: "",
       image: null,
