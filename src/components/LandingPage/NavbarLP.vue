@@ -68,9 +68,10 @@ export default {
             links: [
                 { icon: "mdi-account", text: "Profil", route: "/profile"},
                 { icon: "mdi-compass", text: "Angebote", route: "/offers"},
-                { icon: "mdi-file-check", text: "gebuchte Angebote", route: "/cropHistory"},
+                { icon: "mdi-file-check", text: "Buchungen (Priv)", route: "/bookingHistory"},
+                { icon: "mdi-file-check", text: "Bestellungen (Priv & Com)", route: "/orderHistory"},
                 { icon: "mdi-file-plus", text: "Angebot erfassen", route: "/createOffer"},
-                { icon: "mdi-file-multiple", text: "meine Angebote", route: "/myOffers"},
+                { icon: "mdi-file-multiple", text: "Angebote verwalten", route: "/myOffers"},
             ],
             person: {
                 title: "",

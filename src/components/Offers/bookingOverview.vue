@@ -55,12 +55,13 @@ export default {
             ]
         };
     },
-        computed: {
+    computed: {
         isComplete(){//button only visible if these fields are filled
             return this.agreement
 
         },
-    }
+    },
+
 };
 
 </script>

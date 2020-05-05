@@ -9,7 +9,7 @@
 
                 <v-card-title  class="pa-3 display-1 font-weight-bold">Registrieren</v-card-title>
 
-                <v-text class="body-2 pl-3" color="grey"><v-icon medium>mdi-information-outline</v-icon> Deine Daten sind öffentlich nicht zugänglich!</v-text>
+                <div class="body-2 pl-3" color="grey"><v-icon medium>mdi-information-outline</v-icon> Deine Daten sind öffentlich nicht zugänglich!</div>
                 <v-form ref="form" v-model="valid" lazy-validation class="pa-3">
                     <div>
                         <v-select :items="items" label="Anrede" v-model="person.title"></v-select>
@@ -70,7 +70,7 @@
                     required
                     >
                         <template v-slot:label>
-                            <div>Ich erkläre mich mit den <a target="_blank" href="http://google.com">AGB</a> von Obst vom Baum einverstanden.</div>
+                            <div>Ich erkläre mich mit den <v-btn class="ma-0 pa-0" color="blue darken-2" small text to="/agb">AGB</v-btn>von Obst vom Baum einverstanden.</div>
                         </template>
                     </v-checkbox>
 

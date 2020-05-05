@@ -1,6 +1,5 @@
 <template>
   <v-container class="justify-center ma-0 pt-0 py-2 px-4" justify-center cols="12" sm="6" md="8">
-    <v-row>
             <!-- <v-btn @click="getBookings()">GET Booking</v-btn>
             <p>Bookings</p>
             <div v-for="(item, i) in bookings" :key="i">
@@ -35,14 +34,11 @@
                 color="blue"
                 background-opacity = 0.0
             ></v-progress-linear>
-
-        </v-row>   
-    </v-row>
-    <v-alert v-show="errorAlert" class="mt-4 mx-2" type="warning" color="red" elevation="2" outlined prominent transition="fade-transition">{{ this.text }}</v-alert>
+        </v-row>      
+        <v-alert v-show="errorAlert" class="mt-4 mx-2" type="warning" color="red" elevation="2" outlined prominent transition="fade-transition">{{ this.text }}</v-alert>
       <v-row>
         <v-col class="justify-center py-2" v-for="(item, i) in bookings" :key="i" cols="12"  sm="6" md="6" lg="4">
         <v-card class="justify-center ma-0 pa-0" max-height="275" elevation="3">
-
             <v-row class="pl-1">
                 <v-col class="pa-0 pl-3 pb-0" cols="10">
                     <v-card-text class="title pb-0">Bestellnummer</v-card-text>
@@ -129,39 +125,60 @@ export default {
         
     },
     mounted(){
-        this.getBookings()
+        this.getPerson()
     },
     methods: {
-        getBookings(){
-            // const urlSupplier = "/booking/supplier/"+this.$store.state.user.uuid;
-            const urlRequester = "/booking/requester/"+this.$store.state.user.uuid;
+        getPerson(){
+            const url = "/person/"+this.$store.state.user.uuid;
             var config = {headers: {"userid": this.$store.state.user.uuid}};
-            this.$http.get(urlRequester, config)
+            this.$http.get(url, config)
             .then((response) => {
-                console.log(response)
-                if (response.data.code == "020") {
-                    this.loaded = true
-                    this.errorAlert = true
-                    this.text = response.data.description
-                } else if (response.data.length == 0){
-                    console.log("empty array")
-                    this.loaded = true
-                    this.errorAlert = true
-                    this.text = "Du hast noch keine Angebote gebucht. Buche ein Angebot unter Angebote und finde es anschliessend hier gelistet."
-                    // this.hideAlert()
-                } else {
-                    console.log("here will be bookings")
-                    this.bookings = response.data
+                this.loaded = true
+                this.loading = false
+                if (response.data != null) {
+                    console.log(response.data)
+                    this.person = response.data;
+                    this.$store.state.user = response.data
+                    this.$store.state.user.personType = response.data.personType
+                    this.getBookings()
                 }
-                
             })
             .catch((error) => {
-                console.log(error.response)
-                console.log("ERROR")
-                this.text = error.response.description
-                this.hideAlert()
+                console.log(error)
                 this.loaded = true
-            })
+        })
+        },
+        getBookings(){
+            if (this.$store.state.user.personType == "PRIVATE") {
+                const url = "/booking/requester/"+this.$store.state.user.uuid;
+                var config = {headers: {"userid": this.$store.state.user.uuid}};
+                this.$http.get(url, config)
+                .then((response) => {
+                    this.loaded = true
+                    console.log(response)
+                    if (response.data.code == "020") {
+                        this.errorAlert = true
+                        this.text = response.data.description
+                    } else if (response.data.length == 0){
+                        console.log("empty array")
+                        this.errorAlert = true
+                        this.text = "Sie haben noch keine Angebote gebucht."
+                    } else {
+                        console.log("here will be bookings")
+                        this.bookings = response.data
+                    }
+                })
+                .catch((error) => {
+                    this.loaded = true
+                    console.log(error.response)
+                    console.log("ERROR")
+                    this.text = error.response.description
+                })
+            } else {
+                this.errorAlert = true
+                this.text = "Erstellen Sie ein privates Profil, um Angebote zu buchen."
+            }
+ 
         },
         toBeCropped(){
             if (this.bookings.offer.toBeCropped == true) {

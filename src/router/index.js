@@ -4,7 +4,8 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Profil from '../views/Profil.vue'
 import Offers from '../views/Offers.vue'
-import cropHistory from '../views/cropHistory.vue'
+import bookingHistory from '../views/bookingHistory.vue'
+import orderHistory from '../views/orderHistory.vue'
 import createOffer from '../views/createOffer.vue'
 import myOffers from '../views/myOffers.vue'
 import RegisterPrivate from '../views/RegisterPrivate.vue'
@@ -13,6 +14,7 @@ import passwordReset from '../views/passwordReset.vue'
 import Contact from '../views/Contact.vue'
 import verifyEmail from '../views/verifyEmail.vue'
 import verifyCom from '../views/verifyCom.vue'
+import AGB from '../views/AGB.vue'
 
 
 Vue.use(VueRouter)
@@ -34,9 +36,14 @@ const routes = [
     component: Offers
   },
   {
-    path: '/cropHistory',
-    name: 'cropHistory',
-    component: cropHistory
+    path: '/bookingHistory',
+    name: 'bookingHistory',
+    component: bookingHistory
+  },
+  {
+    path: '/orderHistory',
+    name: 'orderHistory',
+    component: orderHistory
   },
   {
     path: '/createOffer',
@@ -82,6 +89,11 @@ const routes = [
     path: '/verifyCom',
     name: 'verifyCom',
     component: verifyCom
+  },
+  {
+    path: '/agb',
+    name: 'AGB',
+    component: AGB
   },
 ]
 

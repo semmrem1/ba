@@ -2,7 +2,6 @@
   <v-container class="justify-center ma-0 pt-0 px-4" cols="12" sm="6" md="8">
 
         <v-row class="justify-center">
-
             <v-progress-linear
                 :active="!loaded"
                 indeterminate
@@ -11,7 +10,6 @@
                 color="blue"
                 background-opacity = 0.0
             ></v-progress-linear>
-
         </v-row>
 
     
@@ -58,11 +56,6 @@
               chips
             ></v-combobox>
           </v-col>
-
-          <!-- <v-col cols="2" xs="3">
-            <v-spacer></v-spacer>
-            <v-btn color="green" outlined large @click="getOffers()">Suchen</v-btn>
-          </v-col> -->
         </v-row>
 
         <!-- <v-row>
@@ -103,7 +96,7 @@
                 <!-- IMG -->
                 <v-col class="py-0" cols="6">
                   <v-avatar class="ma-0 pa-0" min-width="100%" height="175" tile>
-                    <v-img max-height="175" :src="offerImage"></v-img>
+                    <v-img max-height="175" :src="offerImage2"></v-img>
                   </v-avatar>
                 </v-col>
 
@@ -130,7 +123,7 @@
                   </v-row>
 
                   <v-row>
-                    <v-card-subtitle class="pa-0">Menge: {{ offers.offersReturn[i].amountInKg }} Kg</v-card-subtitle>
+                    <v-card-subtitle class="pa-0">Menge: {{ offers.offersReturn[i].amountInKgAvailable }} Kg</v-card-subtitle>
                   </v-row>
 
                   <v-row class="pr-6 pt-1 justify-end align-end">
@@ -170,7 +163,7 @@
 
                                   <v-card-actions class="pt-2 mt-2">
                                     <!-- <v-btn class="centered-input mx-auto mb-2" color="green darken-1 white--text" raised @click="showBooking()" width="95%">ERNTE BUCHEN</v-btn> -->
-                                    <v-btn @click="postBooking()" class="centered-input mx-auto mb-2" color="green darken-1 white--text" :loading="loading" raised width="95%">ERNTE BUCHEN</v-btn>
+                                    <v-btn @click="postBooking(offers.offersReturn[i].uuid)" class="centered-input mx-auto mb-2" color="green darken-1 white--text" :loading="loading" raised width="95%">ERNTE BUCHEN</v-btn>
                                     <!-- <bookingOverview @click="postBooking()"></bookingOverview> -->
                                   </v-card-actions>
                               </v-card>
@@ -201,6 +194,7 @@ export default {
       return {
         uuid: "5e9ac90c0a975a3a277cc343",
         counter: 0,
+        offerImage2: "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png",
         skeletonLoader: true,
         loaded: false,
         successAlert: false,
@@ -269,21 +263,19 @@ export default {
         .then((response) => {
           console.log("SUCCESS getOffers")
           if (response.data[0].length != 0) {
-            console.log(response.data[0])
-            console.log(response.data)
             this.offers = response.data[0]
             this.loaded = true
-            // console.log(response.data[0].offersReturn[0].uuid)
-            response.data[0].offersReturn.forEach(element => {
+            console.log(this.offers.offersReturn[0].uuid)
+            this.offers.offersReturn.forEach(element => {
+              console.log(element)
               this.offerUuids.push(element.uuid)
               this.$store.state.offer.uuid = this.offerUuids.slice()
               this.pictureUuids.push(element.productPictureUuid)
               this.$store.state.offer.image = this.pictureUuids.slice()
-              // console.log(this.$store.state.offer.uuid)
-              this.getImages()
-          });
-          }
-
+              // console.log(this.offerUuids)
+             });
+          // this.getImages()
+          } 
         })
         .catch((response) => {
           this.emptyAlert = true
@@ -301,7 +293,6 @@ export default {
           if (response.data.length != 0) {
           console.log(response.data)
           console.log("SUCCESS getImage")
-          console.log(element)
           this.pictureCode.push(response.data.image.data)
           }
         })

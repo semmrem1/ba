@@ -1,18 +1,18 @@
 <template>
-  <div class="cropHistory">
+  <div class="bookingHistory">
     <v-container class="pa-0">
-      <cropHistory/>
+      <bookingHistory/>
     </v-container>
   </div>
 </template>
 
 <script>
-import cropHistory from '@/components/cropHistory'
+import bookingHistory from '@/components/bookingHistory'
 
 export default {
-Name: 'cropHistory',
+Name: 'bookingHistory',
   components: {
-    cropHistory
+    bookingHistory
   },
   data: () => ({
     //

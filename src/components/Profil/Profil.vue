@@ -12,6 +12,7 @@
             ></v-progress-linear>
 
         </v-row>
+
         <v-row class="justify-center pt-4">
             <!-- Card -->
             <v-card class="ma-0 pa-0" width="90%" max-width="600px" elevation="3">
@@ -51,6 +52,7 @@
                 <v-alert v-show="successDelete" class="mt-4 mx-4" type="success" elevation="2" outlined transition="fade-transition">Löschen erfolgreich!</v-alert>
                 <v-alert v-show="errorAlert" class="mt-4 mx-4" type="error" elevation="2" outlined  transition="fade-transition">Änderungen fehlgeschlagen!</v-alert>
                 <v-alert v-show="errorDelete" class="mt-4 mx-4" type="error" elevation="2" outlined  transition="fade-transition">Löschen fehlgeschlagen!</v-alert>
+                <v-alert v-show="addressDeleteError" class="mt-4 mx-4" type="error" elevation="2" outlined  transition="fade-transition">Die Heimadresse kann nicht gelöscht werden.</v-alert>
                 <!-- Form -->
                 <v-form class="px-3 pt-6">
                     <div>
@@ -113,7 +115,6 @@
                                 :items="locations"
                                 name="type"
                                 label="Addresse wählen"
-                                :rules="addressRules"
                                 v-model="locationDelete"
                                 item-text="location"
                                 item-value="uuid"
@@ -132,12 +133,30 @@
                                     </template>
                                 </v-select>
                         <v-row class="px-4">
-                            <v-row>
-                                <v-col cols="2" xs="4">
-                                    <v-btn v-on="on" color="red" outlined small @click="deleteAddress()"><v-icon>mdi-delete</v-icon>Adresse LÖSCHEN</v-btn>
-                                </v-col>
-                            </v-row>
-                            <v-dialog v-model="dialog" max-width="450">
+                            <v-dialog v-model="addressDialog" max-width="450">
+                                <template v-slot:activator="{ on }">
+                                    <v-col cols="4" xs="4">
+                                        <v-row>
+                                            <v-btn v-on="on" color="red" outlined small ><v-icon>mdi-delete</v-icon>Adresse LÖSCHEN</v-btn>
+                                        </v-row>
+                                    </v-col>
+                                </template>
+                                <!-- CARD -->
+                                <v-card>
+                                    <v-toolbar :color="options.color" dark dense flat>
+                                        <v-toolbar-title class="white--text font-weight-bold"><v-icon class="pr-3" size="x-large">mdi-alert</v-icon>{{ address.title }}</v-toolbar-title>
+                                    </v-toolbar>
+                                    <v-card-text v-show="address.message" class="pa-4">{{ address.message }}</v-card-text>
+                                    <v-card-actions class="pa-4">
+                                        <v-spacer></v-spacer>
+                                        <v-btn @click="addressDialog=false" outlined color="grey">Abbrechen</v-btn>
+                                        <v-btn class="white--text ml-4" @click="deleteAddress()" depressed :color="options.color">Ja</v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
+
+                            <!-- Confirm Delete Profile-->
+                            <v-dialog v-model="profileDialog" max-width="450">
                                 <template v-slot:activator="{ on }">
                                     <v-col cols="8" xs="4">
                                         <v-row>
@@ -148,12 +167,12 @@
                                 <!-- CARD -->
                                 <v-card>
                                     <v-toolbar :color="options.color" dark dense flat>
-                                        <v-toolbar-title class="white--text font-weight-bold"><v-icon class="pr-3" size="x-large">mdi-alert</v-icon>{{ title }}</v-toolbar-title>
+                                        <v-toolbar-title class="white--text font-weight-bold"><v-icon class="pr-3" size="x-large">mdi-alert</v-icon>{{ profile.title }}</v-toolbar-title>
                                     </v-toolbar>
-                                    <v-card-text v-show="!!message" class="pa-4">{{ message }}</v-card-text>
+                                    <v-card-text v-show="profile.message" class="pa-4">{{ profile.message }}</v-card-text>
                                     <v-card-actions class="pa-4">
                                         <v-spacer></v-spacer>
-                                        <v-btn @click="dialog=false" outlined color="grey">Abbrechen</v-btn>
+                                        <v-btn @click="profileDialog=false" outlined color="grey">Abbrechen</v-btn>
                                         <v-btn class="white--text ml-4" @click="deleteProfile()" depressed :color="options.color">Ja</v-btn>
                                     </v-card-actions>
                                 </v-card>
@@ -191,14 +210,24 @@ export default {
             successAlert: false,
             errorAlert: false,
             successDelete: false,
+            addressDialog: false,
+            profileDialog: false,
             errorDelete: false,
+            addressDeleteError: false, 
+            locationDelete: "",
             timeout: 5000,
             info: null,
             dialog: false,
             resolve: null,
             reject: null,
-            message: "Wollen Sie ihr Prpfil wirklich löschen? Dies kann nicht rückgängig gemacht werden.",
-            title: "Profil löschen",
+            address: {
+                message: "Wollen Sie diese Adresse wirklich löschen? Dies kann nicht rückgängig gemacht werden.",
+                title: "Adresse löschen",
+            },
+            profile: {
+                message: "Wollen Sie ihr Profil wirklich löschen? Dies kann nicht rückgängig gemacht werden.",
+                title: "Profil löschen",
+            },           
             options: {
                 color: "red",
                 width: 290,
@@ -370,7 +399,7 @@ export default {
                 this.isReadonly = true
             })
             .catch((error) => {
-                this.loading = false
+                this.loadingSave = false
                 this.errorAlert = true
                 console.log(error.response)
                 this.hideAlert()
@@ -394,6 +423,7 @@ export default {
             })
         },
         deleteAddress(){
+            if (this.locationDelete.type == "OFFER") {
             const url = "/location/"+this.locationDelete.uuid;
             var config = {headers: {"userid": this.$store.state.user.uuid}};
             this.$http.delete(url, config)
@@ -409,7 +439,12 @@ export default {
                 this.errorDelete = true
                 window.scrollTo(0,0);
                 this.hideAlert()
-            })
+            })   
+            } else {
+                this.addressDeleteError = true
+                window.scrollTo(0,0);
+                this.hideAlert()
+            }
         },
         hideAlert(){
             setTimeout(() => {                

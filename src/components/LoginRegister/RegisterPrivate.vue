@@ -10,7 +10,7 @@
                 <v-card-title  class="pa-3 display-1 font-weight-bold">Registrieren</v-card-title>
                 <!-- <v-alert v-show="successAlert" class="mx-2 mt-4 py-1" type="success" transition="fade-transition">Registrierung erfolgreich!</v-alert>
                 <v-alert v-show="errorAlert" class="mx-2 mt-4 py-1" type="error" transition="fade-transition">Registrierung fehlgeschlagen!</v-alert> -->
-                <v-text class="body-2 pl-3" color="grey"><v-icon medium>mdi-information-outline</v-icon> Deine Daten sind öffentlich nicht zugänglich!</v-text>
+                <div class="body-2 pl-3" color="grey"><v-icon medium>mdi-information-outline</v-icon> Deine Daten sind öffentlich nicht zugänglich!</div>
                 <!-- <v-alert class="mx-2 mt-4 py-1" type="info" outlined dense>Deine Daten sind öffentlich nicht zugänglich!</v-alert> -->
                 <!-- <p class="title red--text">{{this.errorAlert}}</p> -->
                 <!-- <p class="title green--text">{{this.successAlert}}</p>     -->       
@@ -73,7 +73,7 @@
                     required
                     >
                         <template v-slot:label>
-                            <div>Ich erkläre mich mit den <a target="_blank" href="http://google.com" @click.stop>AGB</a> von Obst vom Baum einverstanden.</div>
+                            <div>Ich erkläre mich mit den <v-btn class="ma-0 pa-0" color="blue darken-2" small text to="/agb">AGB</v-btn>von Obst vom Baum einverstanden.</div>
                         </template>
                     </v-checkbox>   
 

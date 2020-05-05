@@ -20,6 +20,8 @@
                         </label>
                     </v-btn>
                 </div>
+                <v-btn @click="uploadImage()" outlined >upload Image</v-btn>
+                <!-- {{imageData}} -->
 
                 <!-- <v-row>
                     <v-col class="pl-6 pr-0" cols="12" xs="12" sm="12" md="4">
@@ -82,7 +84,7 @@
                     <!-- ### ERNTE ### -->
                     
                     
-                    <v-div v-for="(line, index) in lines" :key="index">
+                    <div v-for="(line, index) in lines" :key="index">
                        <v-card class="my-4 mx-0 pa-4">
                         <v-card-title class="pl-0 pt-0 pb-3">Ernte:</v-card-title>
                         <v-card-subtitle class="pl-0 pb-0">Wann und wo kann das Obst geerntet oder abgeholt werden?</v-card-subtitle>
@@ -193,7 +195,7 @@
                                 </v-select>
                                 <v-textarea label="Beschreibung" color="green" v-model="product.description" :counter="0"></v-textarea>
                         </v-card>
-                        </v-div>
+                        </div>
                                 <v-dialog v-model="dialog" max-width="450">
                                     <template v-slot:activator="{ on }">
                                         <v-btn v-on="on" class="px-2 mt-2 mb-8" @click="addLocation" color="green" text small><v-icon>mdi-plus</v-icon>Neue Addresse</v-btn>
@@ -355,6 +357,7 @@
                 amount: "",
                 tobecropped: true,
                 repeat: "",
+                description: "",
                 category: {
                     uuid: ""
                 },
@@ -393,7 +396,7 @@
             return this.offerLocation.street && this.offerLocation.postcode && this.offerLocation.city
         },
         offerImage(){
-            return `data:image/png;base64, ${this.$store.state.createOffer.image}`
+            return `data:image/*;base64, ${this.$store.state.createOffer.image}`
         }
     },
     watch: {
@@ -438,7 +441,10 @@
             const url = "/product/"+this.imageUuid+"/picture/add";
             var config = {headers: {"userid": this.uuid}};
             const fd = new FormData();
-            fd.append('image', this.imageData, this.imageData.name)
+            fd.append('image', this.picture, this.picture.name)
+            console.log(url)
+            console.log(fd)
+            console.log(config)
             this.$http.post(url, fd, config)
             .then((response) => {
                 console.log(response)
@@ -450,11 +456,13 @@
             })
         },
         previewImage(event) {
-            var input = event.target;
+            var input = event.target
+            this.picture = event.target.files[0]
+            console.log(this.picture)
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
                 reader.onload = (event) => {
-                    this.imageData = event.target.result;
+                    this.imageData = event.target.files;
                 }
                 reader.readAsDataURL(input.files[0]);
             }
@@ -517,10 +525,11 @@
                     location: {
                         uuid: this.product.location.uuid
                     },
-                    amountInKg: this.product.amount,
+                    amountInKgAvailable: this.product.amount,
                     toBeCropped: this.product.tobecropped,
                     from: this.product.dateFrom,
-                    until: this.product.dateUntil 
+                    until: this.product.dateUntil,
+                    description: this.product.description
                     }
                 ]
             }
@@ -535,8 +544,10 @@
                     this.successAlert = true
                     window.scrollTo(0,0);
                     console.log("SUCCESS postProduct")
-                } else if (this.imageData != null){
-                    this.uploadImage()
+                    this.hideAlert()
+                    if (this.imageData != "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png") {
+                        this.uploadImage()
+                    }
                 } else if (response.data.code == "002"){
                     console.log(response.data.description)
                     console.log("ERROR with E-Mail of User")
@@ -556,6 +567,7 @@
             .catch((error) => {
                 console.log(error)
                 console.log("ERROR")
+                this.alert = "Error"
                 this.errorAlert = true
                 this.loading = false
                 this.hideAlert()
