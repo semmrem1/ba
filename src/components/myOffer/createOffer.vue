@@ -10,7 +10,7 @@
         <v-row class="justify-center">
             <!-- Card -->
             <v-card class="ma-0" width="90%" max-width="600px" elevation="3">
-                <div class="pa-0 ma-0 image-preview" v-if="imageData.length > 0">
+                <div class="pa-0 ma-0 image-preview" v-if="imageData.length != 0">
                     <img class="preview" width="100%" :src="imageData">
                 </div>
                 <div class="mx-4 pt-2">
@@ -20,7 +20,7 @@
                         </label>
                     </v-btn>
                 </div>
-                <v-btn @click="uploadImage()" outlined >upload Image</v-btn>
+                <!-- <v-btn @click="uploadImage()" outlined >upload Image</v-btn> -->
                 <!-- {{imageData}} -->
 
                 <!-- <v-row>
@@ -45,7 +45,7 @@
                                 </v-snackbar> -->
                     <v-alert v-show="errorAlert" class="mt-4" type="error" elevation="2" outlined transition="fade-transition">Speichern fehlgeschlagen! :-( <p>{{alert}}</p> </v-alert>
 
-                        <v-col class="px-0 mx-0" cols="12">
+                        <v-col class="pa-0 ma-0" cols="12">
                             <div>
                                 <div class="file-upload-form">
 
@@ -149,10 +149,10 @@
                             <!-- Menge -->
                             <v-row>
                                 <v-col class="pt-0" cols="6" sm="3">
-                                    <v-text-field  color="green" :rules="avQuantityRules" data-type="decimal" v-model="product.amount" placeholder="10" label="Menge*" suffix="kg"></v-text-field>
+                                    <v-text-field  color="green" :rules="avQuantityRules" data-type="decimal" v-model="product.amount" label="Menge*" suffix="kg"></v-text-field>
                                 </v-col>
                                 <v-col class="pt-0" cols="6" sm="4">
-                                    <v-combobox v-model="product.repeat" :items="repeat" color="green" placeholder="wöchentlich" label="wiederkehrend"></v-combobox>
+                                    <v-combobox v-model="product.repeat" :items="repeat" color="green" label="wiederkehrend"></v-combobox>
                                 </v-col>
 
                                 <!-- <v-col class="pt-0" cols="0">
@@ -456,16 +456,26 @@
             })
         },
         previewImage(event) {
-            var input = event.target
+            var input = event.target;
             this.picture = event.target.files[0]
             console.log(this.picture)
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
                 reader.onload = (event) => {
-                    this.imageData = event.target.files;
+                    this.imageData = event.target.result;
                 }
                 reader.readAsDataURL(input.files[0]);
             }
+            // var input = event.target
+            // this.picture = event.target.files[0]
+            // console.log(this.picture)
+            // if (input.files && input.files[0]) {
+            //     var reader = new FileReader();
+            //     reader.onload = (event) => {
+            //         this.imageData = event.target.files;
+            //     }
+            //     reader.readAsDataURL(input.files[0]);
+            // }
         },
         reset () {
             this.$refs.form.reset()

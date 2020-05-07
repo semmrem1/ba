@@ -103,7 +103,7 @@
                 <!-- Details -->
                 <v-col class="pa-1 pl-5" cols="6">
                   <v-row>
-                    <v-card-subtitle class="font-weight-bold pa-0 pt-1">{{ offers.offersReturn[i].uuid }}</v-card-subtitle>
+                    <v-card-subtitle class="font-weight-bold pa-0 pt-1" v-model="offer.offerUuid">{{ offers.offersReturn[i].uuid }}</v-card-subtitle>
                   </v-row>
 
                   <!-- <v-row>
@@ -140,7 +140,6 @@
                                   </v-toolbar>
 
                                   <!-- {{this.$store.state.offer.uuid}} -->
-                                  {{offers.offersReturn[i].uuid}}
                                   <v-card-text class="body-2 pt-4">Bitte gib deine gewünschte Menge an Obst an, welche du ernten möchtest.</v-card-text>
                                   <v-card-text class="subtitle-1 font-weight-bold">Menge:</v-card-text>
                                   <v-row class="mt-2">
@@ -151,7 +150,7 @@
                                       </v-col>
                                       
                                       <v-col cols="5">
-                                          <v-text-field v-model="amountInKg" class="justify-center" color="green" outlined readonly :value="amountInKg" suffix="KG">{{ amountInKg }}</v-text-field>
+                                          <v-text-field class="justify-center" color="green" outlined readonly :value="amountInKgAvailable" suffix="KG">{{ amountInKgAvailable }}</v-text-field>
                                       </v-col>
                                       <v-col>
                                           <v-btn class="ml-2" fab dark color="green darken-1">
@@ -205,6 +204,9 @@ export default {
         slider: 10,
         range: [-20, 70],
         select: ['Äpfel'],
+        offer: {
+          offerUuid: "",
+        },
         offers: [],
         offerUuids: [],
         pictureUuids: [],
@@ -217,7 +219,7 @@ export default {
             color: "green",
         },  
         currentDialog: null,
-        amountInKg: 10,
+        amountInKgAvailable: 10,
         filterAmount: 50,
         filterCategory: "",
     }
@@ -233,11 +235,11 @@ export default {
     },
     methods: {
       increase: function(){
-          this.amountInKg++;
+          this.amountInKgAvailable++;
       },
       decrease: function(){
-          if(this.amountInKg > 0){
-            this.amountInKg--;              
+          if(this.amountInKgAvailable > 0){
+            this.amountInKgAvailable--;              
           }
       },
       getCategory(){
@@ -308,14 +310,15 @@ export default {
         var data = 
         {
             offer: {
-                uuid: "5e9acbaf0a975a3a277cc349"
+                uuid: "5eb0f5f50a975a5bed9d55ec"
             },
             requester: {
                 uuid: this.$store.state.user.uuid
             },
-            amountInKg: this.amountInKg,
+            amountInKgAvailable: this.amountInKgAvailable,
         }    
         this.loading = true
+        console.log(data)
         this.$http.post(url, data, config)
         .then((response) => {
             console.log(response)

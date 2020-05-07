@@ -19,7 +19,7 @@
                     </v-col>
                     
                     <v-col cols="5">
-                        <v-text-field v-model="amountInKg" class="justify-center" color="green" outlined readonly :value="amountInKg" suffix="KG">{{ amountInKg }}</v-text-field>
+                        <v-text-field v-model="amountInKg" class="justify-center" color="green" outlined readonly :value=amountInKgAvailable suffix="KG">{{ amountInKg }}</v-text-field>
                     </v-col>
                     <v-col>
                         <v-btn class="ml-2" fab dark color="green darken-1">

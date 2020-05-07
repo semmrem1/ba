@@ -35,7 +35,7 @@
                 background-opacity = 0.0
             ></v-progress-linear>
         </v-row>   
-        <v-alert v-show="errorAlert" class="mt-4 mx-2" type="warning" color="red" elevation="2" outlined prominent transition="fade-transition">{{ this.text }}</v-alert>
+        <v-alert v-show="errorAlert" class="mt-4" type="warning" color="red" elevation="2" outlined prominent transition="fade-transition">{{ this.text }}</v-alert>
       <v-row>
         <v-col class="justify-center py-2" v-for="(item, i) in bookings" :key="i" cols="12"  sm="6" md="6" lg="4">
         <v-card class="justify-center ma-0 pa-0" max-height="275" elevation="3">
@@ -62,7 +62,7 @@
                     <v-card-text class="py-0">{{ moment(bookings[i].bookingDate).format('DD.MM.YYYY') }}</v-card-text>
                     <v-card-text class="py-0">{{ moment(bookings[i].offer.from).format('DD.MM.YYYY') }} bis {{ moment(bookings[i].offer.until).format('DD.MM.YYYY') }}</v-card-text>
                     <v-card-text class="py-0">zum abholen</v-card-text>
-                    <v-card-text class="py-0">{{ bookings[i].offer.amountInKg }} kg</v-card-text>
+                    <v-card-text class="py-0">{{ bookings[i].offer.amountInKgAvailable }} kg</v-card-text>
                     <v-card-text class="py-0 pt-4">{{ bookings[i].offer.location.street }} {{ bookings[i].offer.location.streetnumber }}</v-card-text>
                     <v-card-text class="py-0">{{ bookings[i].offer.location.postcode }} {{ bookings[i].offer.location.city }}</v-card-text>
                 </v-col>
@@ -102,7 +102,6 @@ export default {
             var config = {headers: {"userid": this.$store.state.user.uuid}};
             this.$http.get(url, config)
             .then((response) => {
-                this.loaded = true
                 this.loading = false
                 if (response.data != null) {
                     console.log(response.data)
@@ -122,7 +121,6 @@ export default {
                 var config = {headers: {"userid": this.$store.state.user.uuid}};
                 this.$http.get(url, config)
                 .then((response) => {
-                    this.loaded = true
                     console.log(response)
                     if (response.data.code == "020") {
                         this.errorAlert = true
@@ -135,6 +133,7 @@ export default {
                         console.log("here will be bookings")
                         this.bookings = response.data
                     }
+                    this.loaded = true
                 })
                 .catch((error) => {
                     this.loaded = true

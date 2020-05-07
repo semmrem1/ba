@@ -6,8 +6,8 @@
         </div>
         <div class="pa-4">
             {
-            "username": "remo",
-            "password": "7LaTS32wHv86"
+            "email": "auth_test21@hotmail.com",
+            "password": "abcdef12345"
             }
         </div>
 

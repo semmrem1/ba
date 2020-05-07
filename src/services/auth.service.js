@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://env-8368367.jcloud.ik-server.com/users/login';
+const API_URL = "http://env-9201482.jcloud.ik-server.com/api/auth/signin";
 
 class AuthService {
   login(user) {
