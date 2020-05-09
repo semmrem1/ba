@@ -95,8 +95,19 @@ export default {
     },
     mounted() {
         if (localStorage.getItem("token") != null) {
-            this.$store.state.loggedIn.auth = true
-                this.getPerson()
+                const url = "/person/"+localStorage.getItem("userUuid")
+                var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
+                this.$http.get(url, config)
+                .then((response) => {
+                    if (response.data.status != 401) {
+                        this.$store.state.loggedIn.auth = true
+                        this.getPerson()
+                    } else {
+                        this.$store.state.loggedIn.auth = false
+                        this.$router.push('/login');
+                    }
+                })
+            
         } else {
             this.$store.state.loggedIn.auth = false
             this.$router.push('/login');

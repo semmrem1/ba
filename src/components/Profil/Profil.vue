@@ -262,13 +262,20 @@ export default {
     },
     mounted() {
         if (localStorage.getItem("token") != null) {
-            this.$store.state.loggedIn.auth = true
-            // console.log(localStorage.getItem("token"))
-            // console.log(localStorage.getItem("userUuid"))
-            // console.log("route to profile success")
-            // console.log(this.$store.state.user.uuid)
-            this.getPerson()
-            this.getLocation()
+                const url = "/person/"+localStorage.getItem("userUuid")
+                var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
+                this.$http.get(url, config)
+                .then((response) => {
+                    if (response.data.status != 401) {
+                        this.$store.state.loggedIn.auth = true
+                        this.getPerson()
+                        this.getLocation()
+                    } else {
+                        this.$store.state.loggedIn.auth = false
+                        this.$router.push('/login');
+                    }
+                })
+            
         } else {
             this.$store.state.loggedIn.auth = false
             this.$router.push('/login');
