@@ -1,18 +1,26 @@
 <template>
         <nav>
             <v-app-bar  app class="green" elevation="4">
-                <!-- <div v-if="currentUser"> -->
+                <div v-if="currentUser">
                     <v-app-bar-nav-icon size="xs" @click="drawer = !drawer"></v-app-bar-nav-icon>
-                <!-- </div> -->
+                </div>
+                <div v-if="!currentUser">
+                    <v-btn icon color="black" @click="scrollToTop()" to="/"><v-icon>mdi-home</v-icon></v-btn>
+                </div>
 
                 <v-spacer></v-spacer>
+                <!-- user.auth: {{ this.$store.state.loggedIn.auth }} -->
 
-                <v-toolbar-title class="justify-center text-uppercase white--text" color="white" to="/">
-                    <span color="white--text">Obst</span>
-                    <span class="font-weight-light" >vom</span>
-                    <span>Baum</span>
-                </v-toolbar-title>
+                <v-btn class="title justify-center text-uppercase white--text" to="/" @click="scrollToTop()" text>
+                    <span  class="font-weight-bold">Obst</span>
+                    <span class="font-weight-light">vom</span>
+                    <span class="font-weight-bold">Baum</span>
+                </v-btn>
 
+                <!-- <div v-if="currentUser">
+                    token: {{ this.$store.state.user.token }}
+                </div> -->
+        
                 <v-spacer></v-spacer>
 
                 <!-- if already logged in -->
@@ -36,7 +44,7 @@
                         <v-list-item-content router>
                             <v-list-item-title class="title">{{this.$store.state.user.first}} {{this.$store.state.user.last}}</v-list-item-title>
                             <v-list-item-subtitle>{{this.$store.state.user.personType}}</v-list-item-subtitle>
-                            <v-list-item-subtitle>{{this.$store.state.user.uuid}}</v-list-item-subtitle>
+                            <!-- <v-list-item-subtitle>{{this.$store.state.user.uuid}}</v-list-item-subtitle> -->
                             
                             <!-- <v-list-item-subtitle>Level 3: Pflücker</v-list-item-subtitle> -->
                         </v-list-item-content>
@@ -53,7 +61,7 @@
                 </v-list>
                 <template v-slot:append>
                     <div class="pa-4">
-                        <v-btn block class="grey darken-3 white--text" to="/">Logout</v-btn>
+                        <v-btn block class="grey darken-3 white--text" @click="logOut()" to="/">Logout</v-btn>
                     </div>
                 </template>
             </v-navigation-drawer>
@@ -67,11 +75,11 @@ export default {
             drawer: false,
             links: [
                 { icon: "mdi-account", text: "Profil", route: "/profile"},
-                { icon: "mdi-compass", text: "Angebote", route: "/offers"},
-                { icon: "mdi-file-check", text: "Buchungen (Priv)", route: "/bookingHistory"},
-                { icon: "mdi-file-check", text: "Bestellungen (Priv & Com)", route: "/orderHistory"},
-                { icon: "mdi-file-plus", text: "Angebot erfassen", route: "/createOffer"},
-                { icon: "mdi-file-multiple", text: "Angebote verwalten", route: "/myOffers"},
+                { icon: "mdi-compass", text: "Suchen", route: "/offers"},
+                { icon: "mdi-file-check", text: "Von mir bestellt", route: "/bookingHistory"},
+                { icon: "mdi-file-check", text: "Bei mir bestellt", route: "/orderHistory"},
+                { icon: "mdi-file-plus", text: "Obst inserieren", route: "/createOffer"},
+                { icon: "mdi-file-multiple", text: "Mein Obst", route: "/myOffers"},
             ],
             person: {
                 title: "",
@@ -97,16 +105,22 @@ export default {
 },
     computed: {
         currentUser() {
-            return this.$store.state.auth.user;
+            return this.$store.state.loggedIn.auth
         },
         profileImage(){
             return `data:image/png;base64, ${this.$store.state.user.image}`
         },
     },
     methods: {
+        scrollToTop(){
+            window.scrollTo(0,0);
+        },
         logOut() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('userUuid');
+            this.$store.state.loggedIn.auth = false
             this.$store.dispatch('auth/logout');
-            this.$router.push('/login');
+            this.$router.push('/');
     }
   }
 };

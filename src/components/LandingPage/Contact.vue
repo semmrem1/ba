@@ -6,7 +6,7 @@
                 <v-alert v-show="successAlert" class="mt-4 mx-3" type="success" elevation="2" outlined transition="fade-transition">
                 <p class="pa-0 ma-0 font-weight-bold">Nachricht erfolgreich gesendet!</p></v-alert>
                 <!-- Form -->
-                <v-form ref="form" v-model="valid" lazy-validation class="pa-3">
+                <v-form ref="form" lazy-validation class="pa-3">
                     <div>
                         <v-text-field class="py-0" color="green" label="Name" v-model="message.name"></v-text-field>
                         <v-text-field class="py-0" color="green" :rules="emailRules" label="E-Mail*" v-model="message.email" required></v-text-field>

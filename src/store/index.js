@@ -10,13 +10,23 @@ export default new Vuex.Store({
     auth
   },
   state: {
+    loggedIn: {
+      auth: false
+    },
     user: {
-      uuid: "5ead92e50a975a30d776c500",
+      uuid: localStorage.getItem("userUuid"),
+      role: "",
       personType: "",
       token: "",
       image: null,
       offerUuid: [],
     },
+    header:{
+      key: "Authorization",
+      type: "Bearer",
+      value: "Bearer "+localStorage.getItem("token"),
+    },
+
     offer: {
       uuid: [],
       image: [],

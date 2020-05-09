@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = "http://env-9201482.jcloud.ik-server.com/api/auth/signin";
+const API_URL = "http://env-9201482.jcloud.ik-server.com/auth/signin";
 
 class AuthService {
   login(user) {
@@ -13,7 +13,9 @@ class AuthService {
         if (response.data.token) {
           localStorage.setItem('user', JSON.stringify(response.data));
           localStorage.setItem('token', JSON.stringify(response.data.token));
+          console.log("auth.service")
           console.log(response)
+          console.log(response.data)
         }        
       })
       .catch(response => {

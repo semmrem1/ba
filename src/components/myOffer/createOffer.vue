@@ -160,10 +160,10 @@
                             </v-row>
                             <v-row> 
                                 <v-col class="py-0" cols="6" sm="4" >
-                                    <v-checkbox color="green" v-model="product.tobecropped" :rules="checkboxRules" value="true" label="zum ernten"></v-checkbox>
+                                    <v-checkbox color="green" v-model="product.tobecropped" :rules="checkboxRules" value="true" label="zum Ernten"></v-checkbox>
                                 </v-col>
                                 <v-col class="py-0" cols="6" sm="4">
-                                    <v-checkbox color="green" v-model="product.tobecropped" :rules="checkboxRules" value="false" label="zum abholen"></v-checkbox>
+                                    <v-checkbox color="green" v-model="product.tobecropped" :rules="checkboxRules" value="false" label="zum Abholen"></v-checkbox>
                                 </v-col>
                             </v-row>
                             <!-- <p>{{this.line.amount}}</p> -->
@@ -274,7 +274,7 @@
   export default {
     data() {
         return {   
-            uuid: "5ead92e50a975a30d776c500",
+            // uuid: "5ead92e50a975a30d776c500",
             imageUuid: "",
             imageData: "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png",
             loader: null,
@@ -381,12 +381,18 @@
             
         }
     },
-    mounted(){
+    mounted() {
+        if (localStorage.getItem("token") != null) {
+            this.$store.state.loggedIn.auth = true
         this.getCategory()
         this.getLocation()
         this.addLine()
         this.addLocation()
-        this.$refs.form.reset()        
+        this.$refs.form.reset()   
+        } else {
+            this.$store.state.loggedIn.auth = false
+            this.$router.push('/login');
+        }
     },
     computed: {
     //   computedDateFormatted () {
@@ -407,9 +413,8 @@
   },
     methods: {
         getCategory(){
-            var uuid = this.uuid
             const url = "/category";
-            var config = {headers: {"userid": uuid}};
+            var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
             this.$http.get(url, config)
         .then((response) => {
             console.log(response)
@@ -421,9 +426,8 @@
         })
         },
         getLocation(){
-            var uuid = this.uuid
-            var config = {headers: {"userid": uuid}};
-            const locationUrl = "/person/"+uuid+"/location"
+            var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
+            const locationUrl = "/person/"+localStorage.getItem("userUuid")+"/location"
             this.$http.get(locationUrl, config)
         .then((response) => {
             console.log(response)
@@ -439,7 +443,7 @@
         uploadImage(){
             this.loadingImage = true
             const url = "/product/"+this.imageUuid+"/picture/add";
-            var config = {headers: {"userid": this.uuid}};
+            var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
             const fd = new FormData();
             fd.append('image', this.picture, this.picture.name)
             console.log(url)
@@ -522,7 +526,7 @@
         postProduct(){
             if (this.$refs.form.validate()) {
             const url = "/product";
-            var config = {headers: {"userid": this.uuid}};
+            var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
             var data =
             {
                 owner: {
@@ -586,9 +590,8 @@
           }
         },
         postLocation(){
-                var uuid = this.uuid
-                const url = "/person/"+uuid+"/offer/location";
-                var config = {headers: {"userid": uuid}};
+                const url = "/person/"+localStorage.getItem("userUuid")+"/offer/location";
+                var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
                 var data =
                 {
                     title: this.offerLocation.title,

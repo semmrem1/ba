@@ -93,22 +93,33 @@ export default {
         }
         
     },
-    mounted(){
-        this.getPerson()
+    mounted() {
+        if (localStorage.getItem("token") != null) {
+            this.$store.state.loggedIn.auth = true
+                this.getPerson()
+        } else {
+            this.$store.state.loggedIn.auth = false
+            this.$router.push('/login');
+        }
     },
     methods: {
         getPerson(){
-            const url = "/person/"+this.$store.state.user.uuid;
-            var config = {headers: {"userid": this.$store.state.user.uuid}};
+            const url = "/person/"+localStorage.getItem("userUuid");
+            var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
             this.$http.get(url, config)
             .then((response) => {
                 this.loading = false
                 if (response.data != null) {
                     console.log(response.data)
+                    this.getBookings()
                     this.person = response.data;
                     this.$store.state.user = response.data
-                    this.$store.state.user.personType = response.data.personType
-                    this.getBookings()
+                    if (response.data.personType == "PRIVATE") {
+                        this.$store.state.user.personType = "Privatperson"
+                    } else {
+                        this.$store.state.user.personType = "Unternehmen"
+                    }
+                    this.$store.state.user.image = response.data.picture.image.data
                 }
             })
             .catch((error) => {
@@ -117,15 +128,15 @@ export default {
         })
         },
         getBookings(){
-                const url = "/booking/supplier/"+this.$store.state.user.uuid;
-                var config = {headers: {"userid": this.$store.state.user.uuid}};
+                const url = "/booking/supplier/"+localStorage.getItem("userUuid");
+                var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
                 this.$http.get(url, config)
                 .then((response) => {
                     console.log(response)
                     if (response.data.code == "020") {
                         this.errorAlert = true
                         this.text = response.data.description
-                    } else if (response.data.length == 0){
+                    } else if (response.data.length == 0 || response.data.statusType == "error"){
                         console.log("empty array")
                         this.errorAlert = true
                         this.text = "Sie haben noch keine Bestellungen erhalten."
@@ -144,9 +155,9 @@ export default {
         },
         toBeCropped(){
             if (this.bookings.offer.toBeCropped == true) {
-                this.type = "zum abholen"
+                this.type = "zum Abholen"
             } else {
-                this.type = "zum ernten"
+                this.type = "zum Ernten"
             }
         },
         hideAlert(){

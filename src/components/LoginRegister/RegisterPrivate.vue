@@ -14,7 +14,7 @@
                 <!-- <v-alert class="mx-2 mt-4 py-1" type="info" outlined dense>Deine Daten sind öffentlich nicht zugänglich!</v-alert> -->
                 <!-- <p class="title red--text">{{this.errorAlert}}</p> -->
                 <!-- <p class="title green--text">{{this.successAlert}}</p>     -->       
-                <v-form ref="form" v-model="valid" lazy-validation class="pa-3">
+                <v-form ref="form" lazy-validation class="pa-3">
                     
                     <div>
                         <v-select :items="items" label="Anrede" v-model="person.title"></v-select>
@@ -219,7 +219,8 @@ export default {
 
     methods: {
         registerPerson(){
-            const url = "/person/private/register";
+            if (this.validate()) {
+            const url = "/auth/signup/private";
             var config = {headers: {"userid": "5cb8d10725839944c26ff1f5"}};
             var data = 
             {
@@ -237,7 +238,8 @@ export default {
                     streetnumber: this.person.location.streetnumber,
                     city: this.person.location.city,
                     postcode: this.person.location.postcode
-                }
+                },
+                password: this.person.password
             }    
             this.loading = true
             this.$http.post(url, data, config)
@@ -282,6 +284,7 @@ export default {
                     this.loading = false
                     this.hideAlert()
                 })
+            }
         },
         hideAlert(){
             setTimeout(() => {                

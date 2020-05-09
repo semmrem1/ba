@@ -27,6 +27,38 @@ export default {
       
   }),
   mounted() {
+        if (localStorage.getItem("token") != null) {
+            this.$store.state.loggedIn.auth = true
+                const url = "/person/"+localStorage.getItem("userUuid")
+                var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
+                console.log(config)
+                this.$http.get(url, config)
+                .then((response) => {
+                    this.loaded = true
+                    this.loading = false
+                    if (response.data != null) {
+                        console.log(response.data)
+                        this.person = response.data;
+                        this.$store.state.user = response.data
+                        if (response.data.personType == "PRIVATE") {
+                            this.$store.state.user.personType = "Privatperson"
+                        } else {
+                            this.$store.state.user.personType = "Unternehmen"
+                        }
+                        this.$store.state.user.image = response.data.picture.image.data
+                    }
+                })
+                .catch((error) => {
+                    this.loading = false
+                    this.loaded = true
+                    console.log(error)
+                    this.hideAlert()
+            })
+        } else {
+            this.$store.state.loggedIn.auth = false
+            this.$router.push('/login');
+        }
+
       // AXIOS REQUEST LOGGER
       this.$http.interceptors.request.use(
       config => {

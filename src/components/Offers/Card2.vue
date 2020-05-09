@@ -12,11 +12,10 @@
             ></v-progress-linear>
         </v-row>
 
-    
     <v-col class="pa-0 mr-0" cols="12">
           <v-alert v-show="successAlert" class="mt-4 mx-0" type="success" elevation="2" outlined transition="fade-transition">Buchung erfolgreich gespeichert! Bitte überprüfen Sie ihren Posteingang.</v-alert>
           <v-alert v-show="errorAlert" class="mt-4 mx-0" type="error" elevation="2" outlined  transition="fade-transition">Buchung fehlgeschlagen!</v-alert>
-
+          <v-alert v-show="authAlert" class="mt-4 mx-0" type="error" elevation="2" outlined  transition="fade-transition">Nicht authorisiert!!</v-alert>
           <!-- ### ROW FOR TESTING PURPOSES ### -->
           <!-- <v-row>
             <v-col cols="6">
@@ -86,7 +85,7 @@
 
       </v-col>
 
-      <v-alert v-show="emptyAlert" class="mt-4 mx-0" type="warning" color="red" elevation="2" outlined prominent transition="fade-transition">Leider sind aktuell keine Angebote verfügbar. Bitte versuchen Sie es zu einem späteren Zeitpunkt nocheinmal.</v-alert>
+      <v-alert v-show="emptyAlert" class="mt-4 mx-0" type="warning" color="red" elevation="2" outlined prominent transition="fade-transition">Leider sind aktuell für Sie keine Angebote verfügbar. Bitte versuchen Sie es zu einem späteren Zeitpunkt nocheinmal.</v-alert>
       <v-row>
         <!-- ### TESTCARD ### --> 
           <v-col class="justify-center py-2" v-for="(item, i) in offers.offersReturn" :key="i" cols="12"  sm="6" md="6" lg="4">
@@ -198,6 +197,7 @@ export default {
         loaded: false,
         successAlert: false,
         errorAlert: false,
+        authAlert: false,
         emptyAlert: false,
         min: 0,
         max: 40,
@@ -224,9 +224,15 @@ export default {
         filterCategory: "",
     }
     },
-    mounted:function(){
+    mounted() {
+        if (localStorage.getItem("token") != null) {
+            this.$store.state.loggedIn.auth = true
         this.getCategory()
         this.getOffers()
+        } else {
+            this.$store.state.loggedIn.auth = false
+            this.$router.push('/login');
+        }
     },
     computed: {
         offerImage(){
@@ -243,9 +249,8 @@ export default {
           }
       },
       getCategory(){
-            var uuid = this.uuid
             const url = "/category";
-            var config = {headers: {"userid": uuid}};
+            var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
             this.$http.get(url, config)
         .then((response) => {
             this.types = response.data
@@ -256,15 +261,15 @@ export default {
       },
       getOffers(){
         const url = "/searchresult/person/"+this.$store.state.user.uuid;
-        var config = {headers: {"userid": this.$store.state.user.uuid}};
+        var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
         // var params = {
         //   filerAmount: this.filterAmount,
         //   filterCategory: this.filterCategory.uuid
         // };
         this.$http.get(url, config)
         .then((response) => {
-          console.log("SUCCESS getOffers")
           if (response.data[0].length != 0) {
+            console.log("SUCCESS getOffers")
             this.offers = response.data[0]
             this.loaded = true
             console.log(this.offers.offersReturn[0].uuid)
@@ -274,9 +279,9 @@ export default {
               this.$store.state.offer.uuid = this.offerUuids.slice()
               this.pictureUuids.push(element.productPictureUuid)
               this.$store.state.offer.image = this.pictureUuids.slice()
-              // console.log(this.offerUuids)
+              this.hideAlert()
              });
-          // this.getImages()
+          console.log("empty getOffers")
           } 
         })
         .catch((response) => {
@@ -289,7 +294,7 @@ export default {
       getImages(){
         this.pictureUuids.forEach(element => {
         const url = "/picture/"+element;
-        var config = {headers: {"userid": this.$store.state.user.uuid}};
+        var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
         this.$http.get(url, config)
         .then((response) => {
           if (response.data.length != 0) {
@@ -306,7 +311,7 @@ export default {
       },
       postBooking(){
         const url = "/booking";
-        var config = {headers: {"userid": this.$store.state.user.uuid}};
+        var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
         var data = 
         {
             offer: {

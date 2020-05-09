@@ -12,7 +12,6 @@
             ></v-progress-linear>
 
         </v-row>
-
         <v-row class="justify-center pt-4">
             <!-- Card -->
             <v-card class="ma-0 pa-0" width="90%" max-width="600px" elevation="3">
@@ -259,18 +258,28 @@ export default {
         }
     },
     created() {
-            this.loaded = false
+        this.loaded = false
     },
     mounted() {
-        this.getPerson()
-        this.getLocation()
+        if (localStorage.getItem("token") != null) {
+            this.$store.state.loggedIn.auth = true
+            // console.log(localStorage.getItem("token"))
+            // console.log(localStorage.getItem("userUuid"))
+            // console.log("route to profile success")
+            // console.log(this.$store.state.user.uuid)
+            this.getPerson()
+            this.getLocation()
+        } else {
+            this.$store.state.loggedIn.auth = false
+            this.$router.push('/login');
+        }
     },
     computed: {
         makeSaveable(){
             return this.isReadonly
         },
         currentUser() {
-            return this.$store.state.auth.user;
+            return this.$store.state.loggedIn.auth;
         },
         profileImage(){
             return `data:image/png;base64, ${this.$store.state.user.image}`
@@ -278,8 +287,9 @@ export default {
     },
     methods: {
         getPerson(){
-            const url = "/person/"+this.$store.state.user.uuid;
-            var config = {headers: {"userid": this.$store.state.user.uuid}};
+            const url = "/person/"+localStorage.getItem("userUuid")
+            var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
+            console.log(config)
             this.$http.get(url, config)
             .then((response) => {
                 this.loaded = true
@@ -304,8 +314,8 @@ export default {
         })
         },
         getLocation(){
-            var config = {headers: {"userid": this.$store.state.user.uuid}};
-            const locationUrl = "/person/"+this.$store.state.user.uuid+"/location"
+            const locationUrl = "/person/"+localStorage.getItem("userUuid")+"/location"
+            var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
             this.$http.get(locationUrl, config)
         .then((response) => {
             console.log(response)
@@ -324,12 +334,13 @@ export default {
         onFileSelected(event){
             console.log(event)
             this.selectedFile = event
+            this.$store.state.user.image = event
         },
         uploadImage(){
             if (this.imageData.name) {
             this.loadingImage = true
             const url = "/person/"+this.$store.state.user.uuid+"/picture/add";
-            var config = {headers: {"userid": this.$store.state.user.uuid}};
+            var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
             const fd = new FormData();
             fd.append('image', this.selectedFile, this.selectedFile.name)
             this.$http.post(url, fd, config)
@@ -342,7 +353,7 @@ export default {
         },
         updatePerson(){
             const url = "/person/update";
-            var config = {headers: {"userid": this.$store.state.user.uuid}};
+            var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
             var data = 
             {
                 uuid: this.person.uuid,
@@ -407,7 +418,7 @@ export default {
         },
         deleteProfile(){
             const url = "/person/"+this.$store.state.user.uuid;
-            var config = {headers: {"userid": this.$store.state.user.uuid}};
+            var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
             this.$http.delete(url, config)
             .then((response) => {
                 console.log(response)
@@ -425,7 +436,7 @@ export default {
         deleteAddress(){
             if (this.locationDelete.type == "OFFER") {
             const url = "/location/"+this.locationDelete.uuid;
-            var config = {headers: {"userid": this.$store.state.user.uuid}};
+            var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
             this.$http.delete(url, config)
             .then((response) => {
                 console.log(response)

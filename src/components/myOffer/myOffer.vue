@@ -32,7 +32,7 @@
           </v-row>
             <v-row class="pt-0 pl-1" >
                 <v-col class="pr-0  pb-0" cols="4">
-                    <v-card-text class="py-0 pr-0 font-weight-bold">zum ernten:</v-card-text>
+                    <v-card-text class="py-0 pr-0 font-weight-bold">zum Ernten:</v-card-text>
                     <v-card-text class="py-0 pr-0 font-weight-bold">Menge:</v-card-text>
                     <v-card-text class="py-0 pr-0 font-weight-bold">Datum:</v-card-text>
                     <v-card-text class="py-3 pr-0 font-weight-bold">Adresse:</v-card-text>
@@ -122,14 +122,20 @@ export default {
         }
         
     },
-        mounted() {
+    mounted() {
+        if (localStorage.getItem("token") != null) {
+            this.$store.state.loggedIn.auth = true
         this.getMyOffers()
+        } else {
+            this.$store.state.loggedIn.auth = false
+            this.$router.push('/login');
+        }
     },
     methods: {
         getMyOffers(){
             this.loaded = false
             const url = "/person/"+this.$store.state.user.uuid+"/product";
-            var config = {headers: {"userid": this.$store.state.user.uuid}};
+            var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
             this.$http.get(url, config)
             .then((response) => {
                 this.loaded = true

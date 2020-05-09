@@ -10,7 +10,7 @@
                 <v-card-title  class="pa-3 display-1 font-weight-bold">Registrieren</v-card-title>
 
                 <div class="body-2 pl-3" color="grey"><v-icon medium>mdi-information-outline</v-icon> Deine Daten sind öffentlich nicht zugänglich!</div>
-                <v-form ref="form" v-model="valid" lazy-validation class="pa-3">
+                <v-form ref="form" lazy-validation class="pa-3">
                     <div>
                         <v-select :items="items" label="Anrede" v-model="person.title"></v-select>
                         <v-text-field class="py-0" color="green" :rules="nameRules" label="Firma/Hofname*" v-model="person.companyName" required></v-text-field>
@@ -191,6 +191,7 @@ export default {
     },
     methods: {
         registerPerson(){
+            if (this.validate()) {
             const url = "/person/commercial/register";
             var config = {headers: {"userid": "5cb8d10725839944c26ff1f5"}};
             var data = 
@@ -210,7 +211,8 @@ export default {
                     streetnumber: this.person.location.streetnumber,
                     city: this.person.location.city,
                     postcode: this.person.location.postcode
-                }
+                },
+                password: this.person.password
             }
             this.loading = true    
             this.$http.post(url, data, config)
@@ -252,6 +254,7 @@ export default {
                     this.loading = false
                     this.hideAlert()
                 })
+            }
         },
         validate () {
             this.$refs.form.validate()
