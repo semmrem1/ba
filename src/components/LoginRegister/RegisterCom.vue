@@ -12,7 +12,7 @@
                 <div class="body-2 pl-3" color="grey"><v-icon medium>mdi-information-outline</v-icon> Deine Daten sind öffentlich nicht zugänglich!</div>
                 <v-form ref="form" lazy-validation class="pa-3">
                     <div>
-                        <v-select :items="items" label="Anrede" v-model="person.title"></v-select>
+                        <v-select :items="items" color="green" label="Anrede" v-model="person.title"></v-select>
                         <v-text-field class="py-0" color="green" :rules="nameRules" label="Firma/Hofname*" v-model="person.companyName" required></v-text-field>
                         <v-text-field class="py-0" color="green" :rules="firstnameRules" label="Vorname*" v-model="person.first" required></v-text-field>
                         <v-text-field class="py-0" color="green" :rules="lastnameRules" label="Nachname*" v-model="person.last" required></v-text-field>
@@ -192,8 +192,8 @@ export default {
     methods: {
         registerPerson(){
             if (this.validate()) {
-            const url = "/person/commercial/register";
-            var config = {headers: {"userid": "5cb8d10725839944c26ff1f5"}};
+            const url = "/auth/signup/commercial";
+            // var config = {headers: {"userid": "5cb8d10725839944c26ff1f5"}};
             var data = 
             {
                 title: this.person.title,
@@ -258,7 +258,6 @@ export default {
         },
         validate () {
             this.$refs.form.validate()
-            console.log(this.$refs.form)
         },
         reset () {
            this.$refs.form.reset()

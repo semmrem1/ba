@@ -17,7 +17,7 @@
                 <v-form ref="form" lazy-validation class="pa-3">
                     
                     <div>
-                        <v-select :items="items" label="Anrede" v-model="person.title"></v-select>
+                        <v-select :items="items" color="green" label="Anrede" v-model="person.title"></v-select>
                         <!-- <v-text-field class="py-0" color="green" :rules="usernameRules" label="Benutzername" v-model="username" required :counter="0"></v-text-field> -->
                         <v-text-field class="py-0" color="green" :rules="firstnameRules" label="Vorname*" v-model="person.first" required></v-text-field>
                         <v-text-field class="py-0" color="green" :rules="lastnameRules" label="Nachname*" v-model="person.last" required></v-text-field>
@@ -221,7 +221,7 @@ export default {
         registerPerson(){
             if (this.validate()) {
             const url = "/auth/signup/private";
-            var config = {headers: {"userid": "5cb8d10725839944c26ff1f5"}};
+            // var config = {headers: {"userid": "5cb8d10725839944c26ff1f5"}};
             var data = 
             {
                 title: this.person.title,
@@ -242,8 +242,7 @@ export default {
                 password: this.person.password
             }    
             this.loading = true
-            this.$http.post(url, data, config)
-            
+            this.$http.post(url, data)
                 .then((response) => {
                     console.log(response)
                     this.loading = false
@@ -294,7 +293,6 @@ export default {
         },
         validate () {
             this.$refs.form.validate()
-            console.log(this.$refs.form)
         },
         reset () {
            this.$refs.form.reset()
