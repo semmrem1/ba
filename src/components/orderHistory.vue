@@ -30,7 +30,7 @@
                 :active="!loaded"
                 indeterminate
                 absolute
-                height="2px"
+                height="4px"
                 color="blue"
                 background-opacity = 0.0
             ></v-progress-linear>
@@ -56,7 +56,7 @@
                     <v-card-text class="py-0 pr-0 font-weight-bold">Art:</v-card-text>
                     <v-card-text class="py-0 pr-0 font-weight-bold">Menge:</v-card-text>
                     <!-- <v-card-text class="pt-3 pr-0 font-weight-bold">Anbieter:</v-card-text> -->
-                    <v-card-text class="py-0 pt-4 pr-0 font-weight-bold">Addresse:</v-card-text>
+                    <v-card-text class="py-0 pt-4 pr-0 font-weight-bold">Adresse:</v-card-text>
                 </v-col>
                 <v-col class="pl-0" cols="8">
                     <v-card-text class="py-0">{{ moment(bookings[i].bookingDate).format('DD.MM.YYYY') }}</v-card-text>

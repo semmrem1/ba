@@ -41,7 +41,7 @@
                             <v-text-field class="py-0" color="green" label="Ort*" :rules="cityRules" v-model="person.location.city"></v-text-field>
                         </v-col>
                         <v-col>
-                        <!-- <v-alert class="caption red--text" v-show="addressAlert">addresse ist ungültig oder unvollständig</v-alert> -->
+                        <!-- <v-alert class="caption red--text" v-show="addressAlert">Adresse ist ungültig oder unvollständig</v-alert> -->
                         </v-col>
                     </v-row>
 
@@ -50,10 +50,10 @@
                             <v-text-field class="py-0" color="green" :rules="cellRules"  label="Telefon*" v-model="person.cell"></v-text-field>
                             <!-- <v-alert class="caption warning--text mb-8" border="left" colored-border type="warning" dense elevation="2" v-show="phoneAlert">Telefonnummer ist ungültig oder unvollständig</v-alert> -->
                             <v-text-field class="py-0" color="green" :rules="emailRules" label="E-Mail*" v-model="person.email.email"></v-text-field>
-                            <!-- <v-alert class="caption warning--text mb-8" border="left" colored-border type="warning" dense elevation="2" v-show="emailAlert" v-if="hideAlert" transition="fade-transition">E-Mail addresse ist ungültig</v-alert>
-                            <v-alert class="caption warning--text mb-8" border="left" colored-border type="warning" dense elevation="2" v-show="email2Alert" v-if="hideAlert" transition="fade-transition">E-Mail addresse bereits vorhanden</v-alert> -->
+                            <!-- <v-alert class="caption warning--text mb-8" border="left" colored-border type="warning" dense elevation="2" v-show="emailAlert" v-if="hideAlert" transition="fade-transition">E-Mail Adresse ist ungültig</v-alert>
+                            <v-alert class="caption warning--text mb-8" border="left" colored-border type="warning" dense elevation="2" v-show="email2Alert" v-if="hideAlert" transition="fade-transition">E-Mail Adresse bereits vorhanden</v-alert> -->
                             <v-text-field class="py-0" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" @click:append="show = !show" :type="show ? 'text' : 'password'" color="green" :rules="[passwordRules.required, passwordRules.min]" label="Passwort*" v-model="person.password"></v-text-field>
-                            <v-alert v-show="successAlert" class="mt-4" type="success" elevation="2" outlined transition="fade-transition"><p class="pa-0 ma-0 font-weight-bold">Registrierung erfolgreich!</p> Bitte bestätige deine E-Mailaddresse.</v-alert>
+                            <v-alert v-show="successAlert" class="mt-4" type="success" elevation="2" outlined transition="fade-transition"><p class="pa-0 ma-0 font-weight-bold">Registrierung erfolgreich!</p> Bitte bestätige deine E-MailAdresse.</v-alert>
                             <v-alert v-show="errorAlert" class="mt-4" type="error" elevation="2" outlined transition="fade-transition">Registrierung fehlgeschlagen!</v-alert>
                         </v-col>
                     </v-row>
@@ -178,20 +178,6 @@ export default {
         };
     },
     mounted() {
-        // this.$http.interceptors.request.use(
-        // config => {
-        //     console.log(
-        //     `${config.method.toUpperCase()} request sent to ${
-        //         config.url
-        //     } at ${new Date().getTime()}`
-        //     );
-
-        //     return config;
-        // },
-        // error => {
-        //     return Promise.reject(error);
-        // }
-        // );
     },
 
     watch: {
@@ -201,16 +187,6 @@ export default {
     computed: {
         isComplete(){//button only visible if these fields are filled
             return this.person.age && this.person.agb
-            // this.person.companyName &&
-            // this.person.first &&
-            // this.person.last &&
-            // this.person.street &&
-            // this.person.streetnumber &&
-            // this.person.plz &&
-            // this.person.city &&
-            // this.person.email &&
-            // this.person.password &&
-
         },
         loggedIn() {
             return this.$store.state.auth.status.loggedIn;
@@ -218,10 +194,43 @@ export default {
     },
 
     methods: {
+        // register(){
+        //     if (this.$refs.form.validate()) {
+        //         const url = "/auth/signup/private";
+        //         var data = 
+        //         {
+        //             title: this.person.title,
+        //             first: this.person.first,
+        //             last: this.person.last,
+        //             cell: this.person.cell,
+        //             email: 
+        //             {
+        //                 email: this.person.email.email
+        //             },
+        //             location:
+        //             {
+        //                 street: this.person.location.street,
+        //                 streetnumber: this.person.location.streetnumber,
+        //                 city: this.person.location.city,
+        //                 postcode: this.person.location.postcode
+        //             },
+        //             password: this.person.password 
+        //         }
+        //         console.log(data)
+        //         this.$http.post(url, data)
+        //         .then((response) => {
+        //             console.log(response)
+        //         })
+        //         .catch((error) => {
+        //             console.log(error)
+        //         })
+        //     }
+            
+        // },
         registerPerson(){
-            if (this.validate()) {
+            if (this.$refs.form.validate()) {
             const url = "/auth/signup/private";
-            // var config = {headers: {"userid": "5cb8d10725839944c26ff1f5"}};
+            var config = {headers: {}};
             var data = 
             {
                 title: this.person.title,
@@ -241,13 +250,13 @@ export default {
                 },
                 password: this.person.password
             }    
+            console.log(data)
             this.loading = true
-            this.$http.post(url, data)
+            this.$http.post(url, data, config)
                 .then((response) => {
                     console.log(response)
                     this.loading = false
                     if (response.data.code == "001") {
-                        // this.snackbar2 = true
                         this.successAlert = true
                         this.text = "Registrierung erfolgreich!"
                     } else if(response.data.code == "002"){
@@ -261,13 +270,13 @@ export default {
                         this.text = "Telefonnummer ist ungültig oder unvollständig."
                     } else if(response.data.code == "005"){
                         this.snackbar = true
-                        this.text = "Addresse ungültig (nicht auf local.ch gefunden)."
+                        this.text = "Adresse ungültig (nicht auf local.ch gefunden)."
                     } else if(response.data.code == "006"){
                         this.snackbar = true
-                        this.text = "E-Mail addresse ist ungültig oder unvollständig."
+                        this.text = "E-Mail Adresse ist ungültig oder unvollständig."
                     } else if (response.data.code == "007") {
                         this.snackbar = true
-                        this.text = "E-Mail addresse bereits vorhanden."
+                        this.text = "E-Mail Adresse bereits vorhanden."
                     } else if (response.data.code == "099") {
                         this.snackbar = true
                         this.errorAlert = true

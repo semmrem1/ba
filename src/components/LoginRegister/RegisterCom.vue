@@ -36,7 +36,7 @@
                             <v-text-field class="py-0" color="green" label="Ort*" :rules="cityRules" v-model="person.location.city"></v-text-field>
                         </v-col>
                         <v-col>
-                        <!-- <p class="caption red--text" v-show="addressAlert">addresse ist ungültig oder unvollständig</p> -->
+                        <!-- <p class="caption red--text" v-show="addressAlert">Adresse ist ungültig oder unvollständig</p> -->
                         </v-col>
                     </v-row>
 
@@ -45,8 +45,8 @@
                             <v-text-field class="py-0" color="green" :rules="cellRules" label="Telefon*" v-model="person.cell"></v-text-field>
                             <!-- <p class="caption red--text" v-show="phoneAlert">Telefonnummer ist ungültig oder unvollständig</p> -->
                             <v-text-field class="py-0" color="green" :rules="emailRules" label="E-Mail*" v-model="person.email.email"></v-text-field>
-                            <!-- <p class="caption red--text" v-show="emailAlert">E-Mail addresse ist ungültig</p>
-                            <p class="caption red--text" v-show="email2Alert">E-Mail addresse bereits vorhanden</p> -->
+                            <!-- <p class="caption red--text" v-show="emailAlert">E-Mail Adresse ist ungültig</p>
+                            <p class="caption red--text" v-show="email2Alert">E-Mail Adresse bereits vorhanden</p> -->
                             <v-text-field class="py-0" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" @click:append="show = !show" :type="show ? 'text' : 'password'" color="green" :rules="[passwordRules.required, passwordRules.min]" label="Passwort*" v-model="person.password"></v-text-field>
                             <v-alert v-show="successAlert" class="mt-4" type="success" elevation="2" outlined transition="fade-transition">
                                 <p class="pa-0 ma-0 font-weight-bold">Registrierung erfolgreich!</p>
@@ -191,7 +191,7 @@ export default {
     },
     methods: {
         registerPerson(){
-            if (this.validate()) {
+            if (this.$refs.form.validate()) {
             const url = "/auth/signup/commercial";
             // var config = {headers: {"userid": "5cb8d10725839944c26ff1f5"}};
             var data = 
@@ -215,7 +215,7 @@ export default {
                 password: this.person.password
             }
             this.loading = true    
-            this.$http.post(url, data, config)
+            this.$http.post(url, data)
                 .then((response) => {
                     console.log(response)
                     this.loading = false
@@ -233,13 +233,13 @@ export default {
                         this.text = "Telefonnummer ist ungültig oder unvollständig."
                     } else if(response.data.code == "005"){
                         this.snackbar = true
-                        this.text = "Angaben ensprechen keiner existierenden Addresse."
+                        this.text = "Angaben ensprechen keiner existierenden Adresse."
                     } else if(response.data.code == "006"){
                         this.snackbar = true
-                        this.text = "E-Mailaddresse ist ungültig oder unvollständig."
+                        this.text = "E-MailAdresse ist ungültig oder unvollständig."
                     } else if (response.data.code == "007") {
                         this.snackbar = true
-                        this.text = "E-Mailaddresse bereits vorhanden."
+                        this.text = "E-MailAdresse bereits vorhanden."
                     } else if (response.data.code == "099") {
                         this.snackbar = true
                         this.errorAlert = true

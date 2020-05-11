@@ -6,7 +6,7 @@
                 :active="!loaded"
                 indeterminate
                 absolute
-                height="2px"
+                height="4px"
                 color="blue"
                 background-opacity = 0.0
             ></v-progress-linear>
@@ -271,7 +271,7 @@ export default {
         })
       },
       getOffers(){
-        const url = "/searchresult/person/"+this.$store.state.user.uuid;
+        const url = "/searchresult/person/"+localStorage.getItem("user");
         var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
         // var params = {
         //   filerAmount: this.filterAmount,

@@ -6,7 +6,7 @@
                 :active="!loaded"
                 indeterminate
                 absolute
-                height="2px"
+                height="4px"
                 color="blue"
                 background-opacity = 0.0
             ></v-progress-linear>
@@ -21,7 +21,6 @@
             {{item.category.name}}
           </v-col> -->
           
-
           <v-row>
             <v-col class="pb-0" cols="12">
                 <v-card-title class="py-0 pl-4 mb-0"><span class="font-weight-light pl-1"> {{ item.uuid }}</span></v-card-title>
@@ -136,7 +135,6 @@ export default {
                         this.$router.push('/login');
                     }
                 })
-            
         } else {
             this.$store.state.loggedIn.auth = false
             this.$router.push('/login');

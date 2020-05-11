@@ -6,7 +6,7 @@
                 :active="!loaded"
                 indeterminate
                 absolute
-                height="2px"
+                height="4px"
                 color="blue"
                 background-opacity = 0.0
             ></v-progress-linear>
@@ -113,7 +113,7 @@
                             <v-select
                                 :items="locations"
                                 name="type"
-                                label="Addresse wählen"
+                                label="Adresse wählen"
                                 v-model="locationDelete"
                                 item-text="location"
                                 item-value="uuid"
@@ -185,10 +185,8 @@
                 <v-btn color="white" text @click="snackbar = false">OK</v-btn>
             </v-snackbar>
             </v-row>
-
     </v-container>   
 </template>
-
 <script>
 
 export default {
@@ -346,7 +344,7 @@ export default {
         uploadImage(){
             if (this.imageData.name) {
             this.loadingImage = true
-            const url = "/person/"+this.$store.state.user.uuid+"/picture/add";
+            const url = "/person/"+localStorage.getItem("userUuid")+"/picture/add";
             var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
             const fd = new FormData();
             fd.append('image', this.selectedFile, this.selectedFile.name)
@@ -401,13 +399,13 @@ export default {
                         this.text = "Telefonnummer ist ungültig oder unvollständig."
                     } else if(response.data.code == "005"){
                         this.snackbar = true
-                        this.text = "Addresse ungültig (nicht auf local.ch gefunden)."
+                        this.text = "Adresse ungültig (nicht auf local.ch gefunden)."
                     } else if(response.data.code == "006"){
                         this.snackbar = true
-                        this.text = "E-Mail addresse ist ungültig oder unvollständig."
+                        this.text = "E-Mail Adresse ist ungültig oder unvollständig."
                     } else if (response.data.code == "007") {
                         this.snackbar = true
-                        this.text = "E-Mail addresse bereits vorhanden."
+                        this.text = "E-Mail Adresse bereits vorhanden."
                     } else if (response.data.code == "099") {
                         this.snackbar = true
                         this.errorAlert = true
@@ -424,7 +422,7 @@ export default {
         })
         },
         deleteProfile(){
-            const url = "/person/"+this.$store.state.user.uuid;
+            const url = "/person/"+localStorage.getItem("userUuid");
             var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
             this.$http.delete(url, config)
             .then((response) => {

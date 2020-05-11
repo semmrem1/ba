@@ -1,21 +1,23 @@
 <template>
         <nav>
-            <v-app-bar  app class="green" elevation="4">
+            <v-app-bar  app class="green" elevation="4" @click="scrollToTop()">
                 <div v-if="currentUser">
                     <v-app-bar-nav-icon size="xs" @click="drawer = !drawer"></v-app-bar-nav-icon>
                 </div>
-                <div v-if="!currentUser">
+                <!-- <div v-if="!currentUser">
                     <v-btn icon color="black" @click="scrollToTop()" to="/"><v-icon>mdi-home</v-icon></v-btn>
-                </div>
+                </div> -->
 
                 <v-spacer></v-spacer>
                 <!-- user.auth: {{ this.$store.state.loggedIn.auth }} -->
 
-                <v-btn class="title justify-center text-uppercase white--text" to="/" @click="scrollToTop()" text>
+                <!-- <v-btn class="title justify-center text-uppercase white--text pa-0 ma-0" to="/" @click="scrollToTop()" text> -->
+                <div class="title justify-center text-uppercase white--text pa-0 ma-0">
                     <span  class="font-weight-bold">Obst</span>
                     <span class="font-weight-light">vom</span>
                     <span class="font-weight-bold">Baum</span>
-                </v-btn>
+                </div>
+                <!-- </v-btn> -->
 
                 <!-- <div v-if="currentUser">
                     token: {{ this.$store.state.user.token }}
@@ -38,7 +40,10 @@
             <v-navigation-drawer color="green lighten-5" temporary width="320" v-model="drawer" app class="green" fluid>
                 <v-list>
                     <v-list-item to="/profile">
-                        <v-list-item-avatar size="75">
+                        <v-list-item-avatar size="75" v-if="this.$store.state.user.image == null">
+                            <v-img :src="defaultProfileImage"></v-img>
+                        </v-list-item-avatar>
+                        <v-list-item-avatar size="75" v-if="this.$store.state.user.image != null">
                             <v-img :src="profileImage"></v-img>
                         </v-list-item-avatar>
                         <v-list-item-content router>
@@ -73,6 +78,7 @@ export default {
     data() {
         return {
             drawer: false,
+            defaultProfileImage: "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png",
             links: [
                 { icon: "mdi-account", text: "Profil", route: "/profile"},
                 { icon: "mdi-compass", text: "Suchen", route: "/offers"},

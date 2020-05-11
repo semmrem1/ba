@@ -19,6 +19,7 @@
   export default {
     data: () => ({
       links: [
+        { name: 'Home', route: "/" },
         { name: 'Login', route: "/login" },
         { name: 'Registrieren', route: "/registerPriv"},
         { name: 'Kontakt', route: "/contact"},
