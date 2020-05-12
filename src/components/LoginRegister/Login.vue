@@ -89,6 +89,7 @@ export default {
                         this.$store.state.loggedIn.auth = true
                         console.log(localStorage.getItem("token"))
                         console.log(localStorage.getItem("userUuid"))
+                        this.getPerson()
                     }
                     this.$router.push('/offers');
                     this.loading = false;
@@ -105,6 +106,27 @@ export default {
                 this.loading = false;
             }
 
+        },
+        getPerson(){
+            const url = "/person/"+localStorage.getItem("userUuid")
+            var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
+            this.$http.get(url, config)
+            .then((response) => {
+                if (response.data != null) {
+                    console.log(response.data)
+                    this.$store.state.user.first = response.data.first
+                    this.$store.state.user.last = response.data.last
+                    if (response.data.personType == "PRIVATE") {
+                        this.$store.state.user.personType = "Privatperson"
+                    } else {
+                        this.$store.state.user.personType = "Unternehmen"
+                    }
+                    this.$store.state.user.image = response.data.picture.image.data
+                }
+            })
+            .catch((error) => {
+                console.log(error)
+        })
         },
         validate () {
             this.$refs.form.validate()

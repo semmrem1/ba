@@ -71,7 +71,7 @@ export default {
       postMessage(){
           if (this.$refs.form.validate()) {
             this.loading = true
-            const url = "/contactform";
+            const url = "/auth/contactform";
             var config = {headers: {"userid": this.uuid}};
             var data = {
                 name: this.message.name,

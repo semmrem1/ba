@@ -6,7 +6,7 @@
                 :active="!loaded"
                 indeterminate
                 absolute
-                height="4px"
+                height="2px"
                 color="blue"
                 background-opacity = 0.0
             ></v-progress-linear>
@@ -16,16 +16,20 @@
             <!-- Card -->
             <v-card class="ma-0 pa-0" width="90%" max-width="600px" elevation="3">
                     <!-- Avatar -->
-                    <v-col class="pa-0 ma-0">
+                    <div class="pa-0 ma-0 image-preview" v-if="imageData.length != 0">
+                        <img class="preview" width="100%" :src="imageData">
+                    </div>
+                    <!-- <v-col class="pa-0 ma-0">
                         <div class="pa-0 ma-0 image-preview" v-if="this.$store.state.user.image == null">
                             <img class="preview" width="100%" :src="defaultProfileImage">
                         </div>
                         <div class="pa-0 ma-0 image-preview" v-if="this.$store.state.user.image != null">
                             <img class="preview" width="100%" :src="profileImage">
                         </div>
-                    </v-col>
+                    </v-col> -->
+                    
                 <v-row>
-                    <v-row class="pl-6">
+                    <!-- <v-row class="pl-6">
                         <v-col cols="6" xs="6">
                             <v-file-input
                                 accept="image/png, image/jpeg, image/bmp, image.jpg"
@@ -40,12 +44,18 @@
                         </v-col>
 
                         <v-col class="pt-6" cols="4" xs="6">
-                            <!-- <input type="file" @change="onFileSelected"> -->
                             <v-btn class="mx-auto" color="green darken-1 white--text" :loading="loadingImage" outlined @click="uploadImage">Hochladen</v-btn>
                         </v-col>
-                    </v-row>
+                    </v-row> -->
 
                  </v-row>
+                <div class="mx-4 pt-2">
+                    <v-btn width="100%" outlined color="green">
+                        <label type="submit" value="submit">Bild auswählen
+                            <input type="file" @change="previewImage" accept="image/*" style="display: none">
+                        </label>
+                    </v-btn>
+                </div>
 
                 <v-alert v-show="successAlert" class="mt-4 mx-4" type="success" elevation="2" outlined transition="fade-transition">Änderungen erfolgreich gespeichert!</v-alert>
                 <v-alert v-show="successDelete" class="mt-4 mx-4" type="success" elevation="2" outlined transition="fade-transition">Löschen erfolgreich!</v-alert>
@@ -58,9 +68,10 @@
                         <!-- <v-text-field class="py-0" color="green" label="Picture Uuid" disabled v-model="person.picture.uuid"></v-text-field> -->
                         <!-- <v-text-field class="py-0" color="green" label="Image Data" disabled v-model="person.picture.image.data"></v-text-field> -->
                         <!-- <v-text-field class="py-0" color="green" label="uuid" disabled v-model="person.uuid"></v-text-field> -->
-                        <!-- <v-text-field class="py-0" color="green" label="personType" disabled v-model="person.personType"></v-text-field> -->
+                        
                         <v-text-field class="py-0" color="green" label="Vorname" :readonly="isReadonly" v-model="person.first"></v-text-field>
                         <v-text-field class="py-0" color="green" label="Nachname" :readonly="isReadonly" v-model="person.last"></v-text-field>
+                        <v-text-field class="py-0" color="green" label="Profiltyp" disabled v-model="person.personType"></v-text-field>
                         <!-- <v-text-field class="py-0" color="green" label="E-Mail uuid" disabled v-model="this.person.email.uuid"></v-text-field> -->
                         <v-text-field class="py-0" color="green" label="E-Mail" :readonly="isReadonly" v-model="person.email.email"></v-text-field>
                         <v-text-field class="py-0" color="green" label="Optionale E-Mail" :readonly="isReadonly" v-model="person.sndEmail"></v-text-field>
@@ -78,30 +89,29 @@
 
                         <v-row>
                             <v-col cols="9">
-                                <v-text-field class="py-0" color="green" label="Strasse" :readonly="isReadonly" v-model="person.location.street"></v-text-field>
+                                <v-text-field class="py-0" color="green" label="Strasse" disabled v-model="person.location.street"></v-text-field>
                             </v-col>
                             <v-col cols="3">
-                                <v-text-field class="py-0" color="green" label="Nr." :readonly="isReadonly" v-model="person.location.streetnumber"></v-text-field>
+                                <v-text-field class="py-0" color="green" label="Nr." disabled v-model="person.location.streetnumber"></v-text-field>
                             </v-col>
                         </v-row>
 
                         <v-row>
                             <v-col class="py-0" cols="3">
-                                <v-text-field class="py-0" color="green" label="PLZ" :readonly="isReadonly" v-model="person.location.postcode"></v-text-field>
+                                <v-text-field class="py-0" color="green" label="PLZ" disabled v-model="person.location.postcode"></v-text-field>
                             </v-col>
                             <v-col class="py-0" cols="9">
-                                <v-text-field class="py-0" color="green" label="Ort" :readonly="isReadonly" v-model="person.location.city"></v-text-field>
+                                <v-text-field class="py-0" color="green" label="Ort" disabled v-model="person.location.city"></v-text-field>
                             </v-col>
                         </v-row>
 
                         <v-row>
-                            <v-col class="pl-3 pr-1" cols="5">
+                            <!-- <v-col class="pl-3 pr-1" cols="5">
                                 <v-btn class="mx-auto" color="green darken-1 white--text" outlined  @click="makeReadable" width="95%">
-                                    <!-- <v-icon left>mdi-pencil</v-icon> -->
                                     BEARBEITEN</v-btn>
-                            </v-col>
-                            <v-col class="pr-1 pl-0" cols="7">
-                                <v-btn class="mx-auto mb-1" color="green darken-1 white--text" :disabled="makeSaveable" @click="updatePerson" :loading="loadingSave" raised  width="95%">SPEICHERN</v-btn>
+                            </v-col> -->
+                            <v-col class="px-4">
+                                <v-btn class="mx-auto mb-1" color="green darken-1 white--text" :disabled="makeSaveable" @click="updatePerson()" :loading="loadingSave" raised  width="100%">SPEICHERN</v-btn>
                             </v-col>
                         </v-row>
                     </div>
@@ -113,7 +123,7 @@
                             <v-select
                                 :items="locations"
                                 name="type"
-                                label="Adresse wählen"
+                                label="Addresse wählen"
                                 v-model="locationDelete"
                                 item-text="location"
                                 item-value="uuid"
@@ -185,18 +195,18 @@
                 <v-btn color="white" text @click="snackbar = false">OK</v-btn>
             </v-snackbar>
             </v-row>
+
     </v-container>   
 </template>
-<script>
 
+<script>
 export default {
     data() {
         return {
             // uuid: "5e9ac90c0a975a3a277cc343",
             text: '',
             selectedFile: null,
-            defaultProfileImage: "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png",
-            imageData: "",
+            imageData: "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png",
             loaded: false,
             loader: null,
             loading: true,
@@ -252,37 +262,74 @@ export default {
                 },
             image: null,
             locations: [],
-
         }
     },
     created() {
         this.loaded = false
     },
     mounted() {
-        if (localStorage.getItem("token") != null) {
-                const url = "/person/"+localStorage.getItem("userUuid")
-                var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
-                this.$http.get(url, config)
-                .then((response) => {
-                    if (response.data.status != 401) {
-                        this.$store.state.loggedIn.auth = true
-                        this.getPerson()
-                        this.getLocation()
-                    } else {
-                        this.$store.state.loggedIn.auth = false
-                        this.$router.push('/login');
-                    }
-                })
-            
+       if (localStorage.getItem("token") != null) {
+            const url = "/person/"+localStorage.getItem("userUuid")
+            var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
+            console.log("token available")
+            this.$http.get(url, config)
+            .then((response) => {
+                this.loaded = true
+                this.loading = false
+                console.log("authorized")
+                console.log(response.data)
+                this.$store.state.loggedIn.auth = true
+                this.person = response.data;
+                this.$store.state.user = response.data
+                if (response.data.personType == "PRIVATE") {
+                    this.$store.state.user.personType = "Privatperson"
+                } else {
+                    this.$store.state.user.personType = "Unternehmen"
+                }
+                try {
+                  this.$store.state.user.image = response.data.picture.image.data
+                } catch (error) {
+                  console.log("no image available")
+                }
+            })
+            .catch((error) => {
+                console.log("unauthorized")
+                this.$store.state.loggedIn.auth = false
+                this.$router.push('/');
+                this.loading = false
+                this.loaded = true
+                console.log(error)
+                this.hideAlert()
+            })
         } else {
+            console.log("no token available")
             this.$store.state.loggedIn.auth = false
-            this.$router.push('/login');
+            this.$router.push('/');
         }
+        // if (localStorage.getItem("token") != null) {
+        //         const url = "/person/"+localStorage.getItem("userUuid")
+        //         var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
+        //         this.$http.get(url, config)
+        //         .then((response) => {
+        //             if (response.data.status != 401) {
+        //                 this.$store.state.loggedIn.auth = true
+        //                 this.getPerson()
+        //                 this.getLocation()
+        //             } else {
+        //                 this.$store.state.loggedIn.auth = false
+        //                 this.$router.push('/login');
+        //             }
+        //         })
+            
+        // } else {
+        //     this.$store.state.loggedIn.auth = false
+        //     this.$router.push('/login');
+        // }
     },
     computed: {
-        makeSaveable(){
-            return this.isReadonly
-        },
+        // makeSaveable(){
+        //     return this.isReadonly
+        // },
         currentUser() {
             return this.$store.state.loggedIn.auth;
         },
@@ -336,26 +383,58 @@ export default {
         makeReadable(){
             this.isReadonly = false
         },
-        onFileSelected(event){
-            console.log(event)
-            this.selectedFile = event
-            this.$store.state.user.image = event
-        },
         uploadImage(){
-            if (this.imageData.name) {
             this.loadingImage = true
             const url = "/person/"+localStorage.getItem("userUuid")+"/picture/add";
             var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
             const fd = new FormData();
-            fd.append('image', this.selectedFile, this.selectedFile.name)
+            fd.append('image', this.picture, this.picture.name)
+            console.log(url)
+            console.log(fd)
+            console.log(config)
             this.$http.post(url, fd, config)
             .then((response) => {
                 console.log(response)
                 this.loadingImage = false
-                window.location.reload()
+                // window.location.reload()
             })
+            .catch((response) => {
+                console.log(response)
+            })
+        },
+        previewImage(event) {
+            var input = event.target;
+            this.picture = event.target.files[0]
+            console.log(this.picture)
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = (event) => {
+                    this.imageData = event.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+                this.uploadImage()
             }
         },
+        // onFileSelected(event){
+        //     console.log(event)
+        //     this.selectedFile = event
+        //     this.$store.state.user.image = event
+        // },
+        // uploadImage(){
+        //     if (this.imageData.name) {
+        //     this.loadingImage = true
+        //     const url = "/person/"+this.$store.state.user.uuid+"/picture/add";
+        //     var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
+        //     const fd = new FormData();
+        //     fd.append('image', this.selectedFile, this.selectedFile.name)
+        //     this.$http.post(url, fd, config)
+        //     .then((response) => {
+        //         console.log(response)
+        //         this.loadingImage = false
+        //         window.location.reload()
+        //     })
+        //     }
+        // },
         updatePerson(){
             const url = "/person/update";
             var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
@@ -399,13 +478,13 @@ export default {
                         this.text = "Telefonnummer ist ungültig oder unvollständig."
                     } else if(response.data.code == "005"){
                         this.snackbar = true
-                        this.text = "Adresse ungültig (nicht auf local.ch gefunden)."
+                        this.text = "Addresse ungültig (nicht auf local.ch gefunden)."
                     } else if(response.data.code == "006"){
                         this.snackbar = true
-                        this.text = "E-Mail Adresse ist ungültig oder unvollständig."
+                        this.text = "E-Mail addresse ist ungültig oder unvollständig."
                     } else if (response.data.code == "007") {
                         this.snackbar = true
-                        this.text = "E-Mail Adresse bereits vorhanden."
+                        this.text = "E-Mail addresse bereits vorhanden."
                     } else if (response.data.code == "099") {
                         this.snackbar = true
                         this.errorAlert = true
@@ -422,7 +501,7 @@ export default {
         })
         },
         deleteProfile(){
-            const url = "/person/"+localStorage.getItem("userUuid");
+            const url = "/person/"+this.$store.state.user.uuid;
             var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
             this.$http.delete(url, config)
             .then((response) => {
@@ -469,7 +548,6 @@ export default {
                 this.loaded = true
             }, 2000);
         }
-
   },
     
 }

@@ -14,7 +14,7 @@
             <v-card-actions class="pa-4">
                 <v-spacer></v-spacer>
                 <v-btn @click="dialog=false" outlined color="grey">Abbrechen</v-btn>
-                <v-btn class="white--text ml-4" @click="dialog=false" depressed :color="options.color">Erstellen</v-btn>
+                <v-btn class="white--text ml-4" @click="postSearchSub()" depressed :color="options.color">Erstellen</v-btn>
             </v-card-actions>
             </v-card>
     </v-dialog>
@@ -23,7 +23,8 @@
 
 <script>
 export default {
-data: () => ({
+data(){
+    return {
     dialog: false,
     resolve: null,
     reject: null,
@@ -33,11 +34,23 @@ data: () => ({
       color: "green",
       width: 290,
     }
-  }),
-};
-
+  }
+},
+methods: {
+    postSearchSub(){
+        const url = "/search"
+        var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
+        var data = {
+            uuid: localStorage.getItem("userUuid")
+        }
+        this.$http.post(url, data, config)
+        .then((response) => {
+            console.log(response)
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    },
+}
+}
 </script>
-
-<style scoped>
-
-</style>
