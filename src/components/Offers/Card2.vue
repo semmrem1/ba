@@ -140,7 +140,7 @@
 
                                     <!-- TODO end of Iteration -->
 
-                                    <v-card width="500">
+                                    <v-card>
                                         <v-toolbar :color="options.color" dark dense flat><v-icon color="white">mdi-check</v-icon>
                                             <v-card-title class="headline">Ernte buchen</v-card-title>
                                         </v-toolbar>

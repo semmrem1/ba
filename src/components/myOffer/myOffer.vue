@@ -47,7 +47,7 @@
                             <v-spacer/>
                                 <v-dialog v-model="dialog" max-width="450">
                                   <template v-slot:activator="{ on }">
-                                      <v-btn v-on="on" color="dark-grey" text @click="currentOfferId = item.uuid">bearbeiten</v-btn>
+                                      <v-btn v-on="on" color="dark-grey" text @click="currentOfferId = item.uuid; offerAmount = item.amountInKgAvailable">bearbeiten</v-btn>
                                   </template>
                                       <v-card>
                                           <v-toolbar :color="options.color" dark dense flat><v-icon class="pr-3" size="x-large">mdi-pencil</v-icon>
@@ -58,10 +58,10 @@
                                           <v-card-text class="body-2 pt-4">Falls sich die verfügbare Menge geändert.</v-card-text>
                                               <v-row class="px-4 pt-2" justify="center">
                                                   <v-col class="py-0" cols="8">
-                                                      <v-card-text class="subtitle-1 font-weight-bold px-0">Menge:</v-card-text>
+                                                      <v-card-text class="subtitle-1 font-weight-bold px-0" label="Menge">Menge:</v-card-text>
                                                   </v-col>
                                                   <v-col class="py-0" cols="4">
-                                                      <v-text-field  color="green" suffix="kg"></v-text-field>
+                                                      <v-text-field  color="green" suffix="kg" v-model="offerAmount"></v-text-field>
                                                   </v-col>
                                               </v-row>
                                           </v-row>
@@ -97,6 +97,7 @@ export default {
     data: () => ({
       select: ['Äpfel'],
       currentOfferId: "",
+      offerAmount: "",
       snackbar: false,
       loaded: true,
       errorAlert: false,
@@ -107,6 +108,7 @@ export default {
           color: "green",
           width: 290,
       },
+      amount: "",
       productName: [],
       productOffer: [],
       allOffers: [],
@@ -172,13 +174,11 @@ export default {
                     this.text = "Sie haben noch keine Angebote erfasst."
                   } else {
                     this.myOffers = response.data
-                    console.log(response.data)
                     this.myOffers.forEach(element => {
                       this.productName.push(element.category)
                       this.productOffer.push(element.offers)
+                      console.log(this.productOffer)
                     });
-                    // console.log(this.productName)
-                    // console.log(this.productOffer)
                 this.hideAlert() 
                 }
             })
@@ -187,8 +187,43 @@ export default {
                 this.hideAlert()
             })
         },
+        textchange(){
+          if (this.productOffer.tobecropped == "true") {
+                return this.productOffer.toBeCropped = "Ja"
+              } else {
+                return this.productOffer.toBeCropped = "Nein"
+              }
+        },
         updateOffer(){
-
+            const url = "/product";
+            var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
+            var data =
+            {
+                owner: {
+                    uuid: localStorage.getItem("userUuid")
+                },
+                category: {
+                    uuid: this.product.category
+                },
+                offers: [{
+                    location: {
+                        uuid: this.product.location.uuid
+                    },
+                    amountInKgAvailable: this.amount,
+                    toBeCropped: this.product.tobecropped,
+                    from: this.product.dateFrom,
+                    until: this.product.dateUntil,
+                    description: this.product.description
+                    }
+                ]
+            }
+            this.$http.post(url, data, config)
+            .then((response) => {
+              console.log(response)
+            })
+            .catch((error) => {
+              console.log(error)
+            })
         },
         increase: function(){
           this.counter++;
