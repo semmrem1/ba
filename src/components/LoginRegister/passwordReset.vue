@@ -36,18 +36,17 @@ export default {
         loading: false,
       }    
     },
-    watch: {
-      loader () {
-        const l = this.loader
-        this[l] = !this[l]
-
-        setTimeout(() => (this[l] = false), 3000)
-
-        this.loader = null
-      },
-    }, 
     methods: {
         submit(){
+            const url = "/auth/resetpwd"
+            var config = {headers: {}}
+            this.$http.post(url, config)
+            .then((response) => {
+                console.log(response)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
 
         }
     } 

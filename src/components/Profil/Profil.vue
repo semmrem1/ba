@@ -16,8 +16,11 @@
             <!-- Card -->
             <v-card class="ma-0 pa-0" width="90%" max-width="600px" elevation="3">
                     <!-- Avatar -->
-                    <div class="pa-0 ma-0 image-preview" v-if="imageData.length != 0">
+                    <div class="pa-0 ma-0 image-preview" v-if="this.$store.state.user.image == null">
                         <img class="preview" width="100%" :src="imageData">
+                    </div>
+                    <div class="pa-0 ma-0 image-preview" v-if="this.$store.state.user.image != null">
+                        <img class="preview" width="100%" :src="profileImage">
                     </div>
                     <!-- <v-col class="pa-0 ma-0">
                         <div class="pa-0 ma-0 image-preview" v-if="this.$store.state.user.image == null">
@@ -69,13 +72,13 @@
                         <!-- <v-text-field class="py-0" color="green" label="Image Data" disabled v-model="person.picture.image.data"></v-text-field> -->
                         <!-- <v-text-field class="py-0" color="green" label="uuid" disabled v-model="person.uuid"></v-text-field> -->
                         
-                        <v-text-field class="py-0" color="green" label="Vorname" :readonly="isReadonly" v-model="person.first"></v-text-field>
-                        <v-text-field class="py-0" color="green" label="Nachname" :readonly="isReadonly" v-model="person.last"></v-text-field>
+                        <v-text-field class="py-0" color="green" label="Vorname" v-model="person.first"></v-text-field>
+                        <v-text-field class="py-0" color="green" label="Nachname" v-model="person.last"></v-text-field>
                         <v-text-field class="py-0" color="green" label="Profiltyp" disabled v-model="person.personType"></v-text-field>
                         <!-- <v-text-field class="py-0" color="green" label="E-Mail uuid" disabled v-model="this.person.email.uuid"></v-text-field> -->
-                        <v-text-field class="py-0" color="green" label="E-Mail" :readonly="isReadonly" v-model="person.email.email"></v-text-field>
-                        <v-text-field class="py-0" color="green" label="Optionale E-Mail" :readonly="isReadonly" v-model="person.sndEmail"></v-text-field>
-                        <v-text-field class="py-0" color="green" label="Telefon" :readonly="isReadonly" v-model="person.cell"></v-text-field>
+                        <v-text-field class="py-0" color="green" label="E-Mail" v-model="person.email.email"></v-text-field>
+                        <v-text-field class="py-0" color="green" label="Optionale E-Mail" v-model="person.sndEmail"></v-text-field>
+                        <v-text-field class="py-0" color="green" label="Telefon" v-model="person.cell"></v-text-field>
                         
 
                     </div>
@@ -111,7 +114,7 @@
                                     BEARBEITEN</v-btn>
                             </v-col> -->
                             <v-col class="px-4">
-                                <v-btn class="mx-auto mb-1" color="green darken-1 white--text" :disabled="makeSaveable" @click="updatePerson()" :loading="loadingSave" raised  width="100%">SPEICHERN</v-btn>
+                                <v-btn class="mx-auto mb-1" color="green darken-1 white--text" @click="updatePerson()" :loading="loadingSave" raised  width="100%">SPEICHERN</v-btn>
                             </v-col>
                         </v-row>
                     </div>
@@ -278,19 +281,20 @@ export default {
                 this.loading = false
                 console.log("authorized")
                 console.log(response.data)
-                this.$store.state.loggedIn.auth = true
-                this.person = response.data;
-                this.$store.state.user = response.data
-                if (response.data.personType == "PRIVATE") {
-                    this.$store.state.user.personType = "Privatperson"
-                } else {
-                    this.$store.state.user.personType = "Unternehmen"
-                }
-                try {
-                  this.$store.state.user.image = response.data.picture.image.data
-                } catch (error) {
-                  console.log("no image available")
-                }
+                if (response.data.status != 401) {
+                  this.$store.state.loggedIn.auth = true
+                  this.getPerson()
+                  this.getLocation()
+                  if (response.data.personType == "PRIVATE") {
+                      this.$store.state.user.personType = "Privatperson"
+                  } else {
+                      this.$store.state.user.personType = "Unternehmen"
+                  }
+              } else {
+                  this.$store.state.loggedIn.auth = false
+                  this.$router.push('/login');
+              }
+
             })
             .catch((error) => {
                 console.log("unauthorized")
@@ -306,25 +310,6 @@ export default {
             this.$store.state.loggedIn.auth = false
             this.$router.push('/');
         }
-        // if (localStorage.getItem("token") != null) {
-        //         const url = "/person/"+localStorage.getItem("userUuid")
-        //         var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
-        //         this.$http.get(url, config)
-        //         .then((response) => {
-        //             if (response.data.status != 401) {
-        //                 this.$store.state.loggedIn.auth = true
-        //                 this.getPerson()
-        //                 this.getLocation()
-        //             } else {
-        //                 this.$store.state.loggedIn.auth = false
-        //                 this.$router.push('/login');
-        //             }
-        //         })
-            
-        // } else {
-        //     this.$store.state.loggedIn.auth = false
-        //     this.$router.push('/login');
-        // }
     },
     computed: {
         // makeSaveable(){
@@ -356,6 +341,7 @@ export default {
                         this.$store.state.user.personType = "Unternehmen"
                     }
                     this.$store.state.user.image = response.data.picture.image.data
+                    console.log(response.data.picture)
                 }
             })
             .catch((error) => {
@@ -385,7 +371,7 @@ export default {
         },
         uploadImage(){
             this.loadingImage = true
-            const url = "/person/"+localStorage.getItem("userUuid")+"/picture/add";
+            const url = "/person/"+localStorage.getItem("userUuid")+"/picture";
             var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
             const fd = new FormData();
             fd.append('image', this.picture, this.picture.name)
@@ -481,10 +467,13 @@ export default {
                         this.text = "Addresse ungültig (nicht auf local.ch gefunden)."
                     } else if(response.data.code == "006"){
                         this.snackbar = true
-                        this.text = "E-Mail addresse ist ungültig oder unvollständig."
+                        this.text = "E-Mailaddresse ist ungültig oder unvollständig."
                     } else if (response.data.code == "007") {
                         this.snackbar = true
-                        this.text = "E-Mail addresse bereits vorhanden."
+                        this.text = "E-Mailaddresse bereits vorhanden."
+                    } else if (response.data.code == "008") {
+                        this.snackbar = true
+                        this.text = "E-Mail ungültig."
                     } else if (response.data.code == "099") {
                         this.snackbar = true
                         this.errorAlert = true

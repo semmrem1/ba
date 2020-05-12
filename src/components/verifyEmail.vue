@@ -4,7 +4,7 @@
             <v-card class="ma-0 pa-1" width="90%" max-width="600px" elevation="3">
                     <v-card-title class="pa-3 display-1 font-weight-bold">E-Mail bestätigen</v-card-title>
                     <v-card-text class="px-3">
-                    Bitte bestätige deine E-Mailadresse, damit wir deinen Account erstellen können.
+                    Bitte bestätige deine E-Mailadresse, um deinen Account zu validieren.
                     </v-card-text>
                     <v-card-actions class="pa-0" justify-center>
                         <v-col class="px-2" justify-center cols="12">

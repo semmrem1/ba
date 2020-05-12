@@ -94,23 +94,43 @@ export default {
         
     },
     mounted() {
-        if (localStorage.getItem("token") != null) {
-                const url = "/person/"+localStorage.getItem("userUuid")
-                var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
-                this.$http.get(url, config)
-                .then((response) => {
-                    if (response.data.status != 401) {
-                        this.$store.state.loggedIn.auth = true
-                        this.getPerson()
-                    } else {
-                        this.$store.state.loggedIn.auth = false
-                        this.$router.push('/login');
-                    }
-                })
-            
+       if (localStorage.getItem("token") != null) {
+            const url = "/person/"+localStorage.getItem("userUuid")
+            var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
+            console.log("token available")
+            this.$http.get(url, config)
+            .then((response) => {
+                this.loaded = true
+                this.loading = false
+                console.log("authorized")
+                console.log(response.data)
+                if (response.data.status != 401) {
+                  this.$store.state.loggedIn.auth = true
+                  this.getPerson()
+                  if (response.data.personType == "PRIVATE") {
+                      this.$store.state.user.personType = "Privatperson"
+                  } else {
+                      this.$store.state.user.personType = "Unternehmen"
+                  }
+              } else {
+                  this.$store.state.loggedIn.auth = false
+                  this.$router.push('/login');
+              }
+
+            })
+            .catch((error) => {
+                console.log("unauthorized")
+                this.$store.state.loggedIn.auth = false
+                this.$router.push('/');
+                this.loading = false
+                this.loaded = true
+                console.log(error)
+                this.hideAlert()
+            })
         } else {
+            console.log("no token available")
             this.$store.state.loggedIn.auth = false
-            this.$router.push('/login');
+            this.$router.push('/');
         }
     },
     methods: {

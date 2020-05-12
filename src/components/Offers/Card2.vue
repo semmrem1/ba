@@ -104,7 +104,9 @@
                         <!-- Details -->
                         <v-col class="pa-1 pl-5" cols="6">
                             <v-row>
-                                <v-card-subtitle class="font-weight-bold pa-0 pt-1">{{ offer.uuid }}</v-card-subtitle>
+                                <!-- FIXME: Titel für Card -->
+                                <!-- <v-card-subtitle class="font-weight-bold pa-0 pt-1">{{ offer.uuid }}</v-card-subtitle> -->
+                                <v-card-subtitle class="font-weight-bold pa-0 pt-1">Gala Äpfel</v-card-subtitle>
                             </v-row>
 
                             <!-- <v-row>
@@ -131,14 +133,14 @@
                                 <v-spacer></v-spacer>
                                 <!-- <span class="pr-5"><confirmBooking/></span> -->
 
-                                <v-dialog v-model="dialog" max-width="450">
+                                <v-dialog v-model="dialog" width="450">
                                     <template v-slot:activator="{ on }">
                                         <v-btn v-on="on" color="green" text @click="currentOfferId = offer.uuid">Buchen</v-btn>
                                     </template>
 
                                     <!-- TODO end of Iteration -->
 
-                                    <v-card>
+                                    <v-card width="500">
                                         <v-toolbar :color="options.color" dark dense flat><v-icon color="white">mdi-check</v-icon>
                                             <v-card-title class="headline">Ernte buchen</v-card-title>
                                         </v-toolbar>
@@ -199,7 +201,6 @@
         data() {
             return {
                 offerImages: [],
-                uuid: "5e9ac90c0a975a3a277cc343",
                 counter: 0,
                 placeHolderImage: "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png",
                 skeletonLoader: true,
@@ -234,25 +235,46 @@
             }
         },
         mounted() {
-            if (localStorage.getItem("token") != null) {
-                const url = "/person/"+localStorage.getItem("userUuid")
-                var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
-                this.$http.get(url, config)
-                    .then((response) => {
-                        if (response.data.status != 401) {
-                            this.$store.state.loggedIn.auth = true
-                            this.getCategory()
-                            this.getOffers()
-                        } else {
-                            this.$store.state.loggedIn.auth = false
-                            this.$router.push('/login');
-                        }
-                    })
+       if (localStorage.getItem("token") != null) {
+            const url = "/person/"+localStorage.getItem("userUuid")
+            var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
+            console.log("token available")
+            this.$http.get(url, config)
+            .then((response) => {
+                this.loaded = true
+                this.loading = false
+                console.log("authorized")
+                console.log(response.data)
+                if (response.data.status != 401) {
+                  this.$store.state.loggedIn.auth = true
+                    this.getCategory()
+                    this.getOffers()
+                  if (response.data.personType == "PRIVATE") {
+                      this.$store.state.user.personType = "Privatperson"
+                  } else {
+                      this.$store.state.user.personType = "Unternehmen"
+                  }
+              } else {
+                  this.$store.state.loggedIn.auth = false
+                  this.$router.push('/login');
+              }
 
-            } else {
+            })
+            .catch((error) => {
+                console.log("unauthorized")
                 this.$store.state.loggedIn.auth = false
-                this.$router.push('/login');
-            }
+                this.$router.push('/');
+                this.loading = false
+                this.loaded = true
+                console.log(error)
+                this.hideAlert()
+            })
+        } else {
+            console.log("no token available")
+            this.$store.state.loggedIn.auth = false
+            this.$router.push('/');
+        }
+
         },
         computed: {
             offerImage(){
@@ -280,6 +302,7 @@
                     })
             },
             getOffers(){
+                this.loaded = false;
                 const url = "/searchresult/person/"+localStorage.getItem("userUuid");
                 var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
                 this.$http.get(url, config)
@@ -293,6 +316,9 @@
                             for(let i = 0; i < this.offers.length; i++){
                                 this.addBase64StringToOffer(i);
                             }
+                        } else {
+                            this.loaded = true;
+                            this.emptyAlert = true;
                         }
                     })
                     .catch((response) => {
@@ -304,11 +330,19 @@
             },
             addBase64StringToOffer(i){
                 // FIXME: Add Offer ID to Path: z.B. this.offers[i].pictureUrl..
-                this.$http.get("https://lancebox-infom3.herokuapp.com/test/bild2")
-                    .then((response) =>{
-                        Vue.set(this.offerImages, i, response.data);
-                        console.log(this.offerImages)
-                    })
+                if (this.offers[i].productPictureUuid != null) {
+                    const url = "/picture/"+this.offers[i].productPictureUuid
+                    var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
+                    this.$http.get(url, config)
+                        .then((response) =>{
+                            // console.log(response)
+                            Vue.set(this.offerImages, i, response.data);
+                            // console.log(this.offerImages)
+                        })
+                } else{
+                    console.log("no image for this offer")
+                }
+
             },
             postBooking(uuid){
                 const url = "/booking";

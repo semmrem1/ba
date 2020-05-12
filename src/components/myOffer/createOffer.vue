@@ -43,7 +43,7 @@
                                 <!-- <v-snackbar class="subtitle-1 black-text font-weight-bold" v-model="successAlert" color="green lighten-1" multi-line vertical top>Speichern erfolgreich!
                                    <v-btn color="white" text @click="snackbar = false">OK</v-btn>
                                 </v-snackbar> -->
-                    <v-alert v-show="errorAlert" class="mt-4" type="error" elevation="2" outlined transition="fade-transition">Speichern fehlgeschlagen! :-( {{ alert }} </v-alert>
+                    <v-alert v-show="errorAlert" class="mt-4" type="error" elevation="2" outlined transition="fade-transition">Speichern fehlgeschlagen! :-( <p>{{alert}}</p> </v-alert>
 
                         <v-col class="pa-0 ma-0" cols="12">
                             <div>
@@ -169,12 +169,12 @@
                             <!-- <p>{{this.line.amount}}</p> -->
                             
 
-                            <!-- ### Adresse wählen ### -->
-                              <!-- <v-text class="font-weight-bold">Adresse:</v-text> -->
+                            <!-- ### Addresse wählen ### -->
+                              <!-- <v-text class="font-weight-bold">Addresse:</v-text> -->
                                  <v-select
                                 :items="locations"
                                 name="type"
-                                label="Adresse*"
+                                label="Addresse*"
                                 :rules="addressRules"
                                 v-model="product.location"
                                 item-text="location"
@@ -198,13 +198,13 @@
                         </div>
                                 <v-dialog v-model="dialog" max-width="450">
                                     <template v-slot:activator="{ on }">
-                                        <v-btn v-on="on" class="px-2 mt-2 mb-8" @click="addLocation" color="green" text small><v-icon>mdi-plus</v-icon>Neue Adresse</v-btn>
+                                        <v-btn v-on="on" class="px-2 mt-2 mb-8" @click="addLocation" color="green" text small><v-icon>mdi-plus</v-icon>Neue Addresse</v-btn>
                                     </template>
                                     <v-card>
                                         <v-toolbar :color="options.color" dark dense flat><v-icon class="pr-3" size="x-large">mdi-plus</v-icon>
-                                         <v-card-title class="pl-0 white--text font-weight-bold">Adresse hinzufügen</v-card-title>
+                                         <v-card-title class="pl-0 white--text font-weight-bold">Addresse hinzufügen</v-card-title>
                                         </v-toolbar>
-                                        <v-alert v-show="errorAlertDialog" class="mt-4 mx-4" type="error" elevation="2" outlined dense transition="fade-transition">Speichern fehlgeschlagen! Adresse möglicherweise ungültig.</v-alert>
+                                        <v-alert v-show="errorAlertDialog" class="mt-4 mx-4" type="error" elevation="2" outlined dense transition="fade-transition">Speichern fehlgeschlagen! Addresse möglicherweise ungültig.</v-alert>
                                         
                                             <v-row class="px-4">
                                                 <v-row class="px-4">
@@ -347,7 +347,7 @@
                 v => !!v || 'Ort ist erforderlich',
             ],
             addressRules: [
-                v => !!v || 'Adresse ist erforderlich',
+                v => !!v || 'Addresse ist erforderlich',
             ],
             product: {
                 dateFrom: "",
@@ -382,27 +382,47 @@
         }
     },
     mounted() {
-        if (localStorage.getItem("token") != null) {
-                const url = "/person/"+localStorage.getItem("userUuid")
-                var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
-                this.$http.get(url, config)
-                .then((response) => {
-                    if (response.data.status != 401) {
-                        this.$store.state.loggedIn.auth = true
-                        this.getCategory()
-                        this.getLocation()
-                        this.addLine()
-                        this.addLocation()
-                        this.$refs.form.reset()  
-                    } else {
-                        this.$store.state.loggedIn.auth = false
-                        this.$router.push('/login');
-                    }
-                })
-            
+       if (localStorage.getItem("token") != null) {
+            const url = "/person/"+localStorage.getItem("userUuid")
+            var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
+            console.log("token available")
+            this.$http.get(url, config)
+            .then((response) => {
+                this.loaded = true
+                this.loading = false
+                console.log("authorized")
+                console.log(response.data)
+                if (response.data.status != 401) {
+                  this.$store.state.loggedIn.auth = true
+                    this.getCategory()
+                    this.getLocation()
+                    this.addLine()
+                    this.addLocation()
+                    this.$refs.form.reset()  
+                  if (response.data.personType == "PRIVATE") {
+                      this.$store.state.user.personType = "Privatperson"
+                  } else {
+                      this.$store.state.user.personType = "Unternehmen"
+                  }
+              } else {
+                  this.$store.state.loggedIn.auth = false
+                  this.$router.push('/login');
+              }
+
+            })
+            .catch((error) => {
+                console.log("unauthorized")
+                this.$store.state.loggedIn.auth = false
+                this.$router.push('/');
+                this.loading = false
+                this.loaded = true
+                console.log(error)
+                this.hideAlert()
+            })
         } else {
+            console.log("no token available")
             this.$store.state.loggedIn.auth = false
-            this.$router.push('/login');
+            this.$router.push('/');
         }
     },
     computed: {
@@ -453,7 +473,7 @@
         },
         uploadImage(){
             this.loadingImage = true
-            const url = "/product/"+this.imageUuid+"/picture/add";
+            const url = "/product/"+this.imageUuid+"/picture";
             var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
             const fd = new FormData();
             fd.append('image', this.picture, this.picture.name)
@@ -541,7 +561,7 @@
             var data =
             {
                 owner: {
-                    uuid: this.uuid
+                    uuid: localStorage.getItem("userUuid")
                 },
                 category: {
                     uuid: this.product.category
