@@ -6,7 +6,7 @@
                 :active="!loaded"
                 indeterminate
                 absolute
-                height="4px"
+                height="3px"
                 color="blue"
                 background-opacity = 0.0
             ></v-progress-linear>

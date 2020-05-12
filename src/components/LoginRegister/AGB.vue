@@ -43,7 +43,11 @@
 
 <script>
 export default {
-
+    mounted:{
+        scrollToTop(){
+            window.scrollTo(0,0);
+        },
+    },
 }
 </script>
 

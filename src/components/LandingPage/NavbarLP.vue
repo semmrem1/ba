@@ -4,9 +4,9 @@
                 <div v-if="currentUser">
                     <v-app-bar-nav-icon size="xs" @click="drawer = !drawer"></v-app-bar-nav-icon>
                 </div>
-                <!-- <div v-if="!currentUser">
+                <div v-if="!currentUser">
                     <v-btn icon color="black" @click="scrollToTop()" to="/"><v-icon>mdi-home</v-icon></v-btn>
-                </div> -->
+                </div>
 
                 <v-spacer></v-spacer>
                 <!-- user.auth: {{ this.$store.state.loggedIn.auth }} -->

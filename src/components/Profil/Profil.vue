@@ -6,7 +6,7 @@
                 :active="!loaded"
                 indeterminate
                 absolute
-                height="2px"
+                height="3px"
                 color="blue"
                 background-opacity = 0.0
             ></v-progress-linear>
@@ -145,50 +145,53 @@
                                     </template>
                                 </v-select>
                         <v-row class="px-4">
-                            <v-dialog v-model="addressDialog" max-width="450">
-                                <template v-slot:activator="{ on }">
-                                    <v-col cols="4" xs="4">
-                                        <v-row>
-                                            <v-btn v-on="on" color="red" outlined small ><v-icon>mdi-delete</v-icon>Adresse LÖSCHEN</v-btn>
-                                        </v-row>
-                                    </v-col>
-                                </template>
-                                <!-- CARD -->
-                                <v-card>
-                                    <v-toolbar :color="options.color" dark dense flat>
-                                        <v-toolbar-title class="white--text font-weight-bold"><v-icon class="pr-3" size="x-large">mdi-alert</v-icon>{{ address.title }}</v-toolbar-title>
-                                    </v-toolbar>
-                                    <v-card-text v-show="address.message" class="pa-4">{{ address.message }}</v-card-text>
-                                    <v-card-actions class="pa-4">
-                                        <v-spacer></v-spacer>
-                                        <v-btn @click="addressDialog=false" outlined color="grey">Abbrechen</v-btn>
-                                        <v-btn class="white--text ml-4" @click="deleteAddress()" depressed :color="options.color">Ja</v-btn>
-                                    </v-card-actions>
-                                </v-card>
-                            </v-dialog>
-
+                            <v-row>
+                                <v-dialog v-model="addressDialog" max-width="450">
+                                    <template v-slot:activator="{ on }">
+                                        <v-col cols="12" xs="6">
+                                            <v-row>
+                                                <v-btn v-on="on" color="red" outlined small width="100%"><v-icon>mdi-delete</v-icon>Adresse LÖSCHEN</v-btn>
+                                            </v-row>
+                                        </v-col>
+                                    </template>
+                                    <!-- CARD -->
+                                    <v-card>
+                                        <v-toolbar :color="options.color" dark dense flat>
+                                            <v-toolbar-title class="white--text font-weight-bold"><v-icon class="pr-3" size="x-large">mdi-alert</v-icon>{{ address.title }}</v-toolbar-title>
+                                        </v-toolbar>
+                                        <v-card-text v-show="address.message" class="pa-4">{{ address.message }}</v-card-text>
+                                        <v-card-actions class="pa-4">
+                                            <v-spacer></v-spacer>
+                                            <v-btn @click="addressDialog=false" outlined color="grey">Abbrechen</v-btn>
+                                            <v-btn class="white--text" @click="deleteAddress()" depressed :color="options.color">Ja</v-btn>
+                                        </v-card-actions>
+                                    </v-card>
+                                </v-dialog>
+                            </v-row>
                             <!-- Confirm Delete Profile-->
-                            <v-dialog v-model="profileDialog" max-width="450">
-                                <template v-slot:activator="{ on }">
-                                    <v-col cols="8" xs="4">
-                                        <v-row>
-                                           <v-btn v-on="on" color="red" outlined small><v-icon>mdi-delete</v-icon>PROFIL LÖSCHEN</v-btn>
-                                        </v-row>
-                                    </v-col>
-                                </template>
-                                <!-- CARD -->
-                                <v-card>
-                                    <v-toolbar :color="options.color" dark dense flat>
-                                        <v-toolbar-title class="white--text font-weight-bold"><v-icon class="pr-3" size="x-large">mdi-alert</v-icon>{{ profile.title }}</v-toolbar-title>
-                                    </v-toolbar>
-                                    <v-card-text v-show="profile.message" class="pa-4">{{ profile.message }}</v-card-text>
-                                    <v-card-actions class="pa-4">
-                                        <v-spacer></v-spacer>
-                                        <v-btn @click="profileDialog=false" outlined color="grey">Abbrechen</v-btn>
-                                        <v-btn class="white--text ml-4" @click="deleteProfile()" depressed :color="options.color">Ja</v-btn>
-                                    </v-card-actions>
-                                </v-card>
-                            </v-dialog>
+                            <v-row>
+                                <v-dialog v-model="profileDialog" max-width="450">
+                                    <template v-slot:activator="{ on }">
+                                        <v-col class="py-0" cols="12" xs="6">
+                                            <v-row>
+                                            <v-btn v-on="on" color="red" outlined small width="100%"><v-icon>mdi-delete</v-icon>PROFIL LÖSCHEN</v-btn>
+                                            </v-row>
+                                        </v-col>
+                                    </template>
+                                    <!-- CARD -->
+                                    <v-card>
+                                        <v-toolbar :color="options.color" dark dense flat>
+                                            <v-toolbar-title class="white--text font-weight-bold"><v-icon class="pr-3" size="x-large">mdi-alert</v-icon>{{ profile.title }}</v-toolbar-title>
+                                        </v-toolbar>
+                                        <v-card-text v-show="profile.message" class="pa-4">{{ profile.message }}</v-card-text>
+                                        <v-card-actions class="pa-4">
+                                            <v-spacer></v-spacer>
+                                            <v-btn @click="profileDialog=false" outlined color="grey">Abbrechen</v-btn>
+                                            <v-btn class="white--text" @click="deleteProfile()" depressed :color="options.color">Ja</v-btn>
+                                        </v-card-actions>
+                                    </v-card>
+                                </v-dialog>
+                            </v-row>
                         </v-row>
                     </v-expansion-panel-content>
                     </v-expansion-panel>
