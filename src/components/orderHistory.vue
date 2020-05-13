@@ -106,6 +106,8 @@ export default {
                 console.log(response.data)
                 if (response.data.status != 401) {
                   this.$store.state.loggedIn.auth = true
+                  this.$store.state.user = response.data
+                  this.$store.state.user.image = response.data.picture.image.data
                   this.getPerson()
                   if (response.data.personType == "PRIVATE") {
                       this.$store.state.user.personType = "Privatperson"

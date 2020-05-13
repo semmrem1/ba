@@ -121,7 +121,7 @@ export default {
                     if (response.data.personType == "PRIVATE") {
                         this.$store.state.user.personType = "Privatperson"
                     } else {
-                        this.$store.state.user.personType = "Unternehmen"
+                        this.$store.state.user.personType = "Bauer"
                     }
                     this.$store.state.user.image = response.data.picture.image.data
                 }

@@ -97,7 +97,11 @@
                         <!-- IMG -->
                         <v-col class="py-0" cols="6">
                             <v-avatar class="ma-0 pa-0" min-width="100%" height="175" tile>
-                                <v-img max-height="175" v-if="offerImages.length > 0" :src="`data:image/png;base64,${offerImages[i]}`"/>
+                                <v-img max-height="175" v-if="offerImages[i] != 0" :src="`data:image/png;base64,${offerImages[i]}`"/>
+                                <v-img max-height="175"  v-else :src="placeHolderImage"/>
+                            </v-avatar>
+                            <v-avatar class="ma-0 pa-0" min-width="100%" height="175" tile>
+                                
                             </v-avatar>
                         </v-col>
 
@@ -247,6 +251,8 @@
                 console.log(response.data)
                 if (response.data.status != 401) {
                   this.$store.state.loggedIn.auth = true
+                  this.$store.state.user = response.data
+                  this.$store.state.user.image = response.data.picture.image.data
                     this.getCategory()
                     this.getOffers()
                   if (response.data.personType == "PRIVATE") {
@@ -278,7 +284,7 @@
         },
         computed: {
             offerImage(){
-                return `data:image/png;base64, ${this.pictureCode[0]}`
+                return `data:image/png;base64, ${this.placeHolderImage}`
             }
         },
         methods: {
@@ -329,14 +335,13 @@
                     })
             },
             addBase64StringToOffer(i){
-                // FIXME: Add Offer ID to Path: z.B. this.offers[i].pictureUrl..
                 if (this.offers[i].productPictureUuid != null) {
                     const url = "/picture/"+this.offers[i].productPictureUuid
                     var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
                     this.$http.get(url, config)
                         .then((response) =>{
-                            // console.log(response)
-                            Vue.set(this.offerImages, i, response.data);
+                            console.log(response.data)
+                            Vue.set(this.offerImages, i, response.data.image.data);
                             // console.log(this.offerImages)
                         })
                 } else{

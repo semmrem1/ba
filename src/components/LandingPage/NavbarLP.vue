@@ -83,9 +83,9 @@ export default {
                 { icon: "mdi-account", text: "Profil", route: "/profile"},
                 { icon: "mdi-compass", text: "Suchen", route: "/offers"},
                 { icon: "mdi-file-check", text: "Von mir bestellt", route: "/bookingHistory"},
-                { icon: "mdi-file-check", text: "Bei mir bestellt", route: "/orderHistory"},
+                { icon: "mdi-file-move", text: "Bei mir bestellt", route: "/orderHistory"},
                 { icon: "mdi-file-plus", text: "Obst inserieren", route: "/createOffer"},
-                { icon: "mdi-file-multiple", text: "Mein Obst", route: "/myOffers"},
+                { icon: "mdi-file-cog", text: "Mein Obst", route: "/myOffers"},
             ],
             person: {
                 title: "",
