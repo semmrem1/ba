@@ -2,11 +2,11 @@
         <nav>
             <v-app-bar  app class="green" elevation="4" @click="scrollToTop()">
                 <div v-if="currentUser">
-                    <v-app-bar-nav-icon size="xs" @click="drawer = !drawer"></v-app-bar-nav-icon>
+                    <v-app-bar-nav-icon large @click="drawer = !drawer"></v-app-bar-nav-icon>
                 </div>
-                <!-- <div v-if="!currentUser">
+                <div v-if="!currentUser">
                     <v-btn icon color="black" @click="scrollToTop()" to="/"><v-icon>mdi-home</v-icon></v-btn>
-                </div> -->
+                </div>
 
                 <v-spacer></v-spacer>
                 <!-- user.auth: {{ this.$store.state.loggedIn.auth }} -->
@@ -83,9 +83,9 @@ export default {
                 { icon: "mdi-account", text: "Profil", route: "/profile"},
                 { icon: "mdi-compass", text: "Suchen", route: "/offers"},
                 { icon: "mdi-file-check", text: "Von mir bestellt", route: "/bookingHistory"},
-                { icon: "mdi-file-check", text: "Bei mir bestellt", route: "/orderHistory"},
+                { icon: "mdi-file-move", text: "Bei mir bestellt", route: "/orderHistory"},
                 { icon: "mdi-file-plus", text: "Obst inserieren", route: "/createOffer"},
-                { icon: "mdi-file-multiple", text: "Mein Obst", route: "/myOffers"},
+                { icon: "mdi-file-cog", text: "Mein Obst", route: "/myOffers"},
             ],
             person: {
                 title: "",

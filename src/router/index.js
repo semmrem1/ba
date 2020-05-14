@@ -12,8 +12,9 @@ import RegisterPrivate from '../views/RegisterPrivate.vue'
 import RegisterCom from '../views/RegisterCom.vue'
 import passwordReset from '../views/passwordReset.vue'
 import Contact from '../views/Contact.vue'
-import verifyEmail from '../views/verifyEmail.vue'
-import verifyCom from '../views/verifyCom.vue'
+import validateEmail from '../views/validateEmail.vue'
+import validateLocation from '../views/validateLocation.vue'
+import validateCom from '../views/validateCom.vue'
 import AGB from '../views/AGB.vue'
 
 
@@ -81,14 +82,19 @@ const routes = [
     component: Contact
   },
   {
-    path: '/verifyEmail',
-    name: 'verifyEmail',
-    component: verifyEmail
+    path: '/validateEmail',
+    name: 'validateEmail',
+    component: validateEmail
   },
   {
-    path: '/verifyCom',
-    name: 'verifyCom',
-    component: verifyCom
+    path: '/validateLocation',
+    name: 'validateLocation',
+    component: validateLocation
+  },
+  {
+    path: '/validateCom',
+    name: 'validateCom',
+    component: validateCom
   },
   {
     path: '/agb',

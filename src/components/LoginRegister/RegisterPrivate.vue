@@ -17,28 +17,28 @@
                 <v-form ref="form" lazy-validation class="pa-3">
                     
                     <div>
-                        <v-select :items="items" color="green" label="Anrede" v-model="person.title"></v-select>
+                        <v-select :items="items" color="green" label="Anrede" autocomplete v-model="person.title"></v-select>
                         <!-- <v-text-field class="py-0" color="green" :rules="usernameRules" label="Benutzername" v-model="username" required :counter="0"></v-text-field> -->
-                        <v-text-field class="py-0" color="green" :rules="firstnameRules" label="Vorname*" v-model="person.first" required></v-text-field>
-                        <v-text-field class="py-0" color="green" :rules="lastnameRules" label="Nachname*" v-model="person.last" required></v-text-field>
+                        <v-text-field class="py-0" color="green" :rules="firstnameRules" label="Vorname*" v-model="person.first" autocomplete required ></v-text-field>
+                        <v-text-field class="py-0" color="green" :rules="lastnameRules" label="Nachname*" v-model="person.last" autocomplete required></v-text-field>
                     </div>
                     <div class="pt-7">  
                         <v-row>
                             <v-col cols="9">
-                                <v-text-field class="py-0" color="green" label="Strasse*" :rules="streetRules" v-model="person.location.street"></v-text-field>
+                                <v-text-field class="py-0" color="green" label="Strasse*" :rules="streetRules" autocomplete v-model="person.location.street"></v-text-field>
                             </v-col>
                             <v-col cols="3">
-                                <v-text-field class="py-0" color="green" label="Nr." v-model="person.location.streetnumber"></v-text-field>
+                                <v-text-field class="py-0" color="green" label="Nr." autocomplete v-model="person.location.streetnumber"></v-text-field>
                             </v-col>
                         </v-row>
                     </div>
 
                     <v-row>
                         <v-col class="py-0" cols="3">
-                            <v-text-field class="py-0" color="green" label="PLZ*" :rules="postcodeRules" v-model="person.location.postcode"></v-text-field>
+                            <v-text-field class="py-0" color="green" label="PLZ*" :rules="postcodeRules" autocomplete v-model="person.location.postcode"></v-text-field>
                         </v-col>
                         <v-col class="py-0" cols="9">
-                            <v-text-field class="py-0" color="green" label="Ort*" :rules="cityRules" v-model="person.location.city"></v-text-field>
+                            <v-text-field class="py-0" color="green" label="Ort*" :rules="cityRules" autocomplete v-model="person.location.city"></v-text-field>
                         </v-col>
                         <v-col>
                         <!-- <v-alert class="caption red--text" v-show="addressAlert">Adresse ist ungültig oder unvollständig</v-alert> -->
@@ -47,12 +47,12 @@
 
                     <v-row>
                         <v-col class="pt-7" cols="12">
-                            <v-text-field class="py-0" color="green" :rules="cellRules"  label="Telefon*" v-model="person.cell"></v-text-field>
+                            <v-text-field class="py-0" color="green" :rules="cellRules"  label="Telefon*" autocomplete v-model="person.cell"></v-text-field>
                             <!-- <v-alert class="caption warning--text mb-8" border="left" colored-border type="warning" dense elevation="2" v-show="phoneAlert">Telefonnummer ist ungültig oder unvollständig</v-alert> -->
-                            <v-text-field class="py-0" color="green" :rules="emailRules" label="E-Mail*" v-model="person.email.email"></v-text-field>
+                            <v-text-field class="py-0" color="green" :rules="emailRules" label="E-Mail*" autocomplete v-model="person.email.email"></v-text-field>
                             <!-- <v-alert class="caption warning--text mb-8" border="left" colored-border type="warning" dense elevation="2" v-show="emailAlert" v-if="hideAlert" transition="fade-transition">E-Mail Adresse ist ungültig</v-alert>
                             <v-alert class="caption warning--text mb-8" border="left" colored-border type="warning" dense elevation="2" v-show="email2Alert" v-if="hideAlert" transition="fade-transition">E-Mail Adresse bereits vorhanden</v-alert> -->
-                            <v-text-field class="py-0" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" @click:append="show = !show" :type="show ? 'text' : 'password'" color="green" :rules="[passwordRules.required, passwordRules.min]" label="Passwort*" v-model="person.password"></v-text-field>
+                            <v-text-field class="py-0" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" @click:append="show = !show" :type="show ? 'text' : 'password'" color="green" :rules="[passwordRules.required, passwordRules.min]" label="Passwort*" autocomplete v-model="person.password"></v-text-field>
                             <v-alert v-show="successAlert" class="mt-4" type="success" elevation="2" outlined transition="fade-transition"><p class="pa-0 ma-0 font-weight-bold">Registrierung erfolgreich!</p> Bitte bestätige deine E-MailAdresse.</v-alert>
                             <v-alert v-show="errorAlert" class="mt-4" type="error" elevation="2" outlined transition="fade-transition">Registrierung fehlgeschlagen!</v-alert>
                         </v-col>
@@ -60,6 +60,7 @@
 
                     <v-checkbox
                     class="pa-0 pt-4 ma-0"
+                    color="green"
                     v-model="person.age"
                     :rules="[v => !!v || 'Du musst 18 Jahre alt sein, um dich registrieren zu können!']"
                     label="Ich bin 18 Jahre alt."
@@ -68,12 +69,13 @@
                     ></v-checkbox>
                     <v-checkbox
                     class="pa-0 ma-0"
+                    color="green"
                     v-model="person.agb"
                     :rules="[v => !!v || 'Du musst die AGB bestätigen, um dich registrieren zu können!']"
                     required
                     >
                         <template v-slot:label>
-                            <div>Ich erkläre mich mit den <v-btn class="ma-0 pa-0" color="blue darken-2" small text to="/agb">AGB</v-btn>von Obst vom Baum einverstanden.</div>
+                            <div>Ich erkläre mich mit den <v-btn class="ma-0 pa-0" color="blue darken-3" small text to="/agb">AGB</v-btn>von Obst vom Baum einverstanden.</div>
                         </template>
                     </v-checkbox>   
 
@@ -185,7 +187,7 @@ export default {
     },
     
     computed: {
-        isComplete(){//button only visible if these fields are filled
+        isComplete(){//button only visible if these fields are not empty
             return this.person.age && this.person.agb
         },
         loggedIn() {
@@ -194,39 +196,6 @@ export default {
     },
 
     methods: {
-        // register(){
-        //     if (this.$refs.form.validate()) {
-        //         const url = "/auth/signup/private";
-        //         var data = 
-        //         {
-        //             title: this.person.title,
-        //             first: this.person.first,
-        //             last: this.person.last,
-        //             cell: this.person.cell,
-        //             email: 
-        //             {
-        //                 email: this.person.email.email
-        //             },
-        //             location:
-        //             {
-        //                 street: this.person.location.street,
-        //                 streetnumber: this.person.location.streetnumber,
-        //                 city: this.person.location.city,
-        //                 postcode: this.person.location.postcode
-        //             },
-        //             password: this.person.password 
-        //         }
-        //         console.log(data)
-        //         this.$http.post(url, data)
-        //         .then((response) => {
-        //             console.log(response)
-        //         })
-        //         .catch((error) => {
-        //             console.log(error)
-        //         })
-        //     }
-            
-        // },
         registerPerson(){
             if (this.$refs.form.validate()) {
             const url = "/auth/signup/private";

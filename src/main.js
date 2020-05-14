@@ -12,7 +12,11 @@ import Loading from 'vue-loading-overlay';
 
 import 'vue-loading-overlay/dist/vue-loading.css';
 
+<<<<<<< HEAD
 axios.defaults.baseURL = "https://obstvombaum.jcloud.ik-server.com"
+=======
+axios.defaults.baseURL = "https://cors-anywhere.herokuapp.com/http://env-9201482.jcloud.ik-server.com"
+>>>>>>> eb1eef2956b30c6a4aecf47be9aceb2a5b4361db
 
 Vue.use(VueAxios)
 Vue.use(Vuex);

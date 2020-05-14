@@ -11,7 +11,7 @@
                 </v-toolbar>
                 <!-- Bearbeiten -->
                 <v-row class="px-4" justify="center">
-                <v-card-text class="body-2 pt-4">Falls sich die verfügbare Menge geändert.</v-card-text>
+                <v-card-text class="body-2 pt-4">Falls sich die verfügbare Menge geändert hat.</v-card-text>
                     <v-row class="px-4 pt-2" justify="center">
                         <v-col class="py-0" cols="8">
                             <v-card-text class="subtitle-1 font-weight-bold px-0">Menge:</v-card-text>

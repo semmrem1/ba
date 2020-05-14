@@ -6,7 +6,7 @@
                 :active="!loaded"
                 indeterminate
                 absolute
-                height="4px"
+                height="3px"
                 color="blue"
                 background-opacity = 0.0
             ></v-progress-linear>
@@ -55,7 +55,7 @@
                                           </v-toolbar>
                                           <!-- Bearbeiten -->
                                           <v-row class="px-4" justify="center">
-                                          <v-card-text class="body-2 pt-4">Falls sich die verfügbare Menge geändert.</v-card-text>
+                                          <v-card-text class="body-2 pt-4">Falls sich die verfügbare Menge geändert hat.</v-card-text>
                                               <v-row class="px-4 pt-2" justify="center">
                                                   <v-col class="py-0" cols="8">
                                                       <v-card-text class="subtitle-1 font-weight-bold px-0" label="Menge">Menge:</v-card-text>
@@ -130,15 +130,19 @@ export default {
             .then((response) => {
                 this.loaded = true
                 this.loading = false
-                console.log("authorized")
                 console.log(response.data)
                 if (response.data.status != 401) {
-                  this.$store.state.loggedIn.auth = true
+                    console.log("authorized")
+                    this.$store.state.loggedIn.auth = true
+                    this.$store.state.user = response.data
+                    if (response.data.picture != null) {
+                        this.$store.state.user.image = response.data.picture.image.data
+                    }
                   this.getMyOffers()
                   if (response.data.personType == "PRIVATE") {
                       this.$store.state.user.personType = "Privatperson"
                   } else {
-                      this.$store.state.user.personType = "Unternehmen"
+                      this.$store.state.user.personType = "Bauer"
                   }
               } else {
                   this.$store.state.loggedIn.auth = false

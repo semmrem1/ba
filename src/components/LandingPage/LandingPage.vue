@@ -13,12 +13,14 @@
                         </span>
                       <br>
                         <span  :class="[$vuetify.breakpoint.smAndDown ? 'display-2': 'display-3']" class="font-weight-black">
-                        OBST VOM BAUM
+                    <span  class="font-weight-bold">OBST </span>
+                    <span class="font-weight-light">VOM</span>
+                    <p class="font-weight-bold">BAUM</p>
                       </span>
                       <div class="py-1"></div>
                   </v-col>
                   <span ></span>
-                    <v-btn class="align-self-end pa-2" color="green" to="/registerCom">Registrieren</v-btn>
+                    <v-btn class="align-self-end pa-2" color="green" to="/registerPriv">Registrieren</v-btn>
                     <!-- <div class="pa-2"></div> -->
                     <!-- <v-btn class="align-self-end pa-2" color="green" to="/registerPriv">Obst ernten</v-btn> -->
                   </v-row>
@@ -39,7 +41,7 @@
           </v-responsive>
             <v-row class="justify-center">
                 <v-col v-for="({ icon, title, text }, i) in features" :key="i" cols="12" md="3">
-                  <v-card class="pt-8 px-4" min-height="250" elevation="3" to="/registerPriv">
+                  <v-card class="pt-8 px-4" min-height="250" elevation="3">
                     <v-theme-provider dark>
                         <div>
                             <v-avatar color="green" size="68">
