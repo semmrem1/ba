@@ -13,7 +13,7 @@
                             :disabled="loading"
                             :elevation="5"
                             color="green"
-                            @click="verifyEmail()"
+                            @click="validateEmail()"
                             width="100%">
                             Bestätigen</v-btn>
                         </v-col>
@@ -38,9 +38,9 @@ export default {
         console.log(this.$route.query.page)
     },
     methods: {
-      verifyEmail(){
+      validateEmail(){
             this.loading = true
-            const url = "/validateEmail/"+this.uuid;
+            const url = "/auth/validateemail/"+this.uuid;
             var config = {headers: {"userid": this.uuid}};
             this.$http.post(url, config)
             .then((response) => {

@@ -144,11 +144,13 @@
                                         {{item.street }} {{item.streetnumber}}, {{item.postcode}} {{item.city}}
                                     </template>
                                 </v-select>
-                        <v-row class="px-4">
-                            <v-row>
+                        
+                        <!-- Confirm Delete Address-->        
+                        <v-row>
+                            <v-col class="py-0">
                                 <v-dialog v-model="addressDialog" max-width="450">
                                     <template v-slot:activator="{ on }">
-                                        <v-col cols="12" xs="6">
+                                        <v-col cols="12">
                                             <v-row>
                                                 <v-btn v-on="on" color="red" outlined small width="100%"><v-icon>mdi-delete</v-icon>Adresse LÖSCHEN</v-btn>
                                             </v-row>
@@ -167,14 +169,16 @@
                                         </v-card-actions>
                                     </v-card>
                                 </v-dialog>
-                            </v-row>
+                            </v-col>
+
                             <!-- Confirm Delete Profile-->
-                            <v-row>
+                            <v-col class="py-0">
+                                <!-- <div class="body-2 pb-0" color="red"><v-icon medium>mdi-information-outline</v-icon> Das Profil wird vollständig gelöscht!</div> -->
                                 <v-dialog v-model="profileDialog" max-width="450">
                                     <template v-slot:activator="{ on }">
-                                        <v-col class="py-0" cols="12" xs="6">
+                                        <v-col cols="12">
                                             <v-row>
-                                            <v-btn v-on="on" color="red" outlined small width="100%"><v-icon>mdi-delete</v-icon>PROFIL LÖSCHEN</v-btn>
+                                                <v-btn v-on="on" color="red" outlined small width="100%"><v-icon>mdi-delete</v-icon>PROFIL LÖSCHEN</v-btn>
                                             </v-row>
                                         </v-col>
                                     </template>
@@ -187,11 +191,38 @@
                                         <v-card-actions class="pa-4">
                                             <v-spacer></v-spacer>
                                             <v-btn @click="profileDialog=false" outlined color="grey">Abbrechen</v-btn>
-                                            <v-btn class="white--text" @click="deleteProfile()" depressed :color="options.color">Ja</v-btn>
+                                            <v-btn class="white--text" @click="deleteProfile(); searchSubDialog=false" depressed :color="options.color">Ja</v-btn>
                                         </v-card-actions>
                                     </v-card>
                                 </v-dialog>
-                            </v-row>
+                            </v-col>
+
+                            <!-- Confirm Delete SearchSub-->
+                            <v-col class="py-0">
+                                <!-- <div class="body-2 pb-0" color="red"><v-icon medium>mdi-information-outline</v-icon> Das Profil wird vollständig gelöscht!</div> -->
+                                <v-dialog v-model="searchSubDialog" max-width="450">
+                                    <template v-slot:activator="{ on }">
+                                        <v-col cols="12">
+                                            <v-row>
+                                                <v-btn v-on="on" color="red" outlined small width="100%"><v-icon>mdi-delete</v-icon>Suchabo LÖSCHEN</v-btn>
+                                            </v-row>
+                                        </v-col>
+                                    </template>
+                                    <!-- CARD -->
+                                    <v-card>
+                                        <v-toolbar :color="options.color" dark dense flat>
+                                            <v-toolbar-title class="white--text font-weight-bold"><v-icon class="pr-3" size="x-large">mdi-alert</v-icon>{{ searchSub.title }}</v-toolbar-title>
+                                        </v-toolbar>
+                                        <v-card-text v-show="searchSub.message" class="pa-4">{{ searchSub.message }}</v-card-text>
+                                        <v-card-actions class="pa-4">
+                                            <v-spacer></v-spacer>
+                                            <v-btn @click="searchSubDialog=false" outlined color="grey">Abbrechen</v-btn>
+                                            <v-btn class="white--text" @click="deleteSearchSub(); searchSubDialog=false" depressed :color="options.color">Ja</v-btn>
+                                        </v-card-actions>
+                                    </v-card>
+                                </v-dialog>
+                            </v-col>
+                            
                         </v-row>
                     </v-expansion-panel-content>
                     </v-expansion-panel>
@@ -225,6 +256,7 @@ export default {
             successDelete: false,
             addressDialog: false,
             profileDialog: false,
+            searchSubDialog: false,
             errorDelete: false,
             addressDeleteError: false, 
             locationDelete: "",
@@ -241,6 +273,10 @@ export default {
                 message: "Wollen Sie ihr Profil wirklich löschen? Dies kann nicht rückgängig gemacht werden.",
                 title: "Profil löschen",
             },           
+            searchSub: {
+                message: "Wollen Sie ihr Suchabo wirklich löschen?",
+                title: "Suchabo löschen",
+            },  
             options: {
                 color: "red",
                 width: 290,
@@ -282,22 +318,25 @@ export default {
             .then((response) => {
                 this.loaded = true
                 this.loading = false
-                console.log("authorized")
                 console.log(response.data)
                 if (response.data.status != 401) {
-                  this.$store.state.loggedIn.auth = true
-                  this.getPerson()
-                  this.getLocation()
+                    console.log("authorized")
+                    this.$store.state.loggedIn.auth = true
+                    this.$store.state.user = response.data
+                    if (response.data.picture != null) {
+                        this.$store.state.user.image = response.data.picture.image.data
+                    }
+                    this.getPerson()
+                    this.getLocation()
                   if (response.data.personType == "PRIVATE") {
                       this.$store.state.user.personType = "Privatperson"
                   } else {
-                      this.$store.state.user.personType = "Unternehmen"
+                      this.$store.state.user.personType = "Bauer"
                   }
               } else {
                   this.$store.state.loggedIn.auth = false
                   this.$router.push('/login');
               }
-
             })
             .catch((error) => {
                 console.log("unauthorized")
@@ -341,7 +380,7 @@ export default {
                     if (response.data.personType == "PRIVATE") {
                         this.$store.state.user.personType = "Privatperson"
                     } else {
-                        this.$store.state.user.personType = "Unternehmen"
+                        this.$store.state.user.personType = "Bauer"
                     }
                     this.$store.state.user.image = response.data.picture.image.data
                     console.log(response.data.picture)
@@ -404,26 +443,6 @@ export default {
                 this.uploadImage()
             }
         },
-        // onFileSelected(event){
-        //     console.log(event)
-        //     this.selectedFile = event
-        //     this.$store.state.user.image = event
-        // },
-        // uploadImage(){
-        //     if (this.imageData.name) {
-        //     this.loadingImage = true
-        //     const url = "/person/"+this.$store.state.user.uuid+"/picture/add";
-        //     var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
-        //     const fd = new FormData();
-        //     fd.append('image', this.selectedFile, this.selectedFile.name)
-        //     this.$http.post(url, fd, config)
-        //     .then((response) => {
-        //         console.log(response)
-        //         this.loadingImage = false
-        //         window.location.reload()
-        //     })
-        //     }
-        // },
         updatePerson(){
             const url = "/person/update";
             var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
@@ -493,7 +512,26 @@ export default {
         })
         },
         deleteProfile(){
-            const url = "/person/"+this.$store.state.user.uuid;
+            this.profileDialog = false
+            const url = "/person/"+localStorage.getItem("userUuid");
+            var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
+            this.$http.delete(url, config)
+            .then((response) => {
+                console.log(response)
+                this.successDelete = true
+                window.scrollTo(0,0);
+                this.hideAlert()
+            })
+            .catch((error) =>{
+                console.log(error)
+                this.errorDelete = true
+                window.scrollTo(0,0);
+                this.hideAlert()
+            })
+        },
+        deleteSearchSub(){
+            this.searchSubDialog = false
+            const url = "/search/"+localStorage.getItem("userUuid");
             var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
             this.$http.delete(url, config)
             .then((response) => {
@@ -510,6 +548,7 @@ export default {
             })
         },
         deleteAddress(){
+            this.addressDialog = false
             if (this.locationDelete.type == "OFFER") {
             const url = "/location/"+this.locationDelete.uuid;
             var config = {headers: {"Authorization": "Bearer "+localStorage.getItem("token")}};
@@ -537,6 +576,9 @@ export default {
             setTimeout(() => {                
                 this.successAlert = false
                 this.errorAlert = false
+                this.successDelete = false
+                this.addressDeleteError = false
+                this.errorDelete = false
                 this.loaded = true
             }, 2000);
         }

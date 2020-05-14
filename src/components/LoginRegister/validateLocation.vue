@@ -2,34 +2,21 @@
     <v-container fluid class="ma-0 px-0">
         <v-row class="justify-center">
             <v-card class="ma-0 pa-1" width="90%" max-width="600px" elevation="3">
-                    <v-card-title class="pa-3 display-1 font-weight-bold">Validierung</v-card-title>
+                    <v-card-title class="pa-3 display-1 font-weight-bold">Adresse bestätigen</v-card-title>
                     <v-card-text class="px-3">
-                    Bitte bestätigen Sie die Validierung des Unternehmens.
+                    Bitte bestätige deine Adresse, um deinen Account zu validieren.
                     </v-card-text>
                     <v-card-actions class="pa-0" justify-center>
-
-                        <v-col class="px-2" justify-center cols="6">
+                        <v-col class="px-2" justify-center cols="12">
                             <v-btn class="btn white--text"
                             :loading="loading"
                             :disabled="loading"
                             :elevation="5"
-                            color="error"
-                            @click="verifyCom()"
-                            width="100%">
-                            Nicht bestätigen</v-btn>
-                        </v-col>
-
-                        <v-col class="px-2" justify-center cols="6">
-                            <v-btn class="btn white--text"
-                            :loading="loading"
-                            :disabled="loading"
-                            :elevation="5"
-                            color="success"
-                            @click="verifyCom()"
+                            color="green"
+                            @click="verifyEmail()"
                             width="100%">
                             Bestätigen</v-btn>
                         </v-col>
-
                     </v-card-actions>
                 </v-card>
             </v-row>
@@ -51,9 +38,9 @@ export default {
         console.log(this.$route.query.page)
     },
     methods: {
-      verifyCom(){
+      validateLocation(){
             this.loading = true
-            const url = "/validateEmail/"+this.uuid;
+            const url = "/auth/validatelocation/"+this.uuid+"/{result}";
             var config = {headers: {"userid": this.uuid}};
             this.$http.post(url, config)
             .then((response) => {

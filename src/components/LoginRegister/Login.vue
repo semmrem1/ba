@@ -11,10 +11,10 @@
                     <v-card-text class="pa-2">
                         
                             <!-- E-MAIL -->
-                            <v-text-field label="E-Mail" color="green" :rules="usernameRules" v-model="user.username" required prepend-icon="mdi-account"/>
+                            <v-text-field label="E-Mail" color="green" :rules="usernameRules" v-model="user.username" autocomplete required prepend-icon="mdi-account"/>
    
                             <!-- PASSWORD -->
-                            <v-text-field color="green" label="Passwort" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" @click:append="show = !show" :type="show ? 'text' : 'password'" :rules="passwordRules" v-model="user.password" required prepend-icon="mdi-lock"/>
+                            <v-text-field color="green" label="Passwort" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" @click:append="show = !show" :type="show ? 'text' : 'password'" :rules="passwordRules" v-model="user.password" autocomplete required prepend-icon="mdi-lock"/>
                             <v-btn class="ml-6" to="/passwordReset" type="submit" text small>Passwort vergessen?</v-btn>
                         <!-- <p>{{person.email}}</p>
                         <p>{{person.password}}</p> -->
@@ -89,8 +89,6 @@ export default {
                         localStorage.setItem("token", response.data.accessToken)
                         localStorage.setItem("userUuid", response.data.username)
                         this.$store.state.loggedIn.auth = true
-                        console.log(localStorage.getItem("token"))
-                        console.log(localStorage.getItem("userUuid"))
                         this.getPerson()
                     }
                     this.$router.push('/offers');

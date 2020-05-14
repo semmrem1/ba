@@ -2,7 +2,7 @@
         <nav>
             <v-app-bar  app class="green" elevation="4" @click="scrollToTop()">
                 <div v-if="currentUser">
-                    <v-app-bar-nav-icon size="xs" @click="drawer = !drawer"></v-app-bar-nav-icon>
+                    <v-app-bar-nav-icon large @click="drawer = !drawer"></v-app-bar-nav-icon>
                 </div>
                 <div v-if="!currentUser">
                     <v-btn icon color="black" @click="scrollToTop()" to="/"><v-icon>mdi-home</v-icon></v-btn>

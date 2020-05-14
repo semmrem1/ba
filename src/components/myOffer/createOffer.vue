@@ -85,7 +85,7 @@
                     
                     
                     <div v-for="(line, index) in lines" :key="index">
-                       <v-card class="my-4 mx-0 pa-4">
+                       <v-card class="my-4 mx-0 pa-0" elevation="0">
                         <v-card-title class="pl-0 pt-0 pb-3">Ernte:</v-card-title>
                         <v-card-subtitle class="pl-0 pb-0">Wann und wo kann das Obst geerntet oder abgeholt werden?</v-card-subtitle>
                        <!-- Datum von -->
@@ -193,10 +193,9 @@
                                         {{item.street }} {{item.streetnumber}}, {{item.postcode}} {{item.city}}
                                     </template>
                                 </v-select>
-                                <v-textarea label="Beschreibung" color="green" v-model="product.description" :counter="0"></v-textarea>
-                        </v-card>
-                        </div>
-                                <v-dialog v-model="dialog" max-width="450">
+                                
+                            <!-- Neue Adresse hinzufügen -->
+                               <v-dialog v-model="dialog" max-width="450">
                                     <template v-slot:activator="{ on }">
                                         <v-btn v-on="on" class="px-2 mt-2 mb-8" @click="addLocation" color="green" text small><v-icon>mdi-plus</v-icon>Neue Addresse</v-btn>
                                     </template>
@@ -237,6 +236,11 @@
                                         </v-card-actions>
                                     </v-card>
                                 </v-dialog>
+
+                                <v-textarea label="Beschreibung" color="green" v-model="product.description" :counter="0"></v-textarea>
+                        </v-card>
+                        </div>
+ 
 
                             <!-- ### ERNTE HINZUFÜGEN ERNTE ENTFERNEN ### -->
                             <!-- <v-btn class="px-2 mt-2 mb-8" @click="addLine" color="green" text small><v-icon>mdi-playlist-plus</v-icon>Ernte hinzufügen</v-btn>
@@ -390,12 +394,14 @@
             .then((response) => {
                 this.loaded = true
                 this.loading = false
-                console.log("authorized")
                 console.log(response.data)
                 if (response.data.status != 401) {
-                  this.$store.state.loggedIn.auth = true
-                  this.$store.state.user = response.data
-                  this.$store.state.user.image = response.data.picture.image.data
+                    console.log("authorized")
+                    this.$store.state.loggedIn.auth = true
+                    this.$store.state.user = response.data
+                    if (response.data.picture != null) {
+                        this.$store.state.user.image = response.data.picture.image.data
+                    }
                     this.getCategory()
                     this.getLocation()
                     this.addLine()
@@ -404,7 +410,7 @@
                   if (response.data.personType == "PRIVATE") {
                       this.$store.state.user.personType = "Privatperson"
                   } else {
-                      this.$store.state.user.personType = "Unternehmen"
+                      this.$store.state.user.personType = "Bauer"
                   }
               } else {
                   this.$store.state.loggedIn.auth = false

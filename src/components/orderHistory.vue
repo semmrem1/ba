@@ -102,17 +102,19 @@ export default {
             .then((response) => {
                 this.loaded = true
                 this.loading = false
-                console.log("authorized")
                 console.log(response.data)
                 if (response.data.status != 401) {
-                  this.$store.state.loggedIn.auth = true
-                  this.$store.state.user = response.data
-                  this.$store.state.user.image = response.data.picture.image.data
+                    console.log("authorized")
+                    this.$store.state.loggedIn.auth = true
+                    this.$store.state.user = response.data
+                    if (response.data.picture != null) {
+                        this.$store.state.user.image = response.data.picture.image.data
+                    }
                   this.getPerson()
                   if (response.data.personType == "PRIVATE") {
                       this.$store.state.user.personType = "Privatperson"
                   } else {
-                      this.$store.state.user.personType = "Unternehmen"
+                      this.$store.state.user.personType = "Bauer"
                   }
               } else {
                   this.$store.state.loggedIn.auth = false
@@ -150,7 +152,7 @@ export default {
                     if (response.data.personType == "PRIVATE") {
                         this.$store.state.user.personType = "Privatperson"
                     } else {
-                        this.$store.state.user.personType = "Unternehmen"
+                        this.$store.state.user.personType = "Bauer"
                     }
                     this.$store.state.user.image = response.data.picture.image.data
                 }

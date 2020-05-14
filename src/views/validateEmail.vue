@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import validateEmail from '@/components/validateEmail'
+import validateEmail from '@/components/LoginRegister/validateEmail'
 
 export default {
 Name: 'validateEmail',
